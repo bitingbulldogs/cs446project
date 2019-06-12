@@ -26,6 +26,7 @@ import com.google.android.gms.vision.text.Text;
 import com.google.android.gms.vision.text.TextBlock;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -42,7 +43,6 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
         graphicOverlay = ocrGraphicOverlay;
         this.context = context;
         this.captureAct = cap;
-        for(int i = 0; i < maxTexts; ++i) hitrates[i] = 0;
         state = 1;
     }
 
@@ -54,97 +54,71 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
         graphicOverlay.clear();
         SparseArray<TextBlock> items = detections.getDetectedItems();
 
-        //add line record
-        if(lineIndex < maxlines) lines[lineIndex++] = items.size();
+        int curlines = 0;
+        for (int i = 0; i < items.size(); ++i){
+            TextBlock item = items.valueAt(i);
+            curlines += item.getComponents().size();
+        }
+        boolean noRepeat = true;
+        for(int j = 0; j < sizeCount; ++j){
+            if(lineSizes[j] == curlines) {
+                noRepeat = false;
+                lineSizeHitrate[j]++;
+                break;
+            }
+        }
+        if(noRepeat) {
+            lineSizes[sizeCount] = curlines;
+            lineSizeHitrate[sizeCount++] = 0;
+        }
 
         for (int i = 0; i < items.size(); ++i) {
             TextBlock item = items.valueAt(i);
-            /*
-            if (item != null && item.getValue() != null) {
-                Log.d("Processor", "Text detected! " + item.getValue());
-                OcrGraphic graphic = new OcrGraphic(graphicOverlay, item);
-                graphicOverlay.add(graphic);
-            }
-            */
-
             List<? extends Text> textComponents = item.getComponents();
             for(Text currentText : textComponents) {
                 String curText = currentText.getValue();
 
                 //added stuffs
                 //make sure we have enough buffer for texts
-                if(textCount < maxTexts){
+                System.out.println(inputCount);
+                if(inputCount++ < maxInput){
                     //see if we already have this text
                     weAlreadyHaveThisText = false;
-                    for(int j = 0; j < textCount; ++j) {
-                        if(texts[j].equals(curText)) {
+                    for(int j = 0; j < lines.size(); ++j) {
+                        if(lines.get(j).getstr().equals(curText)) {
                             weAlreadyHaveThisText = true;
-                            hitrates[j]++;
-                            break;
+                            lines.get(j).sethits(lines.get(j).gethits() + 1);
                         }
                     }
 
                     //if we don't have this text
                     if(!weAlreadyHaveThisText) {
-                        texts[textCount++] = curText;
-                        noRepeatsCount = 0;
-                        everythingIsRepeated = false;
+                        lines.add(new Line(curText, 0));
                     }
                 }
-                //text limit exceed maxTexts
+                //that's enough of scanning
                 else {
-                    //we could do something here
+
                 }
             }
         }
+        if(inputCount >= maxInput){
+            Collections.sort(lines, Collections.<Line>reverseOrder());
+            System.out.println(lines);
 
-        //System.out.println("Item size is " + items.size());
-
-        if(everythingIsRepeated) {
-            if(noRepeatsCount > checkTime && textCount > 0) {
-                System.out.println("we are final step");
-
-                /*
-                //find out how many lines are there
-                int linesize = 0;
-                for(int j = 1; j < maxlines / 10; ++j){
-                    int sum1 = 0, sum2 = 0, sum3 = 0;
-                    for(int k = 0; k < j; ++k) {
-                        sum3 += lines[k+j+j+j];
-                        sum1 += lines[k+j];
-                        sum2 += lines[k+j+j];
+            int maxhit = 0;
+            for(int i = 0; i < sizeCount; ++i){
+                if(lineSizeHitrate[i] > maxhit) {
+                    if(lineSizes[i] != 0){
+                        actuallines = lineSizes[i];
+                        maxhit = lineSizeHitrate[i];
                     }
-                    if(sum1 == sum2 && sum2 == sum3) linesize = j;
                 }
-                if(linesize == 0) System.out.println("Error! can't find line size!");
-                else System.out.println("Line size is " + linesize);
-                */
-
-
-                //find the best hitrates of texts
-                for(int i = 0; i < items.size(); ++i){
-                    int maxhit = 0;
-                    int maxIndex = -1;
-                    for(int j = 0; j < textCount; ++j){
-                        if(hitrates[j] >= maxhit) {
-                            maxhit = hitrates[j];
-                            maxIndex = j;
-                        }
-                    }
-                    hitrates[maxIndex] = 0;
-                    //System.out.println(texts[maxIndex]);
-                    String subj = texts[maxIndex];
-
-                    //Todo
-                    //check similarity of subj and existing strings
-                    result.add(texts[maxIndex]);
-                }
-                state = 0;
-                captureAct.sendIntent(result);
             }
-            else noRepeatsCount++;
+
+            for(int l = 0; l < actuallines; ++l) result.add(lines.get(l).getstr());
+            captureAct.sendIntent(result);
         }
-        else everythingIsRepeated = true;
     }
 
     @Override
@@ -153,39 +127,56 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
     }
 
     //added stuffs
-    int maxTexts = 1000;
-    int textCount = 0;
     boolean weAlreadyHaveThisText = false;
-    boolean everythingIsRepeated = false;
-    int noRepeatsCount = 0;
-    int checkTime = 4;
-    private String[] texts = new String[maxTexts];
-    private int[] hitrates = new int[maxTexts];
-    private int maxlines = 100;
-    private int[] lines = new int[maxlines];
-    private int lineIndex = 0;
     private Context context;
     private OcrCaptureActivity captureAct;
     private int state = 0; //0 means finished, 1 means active
     public ArrayList<String> result = new ArrayList<String>();
 
-    //the idea is from wikipedia
-    int LevenshteinDistance(String s, int len_s, String t, int len_t) {
-        int cost;
+    private ArrayList<Line> lines = new ArrayList<Line>();
+    private int inputCount = 0;
+    private int maxInput = 250;
+    private int actuallines = 0;
 
-        /* base case: empty strings */
-        if (len_s == 0) return len_t;
-        if (len_t == 0) return len_s;
+    private int[] lineSizes = new int[100];
+    private int[] lineSizeHitrate = new int[100];
+    private int sizeCount = 0;
 
-        /* test if last characters of the strings match */
-        if (s.charAt(len_s-1) == t.charAt(len_t-1))
-            cost = 0;
-        else
-            cost = 1;
 
-        /* return minimum of delete char from s, delete char from t, and delete char from both */
-        return Math.min(Math.min(LevenshteinDistance(s, len_s - 1, t, len_t    ) + 1,
-                LevenshteinDistance(s, len_s    , t, len_t - 1) + 1),
-                LevenshteinDistance(s, len_s - 1, t, len_t - 1) + cost);
+}
+
+class Line implements Comparable<Line>{
+    private String str;
+    private int hits;
+
+    Line(String s, int h){
+        str = s;
+        hits = h;
+    }
+
+    public String getstr(){
+        return str;
+    }
+
+    public void setStr(String s){
+        str = s;
+    }
+
+    public Integer gethits() {
+        return hits;
+    }
+
+    public void sethits(int h) {
+        hits = h;
+    }
+
+    @Override
+    public String toString() {
+        return "Line str = " + str + ", hits = " + hits + "\n";
+    }
+
+    @Override
+    public int compareTo(Line o) {
+        return this.gethits().compareTo(o.gethits());
     }
 }
