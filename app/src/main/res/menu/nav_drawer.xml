@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <group android:id="@+id/functions"
+        android:checkableBehavior="single">
+        <item android:id="@+id/history"
+            android:icon="@drawable/history_icon"
+            android:title="Expire History"/>
+    </group>
+
+    <group android:id="@+id/general"
+        android:checkableBehavior="single">
+        <item android:id="@+id/settings"
+            android:icon="@drawable/settings_icon"
+            android:title="Settings"/>
+        <item android:id="@+id/about"
+            android:icon="@drawable/about_icon"
+            android:title="About"/>
+    </group>
+
+
+
+</menu>

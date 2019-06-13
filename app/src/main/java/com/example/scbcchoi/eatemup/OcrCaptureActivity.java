@@ -376,6 +376,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
     public void sendIntent(ArrayList<String> result){
         //send intent
         Intent intent = new Intent(this, MainActivity.class);
+//        Intent intent = new Intent(this, CameraActivity.class);
         intent.putExtra("result", result);
         this.startActivity(intent);
         finish();
