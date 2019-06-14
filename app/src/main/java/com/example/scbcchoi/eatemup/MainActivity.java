@@ -115,9 +115,9 @@ public class MainActivity extends AppCompatActivity {
 //        startActivity(intent);
 //        finish();
         Toast.makeText(this, "Camera", Toast.LENGTH_SHORT).show();
-//        Intent intent = new Intent(this, OcrCaptureActivity.class);
-//        startActivity(intent);
-//        finish();
+        Intent intent = new Intent(this, OcrCaptureActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 }
