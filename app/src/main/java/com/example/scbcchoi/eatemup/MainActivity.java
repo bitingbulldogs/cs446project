@@ -3,9 +3,13 @@ package com.example.scbcchoi.eatemup;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.content.Intent;
 import java.util.ArrayList;
+import java.util.List;
+
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,11 +20,19 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.scbcchoi.eatemup.inventory.InventoryAdapter;
+import com.example.scbcchoi.eatemup.inventory.InventoryListItem;
+
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
+    private RecyclerView recyclerView;
+
+    // to test recylerview, should be removed later
+    List<InventoryListItem> InventoryList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +87,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //set up recyclerView
+        recyclerView = findViewById(R.id.rv_inventory);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        //some hardcoded data to test recyclerview
+        //remove later
+        InventoryList = new ArrayList<>();
+        InventoryList.add(new InventoryListItem("apple", 10));
+        InventoryList.add(new InventoryListItem("orange", 11));
+        InventoryList.add(new InventoryListItem("banana", 7));
+        InventoryList.add(new InventoryListItem("pinaple", 5));
+        InventoryList.add(new InventoryListItem("kiwi", 3));
+        InventoryList.add(new InventoryListItem("watermelon", 1));
+        InventoryList.add(new InventoryListItem("cherry", 88));
+        InventoryList.add(new InventoryListItem("tomato", 322));
+        InventoryList.add(new InventoryListItem("potato", 100));
+        InventoryList.add(new InventoryListItem("milk", 30));
+        InventoryList.add(new InventoryListItem("cheese", 98));
+        InventoryList.add(new InventoryListItem("avacado", 1));
+
+        //setup adapater for recyclerview
+        InventoryAdapter adapter = new InventoryAdapter(InventoryList);
+        recyclerView.setAdapter(adapter);
 
 
     }
@@ -115,9 +150,9 @@ public class MainActivity extends AppCompatActivity {
 //        startActivity(intent);
 //        finish();
         Toast.makeText(this, "Camera", Toast.LENGTH_SHORT).show();
-//        Intent intent = new Intent(this, OcrCaptureActivity.class);
-//        startActivity(intent);
-//        finish();
+        Intent intent = new Intent(this, OcrCaptureActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 }

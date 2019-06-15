@@ -14,4 +14,7 @@
     <string name="ocr_error">"Error reading text: %1$s"</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="will_expire_in">will expire in</string>
+    <string name="days">expires in</string>
+
 </resources>
