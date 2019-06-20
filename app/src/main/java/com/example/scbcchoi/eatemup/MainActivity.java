@@ -1,6 +1,10 @@
 package com.example.scbcchoi.eatemup;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.content.Intent;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.support.annotation.NonNull;
@@ -33,25 +38,37 @@ public class MainActivity extends AppCompatActivity {
     // to test recylerview, should be removed later
     List<InventoryListItem> InventoryList;
 
+    //init background service
+    private void backgroundInit(){
+        //init receiver
+        ComponentName receiver = new ComponentName(this, BootRec.class);
+        PackageManager pm = this.getPackageManager();
+        pm.setComponentEnabledSetting(receiver,
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP);
+
+        //init background intent
+        Intent intent = new Intent(this, BackgroundService.class);
+        PendingIntent alarmIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //Set alarm to be 18:00 for each day.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 18);
+        calendar.set(Calendar.MINUTE, 0);
+
+        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                1000 * 60 * 60 * 24 , alarmIntent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //****************************************************************************
-        Intent intent = getIntent();
-        ArrayList<String> result = intent.getStringArrayListExtra("result");
-        if(!(result == null)) {
-            String scannedText = "";
-            for(int i = 0; i < result.size(); ++i) {
-                System.out.println(result.get(i));
-                scannedText = scannedText + result.get(i) + "\n";
-            }
-            TextView t = findViewById(R.id.result);
-            t.setText(scannedText);
-        }
-        //****************************************************************************
+        //init back ground service
+        backgroundInit();
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

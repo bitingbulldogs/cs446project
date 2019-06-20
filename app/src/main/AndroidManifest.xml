@@ -5,6 +5,8 @@
     <uses-feature android:name="android.hardware.camera" />
 
     <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,6 +22,18 @@
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="ocr" />
 
+        <receiver android:name=".BootRec"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".BackgroundService"
+            android:exported="false" >
+        </service>
+
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -33,6 +47,8 @@
         </activity>
         <activity android:name="com.example.scbcchoi.eatemup.CameraActivity">
         </activity>
+
+
     </application>
 
 </manifest>
