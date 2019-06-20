@@ -135,7 +135,7 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
 
     private ArrayList<Line> lines = new ArrayList<Line>();
     private int inputCount = 0;
-    private int maxInput = 250;
+    private int maxInput = 150;
     private int actuallines = 0;
 
     private int[] lineSizes = new int[100];

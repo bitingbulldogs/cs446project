@@ -30,7 +30,8 @@
         </activity>
 
         <activity android:name="com.example.scbcchoi.eatemup.OcrCaptureActivity">
-
+        </activity>
+        <activity android:name="com.example.scbcchoi.eatemup.CameraActivity">
         </activity>
     </application>
 
