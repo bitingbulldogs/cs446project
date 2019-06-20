@@ -374,15 +374,37 @@ public final class OcrCaptureActivity extends AppCompatActivity {
 
     //added stuff
     public void sendIntent(ArrayList<String> result){
+        ArrayList<String> fresult = new ArrayList<>();
         //filter result
-        for(int i = 0; i < result.size(); ++i)
-           if (!result.get(i).matches(".*[A-z].*")) {
-               result.remove(i);
-           }
+        for(int i = 0; i < result.size(); ++i) {
+            String curs = result.get(i);
+            String[] splited = curs.split("\\s+");
+
+            //we discard it if it doesn't contain char from A-z
+            if (!curs.matches(".*[A-z].*"));
+            else {
+                //if the curs start with numbers, we probably can get rid of this number.
+                if(!splited[0].matches(".*[A-z].*")) {
+                    String tmp = "";
+                    for(int j = 1; j < splited.length ; ++j) {
+                        if(j < splited.length - 1) tmp += splited[j] + " ";
+                        else tmp += splited[j];
+                    }
+                    curs = tmp;
+                }
+
+                //check if curs is already in the fresult
+                boolean itsAlreadyThere = false;
+                for(int j = 0; j < fresult.size(); ++j){
+                    if(fresult.get(j).equals(curs)) itsAlreadyThere = true;
+                }
+                if(!itsAlreadyThere) fresult.add(curs);
+            }
+        }
 
         //send intent
         Intent intent = new Intent(this, CameraActivity.class);
-        intent.putExtra("result", result);
+        intent.putExtra("result", fresult);
         this.startActivity(intent);
         finish();
     }

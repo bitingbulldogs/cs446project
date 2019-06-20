@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.scbcchoi.eatemup.inventory.InventoryListItem;
@@ -43,13 +44,15 @@ public class CameraActivity extends AppCompatActivity {
             recyclerView = findViewById(R.id.rv_scan);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             scanlist = new ArrayList<>();
-
             for(int i = 0; i < result.size(); ++i){
                 scanlist.add(new ScanItem(result.get(i), "Null Cat", 0));
             }
             ScanAdapter scanA = new ScanAdapter(scanlist);
             recyclerView.setAdapter(scanA);
 
+
+
+            //hide the scan button
             Button b = findViewById(R.id.button);
             b.setVisibility(View.GONE);
         }
@@ -67,6 +70,12 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     public void doneScanning(View v){
+        /*
+        View rv = recyclerView.getLayoutManager().findViewByPosition(0);
+        CheckBox c = (CheckBox)rv.findViewById(R.id.scan_checkbox);
+        if(c.isChecked())System.out.println("The item on 0 position is checked!");
+        else System.out.println("The item on 0 position is not checked!");
+        */
         //Todo
         System.out.println("doneScanning is called");
     }

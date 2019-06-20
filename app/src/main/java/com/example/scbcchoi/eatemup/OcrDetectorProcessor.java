@@ -53,6 +53,14 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
 
         graphicOverlay.clear();
         SparseArray<TextBlock> items = detections.getDetectedItems();
+        for (int i = 0; i < items.size(); ++i) {
+            TextBlock item = items.valueAt(i);
+            if (item != null && item.getValue() != null) {
+                Log.d("OcrDetectorProcessor", "Text detected! " + item.getValue());
+                OcrGraphic graphic = new OcrGraphic(graphicOverlay, item);
+                graphicOverlay.add(graphic);
+            }
+        }
 
         int curlines = 0;
         for (int i = 0; i < items.size(); ++i){
@@ -64,7 +72,7 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
 
         //modify scanning time
         if(curlines < midInput ) inputCount += 2;
-        else inputCount -= 4;
+        else inputCount -= 7;
 
         boolean noRepeat = true;
         for(int j = 0; j < sizeCount; ++j){
@@ -123,6 +131,7 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
 
             for(int l = 0; l < actuallines; ++l) result.add(lines.get(l).getstr());
             captureAct.sendIntent(result);
+            state = 0;
         }
     }
 
