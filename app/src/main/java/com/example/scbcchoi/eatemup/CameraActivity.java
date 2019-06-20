@@ -1,15 +1,27 @@
 package com.example.scbcchoi.eatemup;
 
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.content.Intent;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.scbcchoi.eatemup.inventory.InventoryListItem;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class CameraActivity extends AppCompatActivity {
-
+    private RecyclerView recyclerView;
+    List<ScanItem> scanlist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,8 +35,23 @@ public class CameraActivity extends AppCompatActivity {
                 System.out.println(result.get(i));
                 scannedText = scannedText + result.get(i) + "\n";
             }
-            TextView t = findViewById(R.id.result);
-            t.setText(scannedText);
+
+            Toolbar tbar = (Toolbar) findViewById(R.id.toolbar_cam);
+            tbar.setVisibility(View.VISIBLE);
+
+            //set up recyclerView
+            recyclerView = findViewById(R.id.rv_scan);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            scanlist = new ArrayList<>();
+
+            for(int i = 0; i < result.size(); ++i){
+                scanlist.add(new ScanItem(result.get(i), "Null Cat", 0));
+            }
+            ScanAdapter scanA = new ScanAdapter(scanlist);
+            recyclerView.setAdapter(scanA);
+
+            Button b = findViewById(R.id.button);
+            b.setVisibility(View.GONE);
         }
     }
 
@@ -32,5 +59,15 @@ public class CameraActivity extends AppCompatActivity {
         Intent intent = new Intent(this, OcrCaptureActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public void selectAllScans(View v){
+        //Todo
+        System.out.println("selectAllScans is called");
+    }
+
+    public void doneScanning(View v){
+        //Todo
+        System.out.println("doneScanning is called");
     }
 }

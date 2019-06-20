@@ -16,5 +16,8 @@
     <string name="close">Close</string>
     <string name="will_expire_in">will expire in</string>
     <string name="days">expires in</string>
+    <string name="itemName">Name: </string>
+    <string name="itemCategory">Category: </string>
+    <string name="exireDate">Expire in: </string>
 
 </resources>
