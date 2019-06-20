@@ -59,6 +59,13 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
             TextBlock item = items.valueAt(i);
             curlines += item.getComponents().size();
         }
+        //make sure we actually receives some detections
+        if(curlines == 0) return;
+
+        //modify scanning time
+        if(curlines < midInput ) inputCount += 2;
+        else inputCount -= 4;
+
         boolean noRepeat = true;
         for(int j = 0; j < sizeCount; ++j){
             if(lineSizes[j] == curlines) {
@@ -80,7 +87,6 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
 
                 //added stuffs
                 //make sure we have enough buffer for texts
-                System.out.println(inputCount);
                 if(inputCount++ < maxInput){
                     //see if we already have this text
                     weAlreadyHaveThisText = false;
@@ -104,7 +110,6 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
         }
         if(inputCount >= maxInput){
             Collections.sort(lines, Collections.<Line>reverseOrder());
-            System.out.println(lines);
 
             int maxhit = 0;
             for(int i = 0; i < sizeCount; ++i){
@@ -135,12 +140,14 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
 
     private ArrayList<Line> lines = new ArrayList<Line>();
     private int inputCount = 0;
-    private int maxInput = 150;
+    private int maxInput = 200;
+    private int midInput = 10;
     private int actuallines = 0;
 
     private int[] lineSizes = new int[100];
     private int[] lineSizeHitrate = new int[100];
     private int sizeCount = 0;
+
 
 
 }

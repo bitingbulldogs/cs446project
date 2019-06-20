@@ -376,9 +376,11 @@ public final class OcrCaptureActivity extends AppCompatActivity {
     public void sendIntent(ArrayList<String> result){
         //filter result
         for(int i = 0; i < result.size(); ++i)
-           if (result.get(i).matches("[0-9]+")) result.remove(i);
+           if (!result.get(i).matches(".*[A-z].*")) {
+               result.remove(i);
+           }
 
-            //send intent
+        //send intent
         Intent intent = new Intent(this, CameraActivity.class);
         intent.putExtra("result", result);
         this.startActivity(intent);

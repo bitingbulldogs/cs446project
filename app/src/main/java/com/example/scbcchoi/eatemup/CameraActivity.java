@@ -26,7 +26,6 @@ public class CameraActivity extends AppCompatActivity {
             TextView t = findViewById(R.id.result);
             t.setText(scannedText);
         }
-
     }
 
     public void scan(View v){
