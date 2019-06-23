@@ -20,7 +20,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
 
     private List<InventoryListItem> inventoryList;
     private Dialog inventoryDialog;
-
+    private int pos;// last clicked item
 
     public InventoryAdapter(List<InventoryListItem> inventoryList){
         this.inventoryList = inventoryList;
@@ -36,15 +36,16 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
         inventoryDialog = new Dialog(viewGroup.getContext());
         inventoryDialog.setContentView(R.layout.dialog_inventory);
 
+
         tempVH.inventoryCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(viewGroup.getContext(),"successfully clicked",Toast.LENGTH_SHORT).show();
 
                 EditText dialogName = inventoryDialog.findViewById(R.id.dialog_name);
                 EditText dialogDate = inventoryDialog.findViewById(R.id.dialog_date);
-                dialogName.setText(inventoryList.get(tempVH.getAdapterPosition()).getName());
-                dialogDate.setText(inventoryList.get(tempVH.getAdapterPosition()).getDate());
+                pos = tempVH.getAdapterPosition();
+                dialogName.setText(inventoryList.get(pos).getName());
+                dialogDate.setText(inventoryList.get(pos).getDate());
 
 
                 inventoryDialog.show();
@@ -80,6 +81,24 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
             textViewDate = itemView.findViewById(R.id.rv_inventory_date);
             inventoryCardView = itemView.findViewById(R.id.cv_inventory);
         }
+    }
+
+    public InventoryListItem updateItem(){
+        EditText nameText = inventoryDialog.findViewById(R.id.dialog_name);
+        EditText dateText = inventoryDialog.findViewById(R.id.dialog_date);
+        int date = Integer.parseInt(dateText.getText().toString());
+        String name = nameText.getText().toString();
+        inventoryDialog.dismiss();
+        return new InventoryListItem(name, date);
+    }
+
+    public int getPos(){
+        return pos;
+    }
+
+
+    public void noUpdate(){
+        inventoryDialog.dismiss();
     }
 }
 

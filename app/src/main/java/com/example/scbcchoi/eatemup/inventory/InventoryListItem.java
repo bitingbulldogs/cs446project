@@ -20,4 +20,8 @@ public class InventoryListItem {
     public String getDate() {
         return Integer.toString(date);
     }
+
+    public int getDateInt(){
+        return date;
+    }
 }

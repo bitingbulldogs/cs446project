@@ -1,10 +1,12 @@
 package com.example.scbcchoi.eatemup;
 
 import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +24,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private Toolbar toolbar;
     private RecyclerView recyclerView;
+    private InventoryAdapter adapter;
+    private Dialog addDialog;
 
     // to test recylerview, should be removed later
     List<InventoryListItem> InventoryList;
@@ -104,28 +109,40 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //set up recyclerView
+        //set up recyclerView and floating action button
         recyclerView = findViewById(R.id.rv_inventory);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        //some hardcoded data to test recyclerview
-        //remove later
-        InventoryList = new ArrayList<>();
-        InventoryList.add(new InventoryListItem("apple", 10));
-        InventoryList.add(new InventoryListItem("orange", 11));
-        InventoryList.add(new InventoryListItem("banana", 7));
-        InventoryList.add(new InventoryListItem("pinaple", 5));
-        InventoryList.add(new InventoryListItem("kiwi", 3));
-        InventoryList.add(new InventoryListItem("watermelon", 1));
-        InventoryList.add(new InventoryListItem("cherry", 88));
-        InventoryList.add(new InventoryListItem("tomato", 322));
-        InventoryList.add(new InventoryListItem("potato", 100));
-        InventoryList.add(new InventoryListItem("milk", 30));
-        InventoryList.add(new InventoryListItem("cheese", 98));
-        InventoryList.add(new InventoryListItem("avacado", 1));
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(view.getContext(), "add", Toast.LENGTH_SHORT).show();
+                addDialog = new Dialog(view.getContext());
+                addDialog.setContentView(R.layout.dialog_add);
+                addDialog.show();
+            }
+        });
 
-        //setup adapater for recyclerview
-        InventoryAdapter adapter = new InventoryAdapter(InventoryList);
+
+        //some hardcoded data to test recyclerview
+        //remove later //
+        InventoryList = new ArrayList<>();
+        InventoryList.add(new InventoryListItem("apple", 1));
+        InventoryList.add(new InventoryListItem("orange", 3));
+        InventoryList.add(new InventoryListItem("banana", 5));
+        InventoryList.add(new InventoryListItem("avocado", 6));
+        InventoryList.add(new InventoryListItem("pineapple", 7));
+        InventoryList.add(new InventoryListItem("kiwi", 11));
+        InventoryList.add(new InventoryListItem("milk", 14));
+        InventoryList.add(new InventoryListItem("watermelon", 14));
+        InventoryList.add(new InventoryListItem("cherry", 20));
+        InventoryList.add(new InventoryListItem("tomato", 22));
+        InventoryList.add(new InventoryListItem("potato", 40));
+        InventoryList.add(new InventoryListItem("cheese", 98));
+
+        //setup adapter for RecyclerView
+        adapter = new InventoryAdapter(InventoryList);
         recyclerView.setAdapter(adapter);
 
 
@@ -172,4 +189,52 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    //insert an item to InventoryList
+    //should be moved to "InventoryList Class"......?
+    private int insertItem(InventoryListItem item){
+        int j = item.getDateInt();
+        for (int i = 0; i < InventoryList.size(); i++) {
+            if (InventoryList.get(i).getDateInt() >= j){
+                InventoryList.add(i,item);
+                return i;
+            }
+        }
+        InventoryList.add(item);
+        return InventoryList.size()-1;
+    }
+
+    public void addCancel(View view){
+        addDialog.dismiss();
+    }
+
+    //add an item to inventory list
+    public void addInventory(View view){
+        EditText nameText = addDialog.findViewById(R.id.dialog_name_add);
+        EditText dateText = addDialog.findViewById(R.id.dialog_date_add);
+        int date = Integer.parseInt(dateText.getText().toString());
+        String name = nameText.getText().toString();
+        InventoryListItem item = new InventoryListItem(name, date);
+
+        //Todo: Item should be added to the shared preferences to be actually stored
+        int pos = insertItem(item);
+        recyclerView.smoothScrollToPosition(pos);
+        adapter.notifyDataSetChanged();
+        addDialog.dismiss();
+    }
+
+    public void  updateInventory(View view){
+        InventoryListItem item =  adapter.updateItem();
+        InventoryList.remove(adapter.getPos());//index of item changed
+
+        //Todo: the update isn't physically stored
+        int pos = insertItem(item);
+        recyclerView.smoothScrollToPosition(pos);
+        adapter.notifyDataSetChanged();
+
+    }
+
+    public void noUpdate(View view){
+        adapter.noUpdate();
+
+    }
 }
