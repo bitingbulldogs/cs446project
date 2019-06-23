@@ -88,6 +88,8 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
         EditText dateText = inventoryDialog.findViewById(R.id.dialog_date);
         int date = Integer.parseInt(dateText.getText().toString());
         String name = nameText.getText().toString();
+
+        //TODO: update inventory list in shared preferences
         inventoryDialog.dismiss();
         return new InventoryListItem(name, date);
     }

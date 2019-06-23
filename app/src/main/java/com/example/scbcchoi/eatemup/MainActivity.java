@@ -13,7 +13,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.content.Intent;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -75,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
         //init back ground service
         backgroundInit();
 
+        //init Lists Model
+        ListsModel lm = new ListsModel(this);
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -124,22 +126,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        //some hardcoded data to test recyclerview
-        //remove later //
-        InventoryList = new ArrayList<>();
-        InventoryList.add(new InventoryListItem("apple", 1));
-        InventoryList.add(new InventoryListItem("orange", 3));
-        InventoryList.add(new InventoryListItem("banana", 5));
-        InventoryList.add(new InventoryListItem("avocado", 6));
-        InventoryList.add(new InventoryListItem("pineapple", 7));
-        InventoryList.add(new InventoryListItem("kiwi", 11));
-        InventoryList.add(new InventoryListItem("milk", 14));
-        InventoryList.add(new InventoryListItem("watermelon", 14));
-        InventoryList.add(new InventoryListItem("cherry", 20));
-        InventoryList.add(new InventoryListItem("tomato", 22));
-        InventoryList.add(new InventoryListItem("potato", 40));
-        InventoryList.add(new InventoryListItem("cheese", 98));
+        InventoryList = lm.getInventoryList();
 
         //setup adapter for RecyclerView
         adapter = new InventoryAdapter(InventoryList);
@@ -215,7 +202,10 @@ public class MainActivity extends AppCompatActivity {
         String name = nameText.getText().toString();
         InventoryListItem item = new InventoryListItem(name, date);
 
-        //Todo: Item should be added to the shared preferences to be actually stored
+        //store in shared preferences
+        ListsModel lm = new ListsModel(this);
+        lm.addToList("inventory", name.toLowerCase(), date);
+
         int pos = insertItem(item);
         recyclerView.smoothScrollToPosition(pos);
         adapter.notifyDataSetChanged();

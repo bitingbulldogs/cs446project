@@ -15,7 +15,7 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="will_expire_in">will expire in</string>
-    <string name="days">days</string>
+    <string name="days">day(s)</string>
     <string name="itemName">Name: </string>
     <string name="itemCategory">Category: </string>
     <string name="expireDate">Expire in: </string>

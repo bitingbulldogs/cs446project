@@ -44,8 +44,10 @@ public class CameraActivity extends AppCompatActivity {
             recyclerView = findViewById(R.id.rv_scan);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             scanlist = new ArrayList<>();
+            ListsModel lm = new ListsModel(this);
+
             for(int i = 0; i < result.size(); ++i){
-                scanlist.add(new ScanItem(result.get(i), "Null Cat", 0));
+                scanlist.add(new ScanItem(result.get(i), "Null Cat", lm.getExpiryDate(result.get(i))));
             }
             ScanAdapter scanA = new ScanAdapter(scanlist);
             recyclerView.setAdapter(scanA);
