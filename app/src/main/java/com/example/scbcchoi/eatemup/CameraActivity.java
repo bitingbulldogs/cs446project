@@ -67,6 +67,7 @@ public class CameraActivity extends AppCompatActivity {
                 expiryDate = lm.getExpiryDate(result.get(i));
                 keys[i] = result.get(i);
                 vals[i] = expiryDate;
+                if(lm.itemExists(result.get(i))) checkBoxes[i] = true;
                 scanlist.add(new ScanItem(result.get(i), "Null Cat", expiryDate));
             }
             ScanAdapter scanA = new ScanAdapter(scanlist);
@@ -109,6 +110,7 @@ public class CameraActivity extends AppCompatActivity {
                 String key = keys[i];
                 int val = vals[i];
                 lm.addToList("inventory", key, val);
+                if(!lm.itemExists(key)) lm.addToList("alias", key, "NULL");
             }
         }
         System.out.println("send intent");

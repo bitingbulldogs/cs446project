@@ -269,7 +269,7 @@ public class ListsModel {
         return aliasList.contains(s);
     }
 
-    private boolean itemExists(String s){
+    public boolean itemExists(String s){
         return aliasList.contains(s);
     }
 
