@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
         //Toast.makeText(this, "Camera", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, CameraActivity.class);
         startActivity(intent);
-        finish();
+        //finish();
     }
 
     //insert an item to InventoryList
