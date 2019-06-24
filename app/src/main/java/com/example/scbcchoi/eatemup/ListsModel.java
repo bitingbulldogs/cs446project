@@ -79,6 +79,8 @@ public class ListsModel {
         editor.putInt("apple", 10)
                 .putInt("orange", 7)
                 .putInt("egg", 14)
+                .putInt("TOMATOES", 5)
+                .putInt("SPINACH", 7)
                 .apply();
 
         //dummy for alias
