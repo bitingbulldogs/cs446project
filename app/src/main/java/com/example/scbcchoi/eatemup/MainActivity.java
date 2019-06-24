@@ -62,7 +62,10 @@ public class MainActivity extends AppCompatActivity {
         calendar.set(Calendar.MINUTE, 0);
 
         AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                //1000 * 60* 60 * 24 , alarmIntent);
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
                 1000 * 30 , alarmIntent);
     }
 
@@ -230,10 +233,8 @@ public class MainActivity extends AppCompatActivity {
     public void clearAll(View v){
         ListsModel lm = new ListsModel(this);
         lm.clearAlias();
-        lm.clearCommonItems();
         lm.clearInventory();
         lm.clearShoppingList();
-        adapter.clearInventory();
         InventoryList = lm.getInventoryList();
         adapter = new InventoryAdapter(InventoryList);
         recyclerView.setAdapter(adapter);

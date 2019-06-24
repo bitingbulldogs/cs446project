@@ -280,7 +280,7 @@ public class ListsModel {
         }
     }
 
-    private boolean aliasExists(String s){
+    public boolean aliasExists(String s){
         return aliasList.contains(s);
     }
 

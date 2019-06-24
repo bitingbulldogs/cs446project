@@ -67,7 +67,7 @@ public class CameraActivity extends AppCompatActivity {
                 expiryDate = lm.getExpiryDate(result.get(i));
                 keys[i] = result.get(i);
                 vals[i] = expiryDate;
-                if(lm.itemExists(result.get(i))) checkBoxes[i] = true;
+                if(lm.aliasExists(result.get(i))) checkBoxes[i] = true;
                 scanlist.add(new ScanItem(result.get(i), "Null Cat", expiryDate));
             }
             ScanAdapter scanA = new ScanAdapter(scanlist);
