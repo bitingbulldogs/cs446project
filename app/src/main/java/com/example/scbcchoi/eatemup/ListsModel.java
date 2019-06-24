@@ -270,7 +270,7 @@ public class ListsModel {
     }
 
     public boolean itemExists(String s){
-        return aliasList.contains(s);
+        return commonItemList.contains(s);
     }
 
 }
