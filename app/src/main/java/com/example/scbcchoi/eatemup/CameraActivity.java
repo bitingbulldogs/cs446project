@@ -22,20 +22,35 @@ import java.util.List;
 
 public class CameraActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
+    private int resultSize = 0;
     List<ScanItem> scanlist;
+    static boolean checkBoxes[];
+    private String keys[];
+    private int vals[];
+    private boolean allischecked = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.camera_activity);
 
+        resultSize = 0;
+
         Intent intent = getIntent();
         ArrayList<String> result = intent.getStringArrayListExtra("result");
         if(!(result == null)) {
+            resultSize = result.size();
+            checkBoxes = new boolean[resultSize];
+            for(int j = 0; j < checkBoxes.length; ++j) checkBoxes[j] = false;
+            keys = new String[resultSize];
+            vals = new int[resultSize];
+
+            /*
             String scannedText = "";
             for(int i = 0; i < result.size(); ++i) {
                 System.out.println(result.get(i));
                 scannedText = scannedText + result.get(i) + "\n";
             }
+            */
 
             Toolbar tbar = (Toolbar) findViewById(R.id.toolbar_cam);
             tbar.setVisibility(View.VISIBLE);
@@ -46,8 +61,13 @@ public class CameraActivity extends AppCompatActivity {
             scanlist = new ArrayList<>();
             ListsModel lm = new ListsModel(this);
 
-            for(int i = 0; i < result.size(); ++i){
-                scanlist.add(new ScanItem(result.get(i), "Null Cat", lm.getExpiryDate(result.get(i))));
+
+            for(int i = 0; i < resultSize; ++i){
+                int expiryDate = 0;
+                expiryDate = lm.getExpiryDate(result.get(i));
+                keys[i] = result.get(i);
+                vals[i] = expiryDate;
+                scanlist.add(new ScanItem(result.get(i), "Null Cat", expiryDate));
             }
             ScanAdapter scanA = new ScanAdapter(scanlist);
             recyclerView.setAdapter(scanA);
@@ -67,18 +87,38 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     public void selectAllScans(View v){
-        //Todo
-        System.out.println("selectAllScans is called");
+        allischecked = !allischecked;
+        boolean checked = allischecked;
+        for(int i = 0; i < checkBoxes.length; ++i) checkBoxes[i] = checked;
+
+        int i = 0;
+        View rv;
+        CheckBox c;
+        while(true){
+            rv = recyclerView.getLayoutManager().findViewByPosition(i++);
+            if(rv == null) break;
+            c = rv.findViewById(R.id.scan_checkbox);
+            c.setChecked(checked);
+        }
     }
 
     public void doneScanning(View v){
-        /*
-        View rv = recyclerView.getLayoutManager().findViewByPosition(0);
-        CheckBox c = (CheckBox)rv.findViewById(R.id.scan_checkbox);
-        if(c.isChecked())System.out.println("The item on 0 position is checked!");
-        else System.out.println("The item on 0 position is not checked!");
-        */
-        //Todo
-        System.out.println("doneScanning is called");
+        ListsModel lm = new ListsModel(this);
+        for(int i = 0; i < resultSize; ++i) {
+            if(checkBoxes[i]) {
+                String key = keys[i];
+                int val = vals[i];
+                lm.addToList("inventory", key, val);
+            }
+        }
+        System.out.println("send intent");
+        Intent intent = new Intent(this, MainActivity.class);
+        this.startActivity(intent);
+        finish();
+    }
+    public void setCheck(View v){
+        CheckBox c = v.findViewById(R.id.scan_checkbox);
+        int i = Integer.valueOf(c.getText().toString());
+        checkBoxes[i] = c.isChecked();
     }
 }

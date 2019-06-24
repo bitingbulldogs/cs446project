@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.List;
@@ -19,11 +20,13 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ScanVH>  {
     public static class ScanVH extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         private TextView itemName, itemCat, expireDate;
+        private CheckBox checkbox;
         public ScanVH(@NonNull View v) {
             super(v);
             itemName = v.findViewById(R.id.rv_scanname);
             itemCat = v.findViewById(R.id.rv_scancat);
             expireDate = v.findViewById(R.id.rv_scandate);
+            checkbox = v.findViewById(R.id.scan_checkbox);
         }
     }
 
@@ -47,5 +50,7 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ScanVH>  {
         scanVH.itemName.setText(item.getName());
         scanVH.itemCat.setText(item.getCategory());
         scanVH.expireDate.setText(item.getExpireDate() + " days");
+        scanVH.checkbox.setChecked(CameraActivity.checkBoxes[i]);
+        scanVH.checkbox.setText(Integer.toString(i));
     }
 }
