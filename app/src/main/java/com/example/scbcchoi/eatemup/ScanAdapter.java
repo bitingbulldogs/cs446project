@@ -1,5 +1,8 @@
 package com.example.scbcchoi.eatemup;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -52,5 +55,6 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ScanVH>  {
         scanVH.expireDate.setText(item.getExpireDate() + " days");
         scanVH.checkbox.setChecked(CameraActivity.checkBoxes[i]);
         scanVH.checkbox.setText(Integer.toString(i));
+        Drawable transparentDrawable = new ColorDrawable(Color.TRANSPARENT);
     }
 }

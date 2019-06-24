@@ -98,6 +98,10 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
         return pos;
     }
 
+    public void clearInventory(){
+        inventoryList.clear();
+    }
+
 
     public void noUpdate(){
         inventoryDialog.dismiss();

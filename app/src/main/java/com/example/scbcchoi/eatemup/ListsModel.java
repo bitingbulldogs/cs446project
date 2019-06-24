@@ -213,6 +213,21 @@ public class ListsModel {
         shoppingEditor.clear().apply();
     }
 
+    public void clearInventory(){
+        SharedPreferences.Editor editor = inventoryList.edit();
+        editor.clear().apply();
+    }
+
+    public void clearAlias(){
+        SharedPreferences.Editor editor = aliasList.edit();
+        editor.clear().apply();
+    }
+
+    public void clearCommonItems(){
+        SharedPreferences.Editor editor = commonItemList.edit();
+        editor.clear().apply();
+    }
+
     private boolean matchesSubstring(String substring, String target){
         return target.contains(substring);
     }

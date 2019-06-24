@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                1000 * 60 * 60 * 24 , alarmIntent);
+                1000 * 30 , alarmIntent);
     }
 
     @Override
@@ -225,6 +225,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void noUpdate(View view){
         adapter.noUpdate();
+    }
 
+    public void clearAll(View v){
+        ListsModel lm = new ListsModel(this);
+        lm.clearAlias();
+        lm.clearCommonItems();
+        lm.clearInventory();
+        lm.clearShoppingList();
+        adapter.clearInventory();
+        InventoryList = lm.getInventoryList();
+        adapter = new InventoryAdapter(InventoryList);
+        recyclerView.setAdapter(adapter);
+        recyclerView.getAdapter().notifyDataSetChanged();
     }
 }

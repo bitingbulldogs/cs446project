@@ -12,11 +12,11 @@
         android:visibility="invisible"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id = "@+id/rv_scan"
+        android:id="@+id/rv_scan"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        app:layout_constraintTop_toBottomOf="@id/toolbar_cam" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="30dp"/>
 
     <Button
         android:id="@+id/button"
