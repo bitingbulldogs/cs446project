@@ -42,33 +42,6 @@ public class MainActivity extends AppCompatActivity {
     // to test recylerview, should be removed later
     List<InventoryListItem> InventoryList;
 
-    //init background service
-    private void backgroundInit(){
-        //init receiver
-        ComponentName receiver = new ComponentName(this, BootRec.class);
-        PackageManager pm = this.getPackageManager();
-        pm.setComponentEnabledSetting(receiver,
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                PackageManager.DONT_KILL_APP);
-
-        //init background intent
-        Intent intent = new Intent(this, BackgroundService.class);
-        PendingIntent alarmIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        //Set alarm to be 18:00 for each day.
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 18);
-        calendar.set(Calendar.MINUTE, 0);
-
-        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                //1000 * 60* 60 * 24 , alarmIntent);
-
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
-                1000 * 30 , alarmIntent);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,17 +107,40 @@ public class MainActivity extends AppCompatActivity {
         //setup adapter for RecyclerView
         adapter = new InventoryAdapter(InventoryList);
         recyclerView.setAdapter(adapter);
-
-
     }
 
-    //****************************************************************************
+    //init background service
+    private void backgroundInit(){
+        //init receiver
+        ComponentName receiver = new ComponentName(this, BootRec.class);
+        PackageManager pm = this.getPackageManager();
+        pm.setComponentEnabledSetting(receiver,
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP);
+
+        //init background intent
+        Intent intent = new Intent(this, BackgroundService.class);
+        PendingIntent alarmIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //Set alarm to be 18:00 for each day.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 18);
+        calendar.set(Calendar.MINUTE, 0);
+
+        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+        //1000 * 60* 60 * 24 , alarmIntent);
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
+                1000 * 30 , alarmIntent);
+    }
+
     public void scan(View v){
         Intent intent = new Intent(this, OcrCaptureActivity.class);
         startActivity(intent);
         finish();
     }
-    //****************************************************************************
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -170,10 +166,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void cameraClick(View view) {
-//        Intent intent = new Intent(this, CameraActivity.class);
-//        startActivity(intent);
-//        finish();
-        //Toast.makeText(this, "Camera", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, CameraActivity.class);
         startActivity(intent);
         //finish();
