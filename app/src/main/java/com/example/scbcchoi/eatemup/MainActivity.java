@@ -224,9 +224,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void clearAll(View v){
         ListsModel lm = new ListsModel(this);
-        lm.clearAlias();
-        lm.clearInventory();
-        lm.clearShoppingList();
+        lm.clearList("alias");
+        lm.clearList("inventory");
+        lm.clearList("shopping");
         InventoryList = lm.getInventoryList();
         adapter = new InventoryAdapter(InventoryList);
         recyclerView.setAdapter(adapter);

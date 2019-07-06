@@ -110,7 +110,6 @@ public class CameraActivity extends AppCompatActivity {
                 String key = keys[i];
                 int val = vals[i];
                 lm.addToList("inventory", key, val);
-                if(!lm.itemExists(key)) lm.addToList("alias", key, "NULL");
             }
         }
         System.out.println("send intent");
