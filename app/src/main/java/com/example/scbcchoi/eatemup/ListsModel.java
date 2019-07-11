@@ -210,23 +210,19 @@ public class ListsModel {
         }
     }
 
-    public void clearShoppingList(){
-        SharedPreferences.Editor shoppingEditor = shoppingList.edit();
-        shoppingEditor.clear().apply();
-    }
-
-    public void clearInventory(){
-        SharedPreferences.Editor editor = inventoryList.edit();
-        editor.clear().apply();
-    }
-
-    public void clearAlias(){
-        SharedPreferences.Editor editor = aliasList.edit();
-        editor.clear().apply();
-    }
-
-    public void clearCommonItems(){
-        SharedPreferences.Editor editor = commonItemList.edit();
+    public void clearList(String listType){
+        SharedPreferences.Editor editor;
+        if (listType == "common"){
+            editor = commonItemList.edit();
+        } else if (listType == "alias"){
+            editor = aliasList.edit();
+        } else if (listType == "inventory"){
+            editor = inventoryList.edit();
+        } else if (listType == "shopping"){
+            editor = shoppingList.edit();
+        } else { //"history"
+            editor = expiredHistory.edit();
+        }
         editor.clear().apply();
     }
 
@@ -242,6 +238,7 @@ public class ListsModel {
         int maxLength = 0;
         String bestMatchItem = "";
         int bestMatchItemExpiry = -1;
+        Boolean matchFound = false;
 
         Map<String, ?> map = commonItemList.getAll();
         for (Map.Entry<String, ?> entry : map.entrySet()) {
@@ -250,6 +247,7 @@ public class ListsModel {
                     String substring = foodItem.substring(i, j);
                     int len = matchesSubstring(substring, entry.getKey())? substring.length() : 0;
                     if (len > maxLength && (double)len/entry.getKey().length() >= 0.65){
+                        matchFound = true;
                         maxLength = len;
                         bestMatchItem = entry.getKey();
                         bestMatchItemExpiry = Integer.parseInt(entry.getValue().toString());
@@ -258,10 +256,13 @@ public class ListsModel {
             }
         }
 
-        //addToList("alias", foodItem, bestMatchItem);
+        // if foodItem matches an item in items list, add the mapping to alias list
+        if (matchFound) {
+            addToList("alias", foodItem, bestMatchItem);
+            return bestMatchItemExpiry;
+        }
 
-
-        return bestMatchItemExpiry;
+        return -1;
     }
 
     // new item, call api to get expiry date
