@@ -72,6 +72,11 @@ public class MainActivity extends AppCompatActivity {
                         showAbout();
                         drawerLayout.closeDrawers();
                         return true;
+                    case R.id.recipe:
+                        menuItem.setChecked(true);
+                        showRecipe();
+                        drawerLayout.closeDrawers();
+                        return true;
                     case R.id.settings:
                         menuItem.setChecked(true);
                         showSettings();
@@ -157,6 +162,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void showRecipe() {
+        Toast.makeText(this, "Recipe", Toast.LENGTH_SHORT).show();
+    }
     public void showSettings() {
         Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
     }
