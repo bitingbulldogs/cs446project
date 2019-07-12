@@ -6,19 +6,29 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShoppingActivity extends AppCompatActivity {
     private Dialog addDialog;
+    public static boolean checkBoxes[];
+    List<ShoppingItem> shoppinglist;
+    private RecyclerView recyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shopping_activity);
+
+        recyclerView = findViewById(R.id.rv_shopping);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        updateShoppingList();
     }
 
     public void add(String val){
@@ -41,5 +51,34 @@ public class ShoppingActivity extends AppCompatActivity {
         String name = nameText.getText().toString();
         this.add(name);
         addDialog.dismiss();
+
+        //update adapter
+        shoppinglist = new ArrayList<>();
+        ListsModel lm = new ListsModel(this);
+        List<String> shopls = lm.getShoppingList();
+        checkBoxes = new boolean[shopls.size()];
+        for(int i = 0; i < shopls.size(); ++i){
+            checkBoxes[i] = false;
+            shoppinglist.add(new ShoppingItem(shopls.get(i)));
+        }
+        ShoppingAdapter shopA = new ShoppingAdapter(shoppinglist);
+        recyclerView.setAdapter(shopA);
+        recyclerView.getAdapter().notifyDataSetChanged();
+
+    }
+
+    //it update the shoppinglist from local storage, and update recycle view.
+    private void updateShoppingList(){
+        shoppinglist = new ArrayList<>();
+        ListsModel lm = new ListsModel(this);
+        List<String> shopls = lm.getShoppingList();
+        checkBoxes = new boolean[shopls.size()];
+        for(int i = 0; i < shopls.size(); ++i){
+            checkBoxes[i] = false;
+            shoppinglist.add(new ShoppingItem(shopls.get(i)));
+        }
+        ShoppingAdapter shopA = new ShoppingAdapter(shoppinglist);
+        recyclerView.setAdapter(shopA);
+        recyclerView.getAdapter().notifyDataSetChanged();
     }
 }
