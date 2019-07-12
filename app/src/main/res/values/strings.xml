@@ -25,5 +25,6 @@
     <string name="days_left"><font size="30">Days left</font></string>
     <string name="name"><font size="30">Name</font></string>
     <string name="inventory">inventory</string>
-
+    <string name="defaultHour">17</string>
+    <string name="defaultMinute">30</string>
 </resources>

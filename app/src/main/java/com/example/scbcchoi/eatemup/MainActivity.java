@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //init back ground service
-        backgroundInit();
+        Settings.backgroundInit(this);
 
         //init Lists Model
         ListsModel lm = new ListsModel(this);
@@ -114,32 +114,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    //init background service
-    private void backgroundInit(){
-        //init receiver
-        ComponentName receiver = new ComponentName(this, BootRec.class);
-        PackageManager pm = this.getPackageManager();
-        pm.setComponentEnabledSetting(receiver,
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                PackageManager.DONT_KILL_APP);
 
-        //init background intent
-        Intent intent = new Intent(this, BackgroundService.class);
-        PendingIntent alarmIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        //Set alarm to be 18:00 for each day.
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 18);
-        calendar.set(Calendar.MINUTE, 0);
-
-        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-        //1000 * 60* 60 * 24 , alarmIntent);
-
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
-                1000 * 30 , alarmIntent);
-    }
 
     public void scan(View v){
         Intent intent = new Intent(this, OcrCaptureActivity.class);
@@ -166,7 +141,8 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Recipe", Toast.LENGTH_SHORT).show();
     }
     public void showSettings() {
-        Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, Settings.class);
+        startActivity(intent);
     }
 
     public void showExpiryHistory() {
