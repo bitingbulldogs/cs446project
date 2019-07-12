@@ -112,7 +112,6 @@ public class CameraActivity extends AppCompatActivity {
                 lm.addToList("inventory", key, val);
             }
         }
-        System.out.println("send intent");
         Intent intent = new Intent(this, MainActivity.class);
         this.startActivity(intent);
         finish();

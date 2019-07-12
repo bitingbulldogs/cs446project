@@ -30,13 +30,16 @@
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="selectAllShopItems"
+                android:id="@+id/shop_checkALL"
                 android:layout_marginRight="35dp"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
-                android:text="Done" />
+                android:text="Done"
+                android:onClick="gotoMain"/>
 
         </LinearLayout>
 

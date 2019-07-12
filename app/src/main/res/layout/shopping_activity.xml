@@ -18,6 +18,17 @@
         android:layout_marginBottom="30dp"/>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/shopping_remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/remove_icon"
+        android:layout_gravity="bottom|end"
+        app:layout_constraintBottom_toTopOf="@id/shopping_add"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_margin="16dp"
+        android:onClick="removeButtonOnClick"/>
+
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/shopping_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
