@@ -24,12 +24,9 @@ public class BackgroundService extends IntentService {
                 .setContentText("You got food about to expire, eat em up!")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-
         Intent mainActivity = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, mainActivity, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
-
         notificationManager.notify(notificationID, builder.build());
-        //System.out.println("intent called");
     }
 }

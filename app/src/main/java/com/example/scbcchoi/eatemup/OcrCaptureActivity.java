@@ -391,6 +391,23 @@ public final class OcrCaptureActivity extends AppCompatActivity {
                         else tmp += splited[j];
                     }
                     curs = tmp;
+                    splited = curs.split("\\s+");
+                }
+
+                //change texts like "milk 4L" to "milk"
+                String last = splited[splited.length - 1];
+                boolean discardLastPart = false;
+                if(!last.substring(0,last.length()-1).matches(".*[A-z].*")){
+                    if(last.charAt(last.length()-1) == 'L') discardLastPart = true;
+                    else if(last.charAt(last.length()-1) == 'l') discardLastPart = true;
+                }
+                if(discardLastPart) {
+                    String tmp = "";
+                    for(int j = 0; j < splited.length - 1 ; ++j) {
+                        if(j < splited.length - 1) tmp += splited[j] + " ";
+                        else tmp += splited[j];
+                    }
+                    curs = tmp;
                 }
 
                 //check if curs is already in the fresult
@@ -398,7 +415,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
                 for(int j = 0; j < fresult.size(); ++j){
                     if(fresult.get(j).equals(curs)) itsAlreadyThere = true;
                 }
-                if(!itsAlreadyThere) fresult.add(curs);
+                if(!itsAlreadyThere && !curs.equals("")) fresult.add(curs);
             }
         }
 
