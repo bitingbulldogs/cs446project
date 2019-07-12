@@ -179,6 +179,12 @@ public class MainActivity extends AppCompatActivity {
         //finish();
     }
 
+    public void shopClick(View view) {
+        Intent intent = new Intent(this, ShoppingActivity.class);
+        startActivity(intent);
+        //finish();
+    }
+
     //insert an item to InventoryList
     //should be moved to "InventoryList Class"......?
     private int insertItem(InventoryListItem item){
@@ -240,4 +246,5 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.getAdapter().notifyDataSetChanged();
     }
+
 }
