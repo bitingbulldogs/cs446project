@@ -90,6 +90,7 @@ public class ListsModel {
         Writer writer = new StringWriter();
         char[] buffer = new char[1024];
         InputStreamReader isr;
+
         try {
             try {
                 isr = new InputStreamReader(is, "UTF-8");
@@ -99,13 +100,13 @@ public class ListsModel {
                     writer.write(buffer, 0, n);
                 }
             } catch(Exception e) {
-                System.out.print("InputStreamReader Exception");
+                System.out.print("InputStreamReader Exception: " + e);
             }
         } finally {
             try {
                 is.close();
             } catch(Exception e){
-                System.out.print("close exception");
+                System.out.print("close exception: " + e);
             }
         }
 
