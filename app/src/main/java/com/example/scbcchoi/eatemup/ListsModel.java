@@ -112,6 +112,7 @@ public class ListsModel {
 
         String jsonString = writer.toString();
         SharedPreferences.Editor editor = commonItemList.edit();
+        // TODO: for each item in jsonString add it to commonItemList
         editor.putString("commonItems", jsonString).apply();
     }
 
