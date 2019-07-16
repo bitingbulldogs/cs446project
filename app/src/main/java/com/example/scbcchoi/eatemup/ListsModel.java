@@ -2,8 +2,12 @@ package com.example.scbcchoi.eatemup;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.example.scbcchoi.eatemup.inventory.InventoryListItem;
+
+
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -100,20 +104,27 @@ public class ListsModel {
                     writer.write(buffer, 0, n);
                 }
             } catch(Exception e) {
-                System.out.print("InputStreamReader Exception: " + e);
+                Log.e("ERROR", "InputStreamReader Exception");
             }
         } finally {
             try {
                 is.close();
             } catch(Exception e){
-                System.out.print("close exception: " + e);
+                Log.e("ERROR", "Input stream close exception");
             }
         }
 
         String jsonString = writer.toString();
-        SharedPreferences.Editor editor = commonItemList.edit();
-        // TODO: for each item in jsonString add it to commonItemList
-        editor.putString("commonItems", jsonString).apply();
+
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString);
+            for (int i = 0; i<jsonObject.names().length(); i++){
+                addToList("common", jsonObject.names().getString(i), Integer.parseInt(jsonObject.names().getString(i)));
+            }
+        } catch (Exception e){
+            Log.e("ERROR", "JSON Object init exception");
+        }
+
     }
 
     public List<InventoryListItem> getInventoryList(){
