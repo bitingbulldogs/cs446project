@@ -5,6 +5,12 @@ import android.content.SharedPreferences;
 
 import com.example.scbcchoi.eatemup.inventory.InventoryListItem;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +18,6 @@ import java.util.HashMap;
 
 /*
 initial app load
-common food item: expiry date
 
 items = {
   "apple": 10,
@@ -32,26 +37,6 @@ user scans receipt
 3.egg
 - does not exist in alias, exists in items
 - return expiry date
-
-4.grapes
-- does not exist in alias, does not exist in items
-- Call API, add to items
-
-
-items = {
-  //item : expiry date
-  "apple": 10,
-  "orange": 7,
-  "egg": 14
-}
-
-alias = {
-  "apple123": "apple"
-  "oranges": "orange"
-}
-
-functions to provide users:
-int getExpiryDate(String foodItem)
  */
 
 public class ListsModel {
@@ -69,19 +54,14 @@ public class ListsModel {
         inventoryList = context.getSharedPreferences("inventoryList", Context.MODE_PRIVATE);
         shoppingList = context.getSharedPreferences("shoppingList", Context.MODE_PRIVATE);
         expiredHistory = context.getSharedPreferences("expiredHistory", Context.MODE_PRIVATE);
-        initCommonList();
+
+        initListModel(context);
     }
 
     // hard code common food item & expiry date
-    private void initCommonList() {
-        // TODO: look into capitalizing food items
-        SharedPreferences.Editor editor = commonItemList.edit();
-        editor.putInt("apple", 10)
-                .putInt("orange", 7)
-                .putInt("egg", 14)
-                .putInt("TOMATOES", 5)
-                .putInt("SPINACH", 7)
-                .apply();
+    private void initListModel(Context context) {
+        // initialize common list with items scraped from stilltasty.com
+        initCommonList(context);
 
         //dummy for alias
         SharedPreferences.Editor aliasEditor = aliasList.edit();
@@ -103,6 +83,37 @@ public class ListsModel {
                 .putBoolean("egg", true)
                 .putBoolean("watermelon", true)
                 .apply();
+    }
+
+    private void initCommonList(Context context){
+        InputStream is = context.getResources().openRawResource(R.raw.parsed);
+        Writer writer = new StringWriter();
+        char[] buffer = new char[1024];
+        InputStreamReader isr;
+
+        try {
+            try {
+                isr = new InputStreamReader(is, "UTF-8");
+                Reader reader = new BufferedReader(isr);
+                int n;
+                while ((n = reader.read(buffer)) != -1) {
+                    writer.write(buffer, 0, n);
+                }
+            } catch(Exception e) {
+                System.out.print("InputStreamReader Exception: " + e);
+            }
+        } finally {
+            try {
+                is.close();
+            } catch(Exception e){
+                System.out.print("close exception: " + e);
+            }
+        }
+
+        String jsonString = writer.toString();
+        SharedPreferences.Editor editor = commonItemList.edit();
+        // TODO: for each item in jsonString add it to commonItemList
+        editor.putString("commonItems", jsonString).apply();
     }
 
     public List<InventoryListItem> getInventoryList(){
@@ -141,7 +152,6 @@ public class ListsModel {
     }
 
     public void addToList(String listType, String key, String val){
-        //TODO: look into providing different list types
         if (listType == "alias"){
             SharedPreferences.Editor aliasEditor = aliasList.edit();
             aliasEditor.putString(key, val).apply();
@@ -152,7 +162,6 @@ public class ListsModel {
     }
 
     public void addToList(String listType, String key, Integer val){
-        //TODO: look into providing different list types
         if (listType == "common"){
             SharedPreferences.Editor editor = commonItemList.edit();
             editor.putInt(key, val).apply();
@@ -166,7 +175,6 @@ public class ListsModel {
     }
 
     public void removeFromList(String listType, String key){
-        //TODO: look into providing different list types
         SharedPreferences.Editor editor;
         if (listType == "common"){
             editor = commonItemList.edit();
@@ -251,10 +259,6 @@ public class ListsModel {
         return -1;
     }
 
-    // new item, call api to get expiry date
-    private int fetchExpiryDate(String foodItem){
-        return -1;
-    }
 
     public int getExpiryDate(String foodItem){
         if (aliasExists(foodItem)){
@@ -264,7 +268,7 @@ public class ListsModel {
             return commonItemList.getInt(foodItem, 0);
         } else {
             int expiry = closestItemMatch(foodItem);
-            expiry = expiry != -1 ? expiry : 5;/*fetchExpiryDate(foodItem)*/
+            expiry = expiry != -1 ? expiry : 0;
             return expiry;
         }
     }
