@@ -27,18 +27,39 @@
                     android:id="@+id/recipe_name"
                     android:layout_margin="10dp"
                     android:gravity="bottom"
-                    android:textSize="20dp"
-                    android:text="@string/itemName" />
+                    android:textSize="20dp"/>
                 <ImageView
                     android:id="@+id/recipe_image"
-                    android:layout_width="300dp"
-                    android:layout_height="200dp"
+                    android:layout_width="200dp"
+                    android:layout_height="150dp"
                     android:adjustViewBounds="true"
                     android:scaleType="centerCrop"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
                     android:src="@drawable/broken_image"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/heading_ngredients"
+                        android:layout_margin="10dp"
+                        android:gravity="bottom"
+                        android:textSize="15dp"
+                        android:text="Ingredients:"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/recipe_ingredients"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="bottom"
+                        android:textSize="15dp"/>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 

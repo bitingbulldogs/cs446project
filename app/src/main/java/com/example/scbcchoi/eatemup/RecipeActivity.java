@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class RecipeActivity extends AppCompatActivity {
 
@@ -31,24 +32,29 @@ public class RecipeActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         getItems();
-        makeRecipeList();
+        try {
+            makeRecipeList();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-        RecipeAdapter list = new RecipeAdapter(immediateExpire);
+        RecipeAdapter list = new RecipeAdapter(allRecipes);
         recyclerView.setAdapter(list);
         recyclerView.getAdapter().notifyDataSetChanged();
 
     }
 
-    public void makeRecipeList() {
-        data = "";
+    public void makeRecipeList() throws ExecutionException, InterruptedException {
         String all = "";
         for(int i = 0; i<immediateExpire.size(); i++) {
             all = all + immediateExpire.get(i) + ",";
         }
-        new getRecipes().execute(all);
+        data = new getRecipes().execute(all).get();
         try {
             JSONObject JO = new JSONObject(data);
-            JSONArray recipeArray = (JSONArray) JO.get("recipes");
+            JSONArray recipeArray = (JSONArray) JO.get("results");
 
             int num = Math.min(7, recipeArray.length());
             for (int j = 0; j < num; j++) {
@@ -59,12 +65,11 @@ public class RecipeActivity extends AppCompatActivity {
         }
 
         for(int i = 0; i<immediateExpire.size(); i++) {
-            data = "";
-            new getRecipes().execute(immediateExpire.get(i));
+            data = new getRecipes().execute(immediateExpire.get(i)).get();
 
             try {
                 JSONObject JO = new JSONObject(data);
-                JSONArray recipeArray = (JSONArray) JO.get("recipes");
+                JSONArray recipeArray = (JSONArray) JO.get("results");
 
                 int num = Math.min(7, recipeArray.length());
                 for (int j = 0; j < num; j++) {

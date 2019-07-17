@@ -15,14 +15,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-public class getRecipes extends AsyncTask<String, Void, Void> {
+public class getRecipes extends AsyncTask<String, Void, String> {
 
     String data = "";
 
     @Override
-    protected Void doInBackground(String... expItem) {
+    protected String doInBackground(String... expItem) {
         try {
-            URL url = new URL("https://www.food2fork.com/api/search?key=bb50c4e176919e4d1143ff8e68cff5c3&q="+expItem);
+            URL url = new URL("http://www.recipepuppy.com/api/?i="+expItem[0]);
+            System.out.println(expItem);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             InputStream is = httpURLConnection.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -37,12 +38,11 @@ public class getRecipes extends AsyncTask<String, Void, Void> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return data;
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
-        RecipeActivity.data = this.data;
+    protected void onPostExecute(String data) {
+        super.onPostExecute(data);
     }
 }
