@@ -216,7 +216,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showRecipe() {
-        Toast.makeText(this, "Recipe", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, RecipeActivity.class);
+        startActivity(intent);
     }
     public void showSettings() {
         Intent intent = new Intent(this, Settings.class);
