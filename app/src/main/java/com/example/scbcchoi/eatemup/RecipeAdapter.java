@@ -1,10 +1,13 @@
 package com.example.scbcchoi.eatemup;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,54 +31,62 @@ import java.net.URL;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeVH>  {
+public class RecipeAdapter extends BaseAdapter {
     private JSONArray allRecipes;
-    public RecipeAdapter(JSONArray ie){
-        allRecipes = ie;
-    }
+    LayoutInflater inflater;
+    Context context;
     Bitmap bitImage;
 
-    public static class RecipeVH extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        private TextView itemName;
-        private ImageView thumbnail;
-        private TextView ingrd;
-        public RecipeVH(@NonNull View v) {
-            super(v);
-            itemName = v.findViewById(R.id.recipe_name);
-            thumbnail = v.findViewById(R.id.recipe_image);
-            ingrd = v.findViewById(R.id.recipe_ingredients);
-        }
-    }
-    @NonNull
-    @Override
-    public RecipeAdapter.RecipeVH onCreateViewHolder(@NonNull final ViewGroup viewGroup, int i) {
-        LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        final View view = inflater.inflate(R.layout.recipe_item, viewGroup, false);
-        final RecipeAdapter.RecipeVH tempVH = new RecipeAdapter.RecipeVH(view);
-        return tempVH;
+    public RecipeAdapter(Context applicationContext, JSONArray ie) {
+        context = applicationContext;
+        allRecipes = ie;
+        inflater = LayoutInflater.from(applicationContext);
     }
 
     @Override
-    public int getItemCount() {
+    public int getCount() {
         return allRecipes.length();
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecipeAdapter.RecipeVH recipeVH, int i) {
+    public Object getItem(int i) {
+        Object obj = new Object();
+        try {
+            obj = allRecipes.get(i);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return obj;
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
+
+    @Override
+    public View getView(int i, View view, ViewGroup parent) {
+        view = inflater.inflate(R.layout.recipe_item, null);
+        final TextView itemName = view.findViewById(R.id.recipe_name);
+        final ImageView thumbnail = view.findViewById(R.id.recipe_image);
+        final TextView ingrd = view.findViewById(R.id.recipe_ingredients);
+        String href = "";
         try {
             JSONObject obj = (JSONObject) allRecipes.get(i);
             String name = (String) obj.get("title");
-            recipeVH.itemName.setText(name);
+            itemName.setText(name);
 
             String ing = (String) obj.get("ingredients");
-            recipeVH.ingrd.setText(ing);
+            ingrd.setText(ing);
 
             String url = (String) obj.get("thumbnail");
             if(!url.equals("")) {
                 Bitmap bitmap = new getImage().execute(url).get();
-                recipeVH.thumbnail.setImageBitmap(bitmap);
+                thumbnail.setImageBitmap(bitmap);
             }
+
+            href = (String) obj.get("href");
+
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -82,10 +94,24 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeVH> 
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+
+        final String link = href;
+
+        view.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(link));
+                context.startActivity(i);
+            }
+        });
+
+        return view;
     }
 
     private class getImage extends AsyncTask<String, Void, Bitmap> {
-        ImageView iv;
 
 //        public getImage(ImageView iv) {
 //            this.iv = iv;

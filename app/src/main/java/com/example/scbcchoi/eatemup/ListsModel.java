@@ -73,7 +73,7 @@ public class ListsModel {
 
         //dummy for inventory
         SharedPreferences.Editor invEditor = inventoryList.edit();
-        invEditor.putInt("eggs", 5).putInt("banana", 5).putInt("tomato", 5).apply();
+//        invEditor.putInt("eggs", 5).putInt("banana", 5).putInt("tomato", 5).apply();
 
         //dummy for expired history
         SharedPreferences.Editor historyEditor = expiredHistory.edit();

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.GridView;
 import android.widget.Toast;
 
 import com.example.scbcchoi.eatemup.inventory.InventoryListItem;
@@ -20,7 +21,7 @@ public class RecipeActivity extends AppCompatActivity {
 
 
     List<String> immediateExpire = new ArrayList<>();
-    private RecyclerView recyclerView;
+    private GridView recipeGrid;
     public static String data = "";
     JSONArray allRecipes = new JSONArray();
 
@@ -28,8 +29,8 @@ public class RecipeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_activity);
-        recyclerView = findViewById(R.id.rv_recipe);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recipeGrid = findViewById(R.id.recipe_grid);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         getItems();
         try {
@@ -40,10 +41,17 @@ public class RecipeActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        RecipeAdapter list = new RecipeAdapter(allRecipes);
-        recyclerView.setAdapter(list);
-        recyclerView.getAdapter().notifyDataSetChanged();
+        RecipeAdapter list = new RecipeAdapter(getApplicationContext(), allRecipes);
+        recipeGrid.setAdapter(list);
+//        recipeGrid.getAdapter().notifyDataSetChanged();
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        immediateExpire.clear();
+        allRecipes = new JSONArray();
+        //TODO: dialog to ask what items consumed completely
     }
 
     public void makeRecipeList() throws ExecutionException, InterruptedException {
@@ -64,19 +72,22 @@ public class RecipeActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        for(int i = 0; i<immediateExpire.size(); i++) {
-            data = new getRecipes().execute(immediateExpire.get(i)).get();
 
-            try {
-                JSONObject JO = new JSONObject(data);
-                JSONArray recipeArray = (JSONArray) JO.get("results");
+        if(immediateExpire.size() > 1) {
+            for (int i = 0; i < immediateExpire.size(); i++) {
+                data = new getRecipes().execute(immediateExpire.get(i)).get();
 
-                int num = Math.min(7, recipeArray.length());
-                for (int j = 0; j < num; j++) {
-                    allRecipes.put(recipeArray.get(j));
+                try {
+                    JSONObject JO = new JSONObject(data);
+                    JSONArray recipeArray = (JSONArray) JO.get("results");
+
+                    int num = Math.min(7, recipeArray.length());
+                    for (int j = 0; j < num; j++) {
+                        allRecipes.put(recipeArray.get(j));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
         }
     }
