@@ -1,5 +1,6 @@
 package com.example.scbcchoi.eatemup;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
@@ -12,6 +13,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.ActionMode;
+import android.view.Menu;
 import android.view.View;
 import android.content.Intent;
 import java.util.Calendar;
@@ -24,6 +27,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
+import android.view.animation.TranslateAnimation;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,8 +44,11 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private InventoryAdapter adapter;
     private Dialog addDialog;
+    private ActionMode actionMode;
+    private ActionMode.Callback actionModeCallBack;
+    private Dialog datePickerDialog;
 
-    // to test recylerview, should be removed later
+    // to test recylerView, should be removed later
     List<InventoryListItem> InventoryList;
 
     @Override
@@ -111,10 +119,79 @@ public class MainActivity extends AppCompatActivity {
         InventoryList = lm.getInventoryList();
 
         //setup adapter for RecyclerView
+        actionModeCallBack = new ActionModeCallBack();
+
         adapter = new InventoryAdapter(InventoryList);
         recyclerView.setAdapter(adapter);
+        initAdapter();
     }
 
+    public void enableActionMode(){
+        if (actionMode == null) {
+            actionMode = this.startActionMode(actionModeCallBack);
+        }
+    }
+
+    public void initAdapter(){
+        adapter.setOnClickListener(new InventoryAdapter.onClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                if(adapter.getSelectionCount() > 0){
+                    actionMode.setTitle(String.valueOf(adapter.getSelectionCount()));
+                }
+                else{
+                    actionMode.finish();
+                }
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+                enableActionMode();
+                actionMode.setTitle(String.valueOf(adapter.getSelectionCount()));
+            }
+        });
+    }
+
+    private class ActionModeCallBack implements ActionMode.Callback{
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            int id = item.getItemId();
+            if (id == R.id.action_delete) {
+                multiDelete();
+                mode.finish();
+                return true;
+            } else if(id == R.id.action_add_cart){
+                multiAddShopping();
+                mode.finish();
+                return true;
+            }
+
+            return false;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate(R.menu.multi,menu);
+            //mode.setTitle();
+            navigationView.setVisibility(View.GONE);
+            toolbar.setVisibility(View.GONE);
+            return true;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            actionMode = null;
+            adapter.clearSelection();
+            navigationView.setVisibility(View.VISIBLE);
+            toolbar.setVisibility(View.VISIBLE);
+        }
+    }
 
 
     public void scan(View v){
@@ -163,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //insert an item to InventoryList
-    //should be moved to "InventoryList Class"......?
+    //assuming the List has been sorted
     private int insertItem(InventoryListItem item){
         int j = item.getDateInt();
         for (int i = 0; i < InventoryList.size(); i++) {
@@ -184,8 +261,14 @@ public class MainActivity extends AppCompatActivity {
     public void addInventory(View view){
         EditText nameText = addDialog.findViewById(R.id.dialog_name_add);
         EditText dateText = addDialog.findViewById(R.id.dialog_date_add);
+        //Check for empty input string
+        if(dateText.getText().toString().equals("") || nameText.getText().toString().equals("")) {
+            Toast.makeText(view.getContext(), "Input cannot be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         int date = Integer.parseInt(dateText.getText().toString());
-        String name = nameText.getText().toString();
+        String name = nameText.getText().toString().toLowerCase();
         InventoryListItem item = new InventoryListItem(name, date);
 
         //store in shared preferences
@@ -198,15 +281,61 @@ public class MainActivity extends AppCompatActivity {
         addDialog.dismiss();
     }
 
+    public void deleteInventory(View view){
+        InventoryListItem item =  adapter.updateItem();
+        ListsModel lm = new ListsModel(this);
+        lm.removeFromList("inventory",InventoryList.get(adapter.getPos()).getName());
+        InventoryList.remove(adapter.getPos());
+        adapter.notifyDataSetChanged();
+    }
+
     public void  updateInventory(View view){
         InventoryListItem item =  adapter.updateItem();
-        InventoryList.remove(adapter.getPos());//index of item changed
+        //check for empty input
+        if(item.getName().equals("")) {
+            Toast.makeText(view.getContext(), "Input cannot be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        //Todo: the update isn't physically stored
+        ListsModel lm = new ListsModel(this);
+        lm.removeFromList("inventory",InventoryList.get(adapter.getPos()).getName());
+        InventoryList.remove(adapter.getPos());//index of item changed
         int pos = insertItem(item);
+        lm.addToList("inventory", item.getName().toLowerCase(), item.getDateInt());
         recyclerView.smoothScrollToPosition(pos);
         adapter.notifyDataSetChanged();
 
+    }
+
+    public void  multiDelete (){
+        List<Integer>  selection = adapter.getSelection();
+        ListsModel lm = new ListsModel(this);
+
+        for(Integer i: selection){
+            lm.removeFromList("inventory",InventoryList.get(i).getName());
+        }
+
+        InventoryList = lm.getInventoryList();
+        adapter = new InventoryAdapter(InventoryList);
+        recyclerView.setAdapter(adapter);
+        initAdapter();
+        adapter.notifyDataSetChanged();
+    }
+
+    public void multiAddShopping(){
+        List<Integer>  selection = adapter.getSelection();
+        ListsModel lm = new ListsModel(this);
+        for(Integer i: selection){
+            lm.removeFromList("inventory",InventoryList.get(i).getName());
+            lm.addToList("shopping",InventoryList.get(i).getName(),"");
+            //Is this correct?
+        }
+
+        InventoryList = lm.getInventoryList();
+        adapter = new InventoryAdapter(InventoryList);
+        recyclerView.setAdapter(adapter);
+        initAdapter();
+        adapter.notifyDataSetChanged();
     }
 
     public void noUpdate(View view){
@@ -220,8 +349,43 @@ public class MainActivity extends AppCompatActivity {
         lm.clearList("shopping");
         InventoryList = lm.getInventoryList();
         adapter = new InventoryAdapter(InventoryList);
+        initAdapter();
         recyclerView.setAdapter(adapter);
         recyclerView.getAdapter().notifyDataSetChanged();
+    }
+
+
+
+    public void pickDate(View view){
+        datePickerDialog = new Dialog(view.getContext());
+        datePickerDialog.setContentView(R.layout.dialog_date_picker);
+        datePickerDialog.show();
+    }
+
+
+    public void dateCancel(View view){
+        datePickerDialog.dismiss();
+    }
+
+    public void dateSelect(View view){
+        EditText editText = addDialog.findViewById(R.id.dialog_date_add);
+        DatePicker datePicker = datePickerDialog.findViewById(R.id.date_picker);
+        Calendar tempCalendar = Calendar.getInstance();
+        long millis1 = tempCalendar.getTimeInMillis();
+
+        int tempDay = datePicker.getDayOfMonth();
+        int tempMonth = datePicker.getMonth();
+        int tempYear =  datePicker.getYear();
+        tempCalendar.set(datePicker.getYear(),datePicker.getMonth(),datePicker.getDayOfMonth(),0,0);
+
+        long millis2 = tempCalendar.getTimeInMillis();
+
+        if(millis2 < millis1){
+            Toast.makeText(view.getContext(), "Hey,it's already expired, add it to the shopping list", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        editText.setText((String.valueOf((millis2 - millis1)/(1000*3600*24))));
+        datePickerDialog.dismiss();
     }
 
 }
