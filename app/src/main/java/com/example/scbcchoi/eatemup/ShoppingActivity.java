@@ -115,4 +115,13 @@ public class ShoppingActivity extends AppCompatActivity {
         this.startActivity(intent);
         finish();
     }
+
+    public void shoppingTest(View v){
+        BackgroundService.oneDayHasPassed(this);
+    }
+
+    public void clearHistory(View v){
+        ListsModel lm = new ListsModel(this);
+        lm.clearList("history");
+    }
 }

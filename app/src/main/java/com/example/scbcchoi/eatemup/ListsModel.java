@@ -66,28 +66,6 @@ public class ListsModel {
     private void initListModel(Context context) {
         // initialize common list with items scraped from stilltasty.com
         initCommonList(context);
-
-        //dummy for alias
-        SharedPreferences.Editor aliasEditor = aliasList.edit();
-        aliasEditor.putString("apple123", "apple").apply();
-
-        //dummy for inventory
-        SharedPreferences.Editor invEditor = inventoryList.edit();
-//        invEditor.putInt("eggs", 5).putInt("banana", 5).putInt("tomato", 5).apply();
-
-        //dummy for expired history
-        SharedPreferences.Editor historyEditor = expiredHistory.edit();
-        historyEditor.putInt("apple", 1)
-                .putInt("orange", 4)
-                .putInt("banana", 2)
-                .apply();
-
-        //dummy for shopping list
-        SharedPreferences.Editor shoppingListEditor = shoppingList.edit();
-        shoppingListEditor.putBoolean("apple", true)
-                .putBoolean("egg", true)
-                .putBoolean("watermelon", true)
-                .apply();
     }
 
     private void initCommonList(Context context){
