@@ -18,6 +18,8 @@ import java.util.Calendar;
 
 public class Settings extends AppCompatActivity {
     private static SharedPreferences settingsLocalStorage;
+    private static int defaulthour = 17;
+    private static int defaultmin = 30;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +56,8 @@ public class Settings extends AppCompatActivity {
         //try to get hour of day and minute from local storage
         int hourOfDay = getInt("hour", context);
         int minute = getInt("minute", context);
-        if(hourOfDay < 0) hourOfDay = 17; //by default we set it to 17:30
-        if(minute < 0) minute = 30;
+        if(hourOfDay < 0) hourOfDay = defaulthour; //by default we set it to 17:30
+        if(minute < 0) minute = defaultmin;
 
         //Set alarm for each day.
         Calendar calendar = Calendar.getInstance();
@@ -68,13 +70,17 @@ public class Settings extends AppCompatActivity {
     }
 
     public void doneSetting(View v){
+        //set notification times
         EditText edtHour = findViewById(R.id.defaultHour);
         EditText edtMinute = findViewById(R.id.defaultMinute);
-        int dhour = Integer.valueOf(edtHour.getText().toString());
-        int dmin = Integer.valueOf(edtMinute.getText().toString());
-
+        String hour = edtHour.getText().toString();
+        String minute = edtMinute.getText().toString();
+        if(hour.equals("")) hour = Integer.toString(defaulthour);
+        if(minute.equals("")) minute = Integer.toString(defaultmin);
+        int dhour = Integer.valueOf(hour);
+        int dmin = Integer.valueOf(minute);
         //proceed only if dhour and dmin are valid
-        if(dhour >= 0 && dhour < 24 && dmin >= 0 && dmin < 60){
+        if(!hour.equals("") && !minute.equals("") && dhour >= 0 && dhour < 24 && dmin >= 0 && dmin < 60){
             setInt("hour", dhour, this);
             setInt("minute", dmin, this);
             backgroundInit(this);
@@ -84,7 +90,6 @@ public class Settings extends AppCompatActivity {
             this.startActivity(intent);
             finish();
         }
-
         //this means that dhour or dmin are not valid.
         else{
             Toast.makeText(this, "invalid hour or minutes!", Toast.LENGTH_SHORT).show();
