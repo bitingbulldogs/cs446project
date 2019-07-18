@@ -18,6 +18,7 @@ import java.util.Calendar;
 
 public class Settings extends AppCompatActivity {
     private static SharedPreferences settingsLocalStorage;
+    private static SharedPreferences settingsStringLocalStorage;
     private static int defaulthour = 17;
     private static int defaultmin = 30;
 
@@ -38,6 +39,19 @@ public class Settings extends AppCompatActivity {
     public static int getInt(String key, Context context){
         settingsLocalStorage = context.getSharedPreferences("settingsLocalStorage", Context.MODE_PRIVATE);
         return settingsLocalStorage.getInt(key, -1);
+    }
+
+    //returns "" if key doesn't exist, otherwise returns corresponding int value to the key
+    public static String getStr(String key, Context context){
+        settingsStringLocalStorage = context.getSharedPreferences("settingsStringLocalStorage", Context.MODE_PRIVATE);
+        return settingsStringLocalStorage.getString(key, "");
+    }
+
+    public static void setStr(String key, String val, Context context){
+        settingsStringLocalStorage = context.getSharedPreferences("settingsStringLocalStorage", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settingsLocalStorage.edit();
+        editor.putString(key, val)
+                .apply();
     }
 
     //init background service
@@ -66,7 +80,7 @@ public class Settings extends AppCompatActivity {
         calendar.set(Calendar.MINUTE, minute);
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),1000 * 60* 60 * 24 , alarmIntent);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY , alarmIntent);
     }
 
     public void doneSetting(View v){
@@ -83,6 +97,7 @@ public class Settings extends AppCompatActivity {
         if(!hour.equals("") && !minute.equals("") && dhour >= 0 && dhour < 24 && dmin >= 0 && dmin < 60){
             setInt("hour", dhour, this);
             setInt("minute", dmin, this);
+            Settings.setStr("todaysDate", "", this);
             backgroundInit(this);
 
             //everything is fine. we go to main

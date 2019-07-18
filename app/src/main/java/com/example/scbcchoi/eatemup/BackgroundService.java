@@ -11,8 +11,12 @@ import android.support.v4.app.NotificationManagerCompat;
 
 import com.example.scbcchoi.eatemup.inventory.InventoryListItem;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class BackgroundService extends IntentService {
 
@@ -23,8 +27,24 @@ public class BackgroundService extends IntentService {
         super("BackgroundService");
     }
 
+    private static boolean todayHasCalculated(Context c){
+        String key = "todaysDate";
+        String storageValue = Settings.getStr(key, c);
+        String todaysDate = todaysDate();
+
+        //if we already calculated this
+        if(storageValue.equals(todaysDate)) return true;
+        else {
+            Settings.setStr(key, todaysDate, c);
+            return false;
+        }
+    }
+
     public static void oneDayHasPassed(Context c){
         somethingExpired = false;
+
+        //if we already calculated this, then we simply return
+        if(todayHasCalculated(c)) return;
 
         //update inventories and find out if there is something expirying
         ListsModel lm = new ListsModel(c);
@@ -49,6 +69,13 @@ public class BackgroundService extends IntentService {
                 lm.addToList("history", key, maxExpiry + 1);
             }
         }
+    }
+
+    public static String todaysDate(){
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat s = new SimpleDateFormat("dd-MMM-yyyy");
+        String ret = s.format(c);
+        return ret;
     }
 
     //this will be called at the certain notification time once a day.
