@@ -28,6 +28,8 @@ public class CameraActivity extends AppCompatActivity {
     private String keys[];
     private int vals[];
     private boolean allischecked = false;
+    private ScanAdapter scanA;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +72,7 @@ public class CameraActivity extends AppCompatActivity {
                 if(lm.aliasExists(result.get(i))) checkBoxes[i] = true;
                 scanlist.add(new ScanItem(result.get(i), "Null Cat", expiryDate));
             }
-            ScanAdapter scanA = new ScanAdapter(scanlist);
+            scanA = new ScanAdapter(scanlist);
             recyclerView.setAdapter(scanA);
 
 
@@ -105,12 +107,17 @@ public class CameraActivity extends AppCompatActivity {
 
     public void doneScanning(View v){
         ListsModel lm = new ListsModel(this);
+        scanlist = scanA.getScanItemList();
         for(int i = 0; i < resultSize; ++i) {
             if(checkBoxes[i]) {
-                String key = keys[i];
-                int val = vals[i];
+                String key = scanlist.get(i).getName();
+                int val = scanlist.get(i).getExpireDate();
+                String cat = scanlist.get(i).getCategory();
                 lm.addToList("inventory", key, val);
+                lm.addToList("alias", key, cat);
             }
+
+            recyclerView.getRecycledViewPool().getRecycledView(i);
         }
         Intent intent = new Intent(this, MainActivity.class);
         this.startActivity(intent);
