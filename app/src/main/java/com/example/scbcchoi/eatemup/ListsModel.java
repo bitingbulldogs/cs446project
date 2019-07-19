@@ -3,6 +3,7 @@ package com.example.scbcchoi.eatemup;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.util.Pair;
 
 import com.example.scbcchoi.eatemup.inventory.InventoryListItem;
 
@@ -108,7 +109,7 @@ public class ListsModel {
 
         printList("common");
         System.out.println("hiii");
-        System.out.println(getExpiryDate("YEL POTATOES"));
+        System.out.println(getExpiryDate("TOMATOES ON"));
 
     }
 
@@ -222,7 +223,7 @@ public class ListsModel {
 
     // given item, return an item that has the longest common substring matching in common item list
     // TODO: BRUTE FORCE ALGO, NEED TO IMPROVE
-    public int closestItemMatch(String foodItem){
+    public Pair<Integer, String> closestItemMatch(String foodItem){
         // if found, return expiry date, map alias with found item and add to alias list
         // else return -1 to indicate no match is found
         int maxLength = 0;
@@ -249,24 +250,23 @@ public class ListsModel {
         // if foodItem matches an item in items list, add the mapping to alias list
         if (matchFound) {
             addToList("alias", foodItem, bestMatchItem);
-            return bestMatchItemExpiry;
+            return new Pair(bestMatchItemExpiry, bestMatchItem);
         }
 
-        return -1;
+        return new Pair(0, "not found");
     }
 
 
-    public int getExpiryDate(String foodItem){
+    public Pair<Integer, String> getExpiryDate(String foodItem){
         foodItem = foodItem.toLowerCase();
         if (aliasExists(foodItem)){
             String nameInItemDir = aliasList.getString(foodItem, null);
-            return commonItemList.getInt(nameInItemDir, 0);
+            return new Pair(commonItemList.getInt(nameInItemDir, 0),nameInItemDir);
         } else if (itemExists(foodItem)){
-            return commonItemList.getInt(foodItem, 0);
+            return new Pair(commonItemList.getInt(foodItem, 0), foodItem);
         } else {
-            int expiry = closestItemMatch(foodItem);
-            expiry = expiry != -1 ? expiry : 0;
-            return expiry;
+            Pair<Integer, String> result = closestItemMatch(foodItem);
+            return result;
         }
     }
 

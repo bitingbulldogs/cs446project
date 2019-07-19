@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.View;
 import android.content.Intent;
 import android.widget.Adapter;
@@ -63,12 +64,13 @@ public class CameraActivity extends AppCompatActivity {
 
 
             for(int i = 0; i < resultSize; ++i){
-                int expiryDate = 0;
-                expiryDate = lm.getExpiryDate(result.get(i));
+                Pair<Integer, String> resultPair = lm.getExpiryDate(result.get(i));
+                int expiryDate = resultPair.first;
+                String matched = resultPair.second;
                 keys[i] = result.get(i);
                 vals[i] = expiryDate;
                 if(lm.aliasExists(result.get(i))) checkBoxes[i] = true;
-                scanlist.add(new ScanItem(result.get(i), "Null Cat", expiryDate));
+                scanlist.add(new ScanItem(result.get(i), matched, expiryDate));
             }
             ScanAdapter scanA = new ScanAdapter(scanlist);
             recyclerView.setAdapter(scanA);

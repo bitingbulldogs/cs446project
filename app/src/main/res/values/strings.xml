@@ -17,7 +17,7 @@
     <string name="will_expire_in">will expire in</string>
     <string name="days">day(s)</string>
     <string name="itemName">Name: </string>
-    <string name="itemCategory">Category: </string>
+    <string name="itemCategory">Matched Item: </string>
     <string name="expireDate">Expire in: </string>
     <string name="update">Update</string>
     <string name="add">Add</string>
