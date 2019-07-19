@@ -27,6 +27,7 @@ public class CameraActivity extends AppCompatActivity {
     List<ScanItem> scanlist;
     static boolean checkBoxes[];
     private String keys[];
+    private String suggestedItems[];
     private int vals[];
     private boolean allischecked = false;
     @Override
@@ -43,7 +44,9 @@ public class CameraActivity extends AppCompatActivity {
             checkBoxes = new boolean[resultSize];
             for(int j = 0; j < checkBoxes.length; ++j) checkBoxes[j] = false;
             keys = new String[resultSize];
+            suggestedItems = new String[resultSize];
             vals = new int[resultSize];
+
 
             /*
             String scannedText = "";
@@ -62,16 +65,17 @@ public class CameraActivity extends AppCompatActivity {
             scanlist = new ArrayList<>();
             ListsModel lm = new ListsModel(this);
 
-
+            /*
             for(int i = 0; i < resultSize; ++i){
                 Pair<Integer, String> resultPair = lm.getExpiryDate(result.get(i));
                 int expiryDate = resultPair.first;
                 String matched = resultPair.second;
                 keys[i] = result.get(i);
+                suggestedItems[i] = matched
                 vals[i] = expiryDate;
                 if(lm.aliasExists(result.get(i))) checkBoxes[i] = true;
                 scanlist.add(new ScanItem(result.get(i), matched, expiryDate));
-            }
+            }*/
             ScanAdapter scanA = new ScanAdapter(scanlist);
             recyclerView.setAdapter(scanA);
 
@@ -110,10 +114,20 @@ public class CameraActivity extends AppCompatActivity {
         for(int i = 0; i < resultSize; ++i) {
             if(checkBoxes[i]) {
                 String key = keys[i];
+                String suggested = suggestedItems[i];
                 int val = vals[i];
                 lm.addToList("inventory", key, val);
+                lm.addToList("alias", key, suggested);
+                lm.addToList("common", suggested, val);
             }
         }
+        System.out.println("inventory list:");
+        lm.printList("inventory");
+        System.out.println("alias list:");
+        lm.printList("alias");
+        System.out.println("common list:");
+        lm.printList("common");
+
         Intent intent = new Intent(this, MainActivity.class);
         this.startActivity(intent);
         finish();
