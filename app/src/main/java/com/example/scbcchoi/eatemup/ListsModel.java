@@ -106,11 +106,7 @@ public class ListsModel {
         } catch (Exception e){
             Log.e("ERROR", "JSON Object init exception");
         }
-
-        printList("common");
-        System.out.println("hiii");
-        System.out.println(getExpiryDate("TOMATOES ON"));
-
+        
     }
 
     public List<InventoryListItem> getInventoryList(){
@@ -237,7 +233,11 @@ public class ListsModel {
                 for (int j=i+1; j<=foodItem.length(); j++){
                     String substring = foodItem.substring(i, j);
                     int len = matchesSubstring(substring, entry.getKey())? substring.length() : 0;
-                    if (len > maxLength && (double)len/entry.getKey().length() >= 0.5){
+                    if (len > maxLength && (double)len/entry.getKey().length() >= 0.7){
+                        System.out.println(len);
+                        System.out.println(entry.getKey().length());
+                        System.out.println(entry.getKey());
+                        System.out.println((double)len/entry.getKey().length());
                         matchFound = true;
                         maxLength = len;
                         bestMatchItem = entry.getKey();
@@ -250,6 +250,8 @@ public class ListsModel {
         // if foodItem matches an item in items list, add the mapping to alias list
         if (matchFound) {
             addToList("alias", foodItem, bestMatchItem);
+            System.out.println("yooo");
+            System.out.println(maxLength);
             return new Pair(bestMatchItemExpiry, bestMatchItem);
         }
 

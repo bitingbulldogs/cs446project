@@ -92,6 +92,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
         inventoryVH.inventoryCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                pos = position;
                 if(showMultiSelect){
                     //already selected
                     if (selectedItem.get(position,false)){
