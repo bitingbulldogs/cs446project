@@ -65,8 +65,15 @@ public class RecipeActivity extends AppCompatActivity {
             JSONArray recipeArray = (JSONArray) JO.get("results");
 
             int num = Math.min(7, recipeArray.length());
-            for (int j = 0; j < num; j++) {
+            int temp = 0;
+            for (int j = 0; temp < num; j++) {
+                if(((JSONObject)recipeArray.get(j)).get("thumbnail").equals("") ||
+                        (((String)((JSONObject)recipeArray.get(j)).get("href")).contains("kraftfoods") ||
+                        ((String)((JSONObject)recipeArray.get(j)).get("href")).contains("eatingwell"))) {
+                    continue;
+                }
                 allRecipes.put(recipeArray.get(j));
+                temp++;
             }
         } catch (JSONException e) {
             e.printStackTrace();
