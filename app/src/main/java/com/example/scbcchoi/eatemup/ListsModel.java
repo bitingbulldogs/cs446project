@@ -106,7 +106,7 @@ public class ListsModel {
         } catch (Exception e){
             Log.e("ERROR", "JSON Object init exception");
         }
-
+        
     }
 
     public List<InventoryListItem> getInventoryList(){
