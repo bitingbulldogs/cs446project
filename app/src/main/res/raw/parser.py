@@ -1,5 +1,4 @@
-# Python script for parsing StillTasty data
-
+#!/usr/bin/python
 import json
 
 '''
@@ -35,22 +34,26 @@ def formatExpiry(expiry):
 
 def getFoodExpiry(item):
   pantry = -1
-  freezer = -1
   refrigerator = -1
+  freezer = -1
 
   pantry = formatExpiry(item['pantry'])
   if pantry != -1:
     return pantry
-  freezer = formatExpiry(item['freezer'])
-  if freezer != -1:
-    return freezer
   refrigerator = formatExpiry(item['refrigerator'])
   if refrigerator != -1:
     return refrigerator
+  freezer = formatExpiry(item['freezer'])
+  if freezer != -1:
+    return freezer
 
 def getFoodName(item):
   if item['name'].find('cooked') != -1 and item['name'].find('uncooked') == -1:
     # ex. 'fish - cooked' and 'fish - uncooked', we only care about the uncooked one
+    return -1
+  if item['name'].find('opened') != -1 and item['name'].find('unopened') == -1:
+    return -1
+  if item['name'].find('frozen') != -1:
     return -1
   hyphen = item['name'].find('-')
   if hyphen != -1:
@@ -75,6 +78,7 @@ for item in data:
   name = getFoodName(item)
   if name == -1:
    continue
+
   expiry = getFoodExpiry(item)
   if expiry == -1:
     continue

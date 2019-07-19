@@ -107,6 +107,8 @@ public class ListsModel {
         }
 
         printList("common");
+        System.out.println("hiii");
+        System.out.println(getExpiryDate("spinach"));
 
     }
 
