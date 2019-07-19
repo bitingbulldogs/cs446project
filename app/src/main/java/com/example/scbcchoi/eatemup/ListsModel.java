@@ -108,7 +108,7 @@ public class ListsModel {
 
         printList("common");
         System.out.println("hiii");
-        System.out.println(getExpiryDate("spinach"));
+        System.out.println(getExpiryDate("YEL POTATOES"));
 
     }
 
@@ -236,7 +236,7 @@ public class ListsModel {
                 for (int j=i+1; j<=foodItem.length(); j++){
                     String substring = foodItem.substring(i, j);
                     int len = matchesSubstring(substring, entry.getKey())? substring.length() : 0;
-                    if (len > maxLength && (double)len/entry.getKey().length() >= 0.65){
+                    if (len > maxLength && (double)len/entry.getKey().length() >= 0.5){
                         matchFound = true;
                         maxLength = len;
                         bestMatchItem = entry.getKey();
@@ -257,6 +257,7 @@ public class ListsModel {
 
 
     public int getExpiryDate(String foodItem){
+        foodItem = foodItem.toLowerCase();
         if (aliasExists(foodItem)){
             String nameInItemDir = aliasList.getString(foodItem, null);
             return commonItemList.getInt(nameInItemDir, 0);
