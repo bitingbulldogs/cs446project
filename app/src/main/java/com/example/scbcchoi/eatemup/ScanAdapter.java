@@ -5,10 +5,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.List;
@@ -22,7 +25,7 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ScanVH>  {
 
     public static class ScanVH extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        private TextView itemName, itemCat, expireDate;
+        private EditText itemName, itemCat, expireDate;
         private CheckBox checkbox;
         public ScanVH(@NonNull View v) {
             super(v);
@@ -30,6 +33,8 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ScanVH>  {
             itemCat = v.findViewById(R.id.rv_scancat);
             expireDate = v.findViewById(R.id.rv_scandate);
             checkbox = v.findViewById(R.id.scan_checkbox);
+
+
         }
     }
 
@@ -52,9 +57,25 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ScanVH>  {
         ScanItem item = scanItemList.get(i);
         scanVH.itemName.setText(item.getName());
         scanVH.itemCat.setText(item.getCategory());
-        scanVH.expireDate.setText(item.getExpireDate() + " days");
+        scanVH.expireDate.setText(Integer.toString(item.getExpireDate()));
         scanVH.checkbox.setChecked(CameraActivity.checkBoxes[i]);
         scanVH.checkbox.setText(Integer.toString(i));
-        Drawable transparentDrawable = new ColorDrawable(Color.TRANSPARENT);
+
+
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(@NonNull ScanVH scanVH){
+        String name = scanVH.itemName.getText().toString();
+        String cat = scanVH.itemCat.getText().toString();
+        int date = Integer.valueOf(scanVH.expireDate.getText().toString());
+        ScanItem scani = scanItemList.get(scanVH.getAdapterPosition());
+        scani.setName(name);
+        scani.setCat(cat);
+        scani.setDate(date);
+    }
+
+    public List<ScanItem> getScanItemList(){
+        return scanItemList;
     }
 }

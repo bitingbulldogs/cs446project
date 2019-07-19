@@ -18,5 +18,9 @@ public class ScanItem {
     public int getExpireDate(){
         return expireDate;
     }
-
+    public void setName(String s){
+        name = s;
+    }
+    public void setCat(String s){category = s;}
+    public void setDate(int d){expireDate = d;}
 }
