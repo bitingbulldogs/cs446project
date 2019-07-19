@@ -98,11 +98,15 @@ public class ListsModel {
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             for (int i = 0; i<jsonObject.names().length(); i++){
-                addToList("common", jsonObject.names().getString(i), Integer.parseInt(jsonObject.names().getString(i)));
+                String key = jsonObject.names().getString(i);
+                int val = Integer.parseInt(jsonObject.get(key).toString());
+                addToList("common", key, val);
             }
         } catch (Exception e){
             Log.e("ERROR", "JSON Object init exception");
         }
+
+        printList("common");
 
     }
 
