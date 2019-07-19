@@ -31,6 +31,27 @@ public class CameraActivity extends AppCompatActivity {
     private boolean allischecked = false;
     private ScanAdapter scanA;
 
+    public boolean similar(String s1, String s2) {
+        String filterds1 = s1.replaceAll("[^a-zA-Z]", "");
+        String filterds2 = s2.replaceAll("[^a-zA-Z]", "");
+        if(filterds1.equals(filterds2)) return true;
+        else {
+            boolean ret = false;
+
+            int count = 0;
+            int minSize = Math.min(filterds1.length(), filterds2.length());
+            System.out.println("minSize = " + minSize);
+            for(int i = 0; i < minSize; ++i){
+                if(filterds1.substring(i,i+1).equals(filterds2.substring(i,i+1))) count++;
+            }
+            double rate = count / Math.min(filterds1.length(), filterds1.length());
+            if(rate > 0.8) ret = true;
+            System.out.println(filterds1 +", and " + filterds2+ " are " + rate);
+
+            return ret;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +62,28 @@ public class CameraActivity extends AppCompatActivity {
         Intent intent = getIntent();
         ArrayList<String> result = intent.getStringArrayListExtra("result");
         if(!(result == null)) {
+            //filter repeated results
+            int maxLength = 0;
+            String bestMatchItem = "";
+            int bestMatchItemExpiry = -1;
+            Boolean matchFound = false;
+            int resultSize = result.size();
+            for(int k = 0; k < resultSize; ++k){
+                for(int j = k+1; j < resultSize; ++j){
+                    System.out.println("similar start for " + result.get(k) + ", and " + result.get(j));
+                    boolean theyareSimilar = similar(result.get(k), result.get(j));
+                    System.out.println("they are similar? " + theyareSimilar);
+                    System.out.println("j = " + j + ", resultSize = " + resultSize);
+                    if(theyareSimilar) {
+                        result.remove(j);
+                        j--;
+                        resultSize--;
+                        //System.out.println("j = " + j + ", resultSize = " + resultSize);
+                    }
+                }
+            }
+
+
             resultSize = result.size();
             checkBoxes = new boolean[resultSize];
             for(int j = 0; j < checkBoxes.length; ++j) checkBoxes[j] = false;
