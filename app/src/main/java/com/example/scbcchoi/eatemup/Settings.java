@@ -92,7 +92,7 @@ public class Settings extends AppCompatActivity {
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_FIFTEEN_MINUTES ,
+                AlarmManager.INTERVAL_DAY ,
                 alarmIntent);
     }
 

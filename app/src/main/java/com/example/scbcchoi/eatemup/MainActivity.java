@@ -215,10 +215,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 34de5343636fdbff8c288eacbc9d758d3fc16ef6
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
