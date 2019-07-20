@@ -62,9 +62,14 @@ public class ShoppingActivity extends AppCompatActivity {
         shoppinglist = new ArrayList<>();
         ListsModel lm = new ListsModel(this);
         List<String> shopls = lm.getShoppingList();
-        checkBoxes = new boolean[shopls.size()];
+
+        boolean tmpCheckboxs[] = new boolean[shopls.size()];
+        if(checkBoxes != null){
+            for(int i = 0; i < checkBoxes.length; ++i) tmpCheckboxs[i] = checkBoxes[i];
+        }
+        checkBoxes = tmpCheckboxs;
+
         for(int i = 0; i < shopls.size(); ++i){
-            checkBoxes[i] = false;
             shoppinglist.add(new ShoppingItem(shopls.get(i)));
         }
         ShoppingAdapter shopA = new ShoppingAdapter(shoppinglist);
