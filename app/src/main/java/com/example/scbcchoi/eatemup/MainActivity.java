@@ -31,6 +31,7 @@ import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -240,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void cameraClick(View view) {
-        Intent intent = new Intent(this, OcrCaptureActivity.class);
+        Intent intent = new Intent(this, CameraActivity.class);
         startActivity(intent);
         //finish();
     }
@@ -382,13 +383,19 @@ public class MainActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
+    public void pickInventoryDate(View view){
+        datePickerDialog = new Dialog(view.getContext());
+        datePickerDialog.setContentView(R.layout.dialog_date_picker);
+        //Button select = datePickerDialog.
+        datePickerDialog.show();
+    }
+
 
     public void dateCancel(View view){
         datePickerDialog.dismiss();
     }
 
-    public void dateSelect(View view){
-        EditText editText = addDialog.findViewById(R.id.dialog_date_add);
+    private void dateSelectHelper(View view, EditText editText){
         DatePicker datePicker = datePickerDialog.findViewById(R.id.date_picker);
         Calendar tempCalendar = Calendar.getInstance();
         long millis1 = tempCalendar.getTimeInMillis();
@@ -404,5 +411,17 @@ public class MainActivity extends AppCompatActivity {
         editText.setText((String.valueOf((millis2 - millis1)/(1000*3600*24))));
         datePickerDialog.dismiss();
     }
+
+    public void dateSelect(View view){
+        EditText editText = addDialog.findViewById(R.id.dialog_date_add);
+        dateSelectHelper(view, editText);
+    }
+
+    public void inventoryDateSelect(View view){
+        EditText editText = addDialog.findViewById(R.id.dialog_date);
+        dateSelectHelper(view, editText);
+    }
+
+
 
 }

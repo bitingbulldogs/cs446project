@@ -121,6 +121,7 @@ public class CameraActivity extends AppCompatActivity {
 //            b.setVisibility(View.GONE);
         }
 
+
         else {
             Intent ocrIntent = new Intent(this, OcrCaptureActivity.class);
             startActivity(ocrIntent);
@@ -128,11 +129,13 @@ public class CameraActivity extends AppCompatActivity {
         }
     }
 
-//    public void scan(View v){
-//        Intent intent = new Intent(this, OcrCaptureActivity.class);
-//        startActivity(intent);
-//        finish();
-//    }
+    /*
+    public void scan(View v){
+        Intent intent = new Intent(this, OcrCaptureActivity.class);
+        startActivity(intent);
+        finish();
+    }
+    */
 
     public void selectAllScans(View v){
         allischecked = !allischecked;

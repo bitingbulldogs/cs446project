@@ -93,6 +93,15 @@
             android:hint="@string/days_left"
             android:inputType="number"
             android:textSize="16sp" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_gravity="center_vertical"
+            android:onClick="pickDate"
+            android:background="@color/colorWhite"
+            android:src="@drawable/ic_date_range" />
+
     </LinearLayout>
 
     <RelativeLayout
