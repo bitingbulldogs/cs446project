@@ -19,8 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:text="Item details"
-            android:textAllCaps="true"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/orange"
             android:textSize="24sp"
             android:layout_alignParentStart="true"/>
 

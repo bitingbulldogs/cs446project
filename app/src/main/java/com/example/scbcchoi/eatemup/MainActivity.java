@@ -201,8 +201,8 @@ public class MainActivity extends AppCompatActivity {
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             mode.getMenuInflater().inflate(R.menu.multi,menu);
             //mode.setTitle();
-            navigationView.setVisibility(View.GONE);
-            toolbar.setVisibility(View.GONE);
+            //navigationView.setVisibility(View.GONE);
+            //toolbar.setVisibility(View.GONE);
             return true;
         }
 
@@ -210,12 +210,15 @@ public class MainActivity extends AppCompatActivity {
         public void onDestroyActionMode(ActionMode mode) {
             actionMode = null;
             adapter.clearSelection();
-            navigationView.setVisibility(View.VISIBLE);
-            toolbar.setVisibility(View.VISIBLE);
+            //navigationView.setVisibility(View.VISIBLE);
+            //toolbar.setVisibility(View.VISIBLE);
         }
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 34de5343636fdbff8c288eacbc9d758d3fc16ef6
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -241,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void cameraClick(View view) {
-        Intent intent = new Intent(this, CameraActivity.class);
+        Intent intent = new Intent(this, OcrCaptureActivity.class);
         startActivity(intent);
         //finish();
     }

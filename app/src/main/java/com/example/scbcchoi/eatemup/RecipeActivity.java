@@ -94,7 +94,8 @@ public class RecipeActivity extends AppCompatActivity {
                     for (int j = 0; temp < num; j++) {
                         if(((JSONObject)recipeArray.get(j)).get("thumbnail").equals("") ||
                                 (((String)((JSONObject)recipeArray.get(j)).get("href")).contains("kraftfoods") ||
-                                        ((String)((JSONObject)recipeArray.get(j)).get("href")).contains("eatingwell"))) {
+                                        ((String)((JSONObject)recipeArray.get(j)).get("href")).contains("eatingwell") ||
+                                        ((String)((JSONObject)recipeArray.get(j)).get("href")).contains("cookeatshare"))) {
                             continue;
                         }
                         allRecipes.put(recipeArray.get(j));
@@ -108,60 +109,72 @@ public class RecipeActivity extends AppCompatActivity {
     }
 
     public void getItems() {
-//        ListsModel lm = new ListsModel(this);
-//        List<InventoryListItem> invList = lm.getInventoryList();
-//        Map<String, String> alias = lm.getAliasList();
-//        int days = 0;
-//        if(Integer.parseInt(invList.get(0).getDate()) > 5) {
-//            days = Integer.parseInt(invList.get(0).getDate());
-//        }
-//        int num = 0;
-//        if(days > 5) {
-//            num = Math.min(invList.size(), 5);
-//        }
-//        else {
-//            for(int i=0; i<invList.size(); i++) {
-//                if(Integer.parseInt(invList.get(i).getDate()) <= 5) {
-//                    num++;
-//                }
-//            }
-//        }
-//        for(int i=0; i<num; i++) {
-//            String name = invList.get(i).getName();
-//            int date = Integer.parseInt(invList.get(i).getDate());
-//            String item = "";
-//            if(days > 5 && date == days) {
-//                if(lm.aliasExists(name)) {
-//                    alias.get(name);
-//                }
-//                else {
-//                    item = name;
-//                }
-//                immediateExpire.add(item);
-//            }
-//            else if(days <= 5 && date <=5) {
-//                if(lm.aliasExists(name)) {
-//                    alias.get(name);
-//                }
-//                else {
-//                    item = name;
-//                }
-//                immediateExpire.add(item);
-//            }
-//            else {
-//                break;
-//            }
-            ListsModel lm = new ListsModel(this);
-            List<InventoryListItem> invList = lm.getInventoryList();
-            int days = Integer.parseInt(invList.get(0).getDate());
-            int num = Math.min(invList.size(), 5);
-            for(int i=0; i<num; i++) {
-            if(Integer.parseInt(invList.get(i).getDate()) <= days) {
-                immediateExpire.add(invList.get(i).getName());
+        ListsModel lm = new ListsModel(this);
+        List<InventoryListItem> invList = lm.getInventoryList();
+        Map<String, String> alias = lm.getAliasList();
+        int days = 0;
+        if(Integer.parseInt(invList.get(0).getDate()) > 5) {
+            days = Integer.parseInt(invList.get(0).getDate());
+        }
+        int num = 0;
+        if(days > 5) {
+            num = Math.min(invList.size(), 5);
+        }
+        else {
+            for(int i=0; i<invList.size(); i++) {
+                if(Integer.parseInt(invList.get(i).getDate()) <= 5) {
+                    num++;
+                }
+            }
+        }
+        for(int i=0; i<num; i++) {
+            String name = invList.get(i).getName();
+            int date = Integer.parseInt(invList.get(i).getDate());
+            String item = "";
+            if(days > 5 && date == days) {
+                if(lm.aliasExists(name)) {
+                    item = alias.get(name);
+                }
+                else {
+                    item = name;
+                }
+                immediateExpire.add(item);
+            }
+            else if(days <= 5 && date <=5) {
+                if(lm.aliasExists(name)) {
+                    item = alias.get(name);
+                }
+                else {
+                    item = name;
+                }
+                immediateExpire.add(item);
             }
             else {
                 break;
             }
+//            ListsModel lm = new ListsModel(this);
+//            List<InventoryListItem> invList = lm.getInventoryList();
+//            Map<String, String> alias = lm.getAliasList();
+//            int days = Integer.parseInt(invList.get(0).getDate());
+//            int num = Math.min(invList.size(), 5);
+//            for(int i=0; i<num; i++) {
+//                String name = invList.get(i).getName();
+//                int date = Integer.parseInt(invList.get(i).getDate());
+//                String item = "";
+//                if(date <= days) {
+////                    immediateExpire.add(invList.get(i).getName());
+//                    if(lm.aliasExists(name)) {
+//                        item = alias.get(name);
+//                    }
+//                    else {
+//                        item = name;
+//                    }
+//                    immediateExpire.add(item);
+//
+//                }
+//                else {
+//                    break;
+//            }
         }
 
 
