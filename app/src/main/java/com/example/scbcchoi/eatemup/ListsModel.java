@@ -212,10 +212,6 @@ public class ListsModel {
                     String substring = foodItem.substring(i, j);
                     int len = matchesSubstring(substring, entry.getKey())? substring.length() : 0;
                     if (len > maxLength && (double)len/entry.getKey().length() >= 0.7){
-                        System.out.println(len);
-                        System.out.println(entry.getKey().length());
-                        System.out.println(entry.getKey());
-                        System.out.println((double)len/entry.getKey().length());
                         matchFound = true;
                         maxLength = len;
                         bestMatchItem = entry.getKey();
@@ -228,8 +224,6 @@ public class ListsModel {
         // if foodItem matches an item in items list, add the mapping to alias list
         if (matchFound) {
             addToList("alias", foodItem, bestMatchItem);
-            System.out.println("yooo");
-            System.out.println(maxLength);
             return new Pair(bestMatchItemExpiry, bestMatchItem);
         }
 
