@@ -123,5 +123,7 @@ public class ShoppingActivity extends AppCompatActivity {
     public void clearHistory(View v){
         ListsModel lm = new ListsModel(this);
         lm.clearList("history");
+        Settings.setStr("todaysDate", "", this);
+        lm.addToList("history", "apple", 3);
     }
 }

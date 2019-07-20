@@ -116,8 +116,6 @@ public class CameraActivity extends AppCompatActivity {
             scanA = new ScanAdapter(scanlist);
             recyclerView.setAdapter(scanA);
 
-
-
             //hide the scan button
             Button b = findViewById(R.id.button);
             b.setVisibility(View.GONE);

@@ -32,6 +32,8 @@ public class BackgroundService extends IntentService {
         String storageValue = Settings.getStr(key, c);
         String todaysDate = todaysDate();
 
+        System.out.println("today's date = " + todaysDate + ", storage value = " + storageValue + "and they are equal?" + storageValue.equals(todaysDate));
+
         //if we already calculated this
         if(storageValue.equals(todaysDate)) return true;
         else {
@@ -42,6 +44,8 @@ public class BackgroundService extends IntentService {
 
     public static void oneDayHasPassed(Context c){
         somethingExpired = false;
+
+        System.out.println("One day has passed!");
 
         //if we already calculated this, then we simply return
         if(todayHasCalculated(c)) return;
@@ -54,11 +58,12 @@ public class BackgroundService extends IntentService {
         Map<String, Integer> historyMap = lm.getExpiredHistoryList();
         for(int i = 0; i < inventorys.size(); ++i){
             int expiryDate = inventorys.get(i).getDateInt() - 1;
-            if(expiryDate == 0) continue;
-
             String key = inventorys.get(i).getName();
+            if(expiryDate == -1) {
+                lm.addToList("inventory", key, expiryDate + 1);
+                continue;
+            }
             lm.addToList("inventory", key, expiryDate);
-
             //if it is expired or close to expiry, we add 1 for its expiry history.
             //maxExpiry is the max days to expiry we allow
             int maxExpiry = 0;
