@@ -49,7 +49,7 @@ public class Settings extends AppCompatActivity {
 
     public static void setStr(String key, String val, Context context){
         settingsStringLocalStorage = context.getSharedPreferences("settingsStringLocalStorage", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = settingsLocalStorage.edit();
+        SharedPreferences.Editor editor = settingsStringLocalStorage.edit();
         editor.putString(key, val)
                 .apply();
     }
@@ -72,6 +72,8 @@ public class Settings extends AppCompatActivity {
         int minute = getInt("minute", context);
         if(hourOfDay < 0) hourOfDay = defaulthour; //by default we set it to 17:30
         if(minute < 0) minute = defaultmin;
+
+        System.out.println("hour is " + hourOfDay + ", minute is " + minute);
 
         //Set alarm for each day.
         Calendar calendar = Calendar.getInstance();
