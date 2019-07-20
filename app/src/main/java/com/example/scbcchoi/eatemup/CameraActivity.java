@@ -157,7 +157,6 @@ public class CameraActivity extends AppCompatActivity {
                 lm.addToList("alias", key, cat);
                 lm.addToList("common", cat, val);
             }
-
         }
         Intent intent = new Intent(this, MainActivity.class);
         this.startActivity(intent);

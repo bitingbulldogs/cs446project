@@ -21,28 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
-/*
-initial app load
-
-items = {
-  "apple": 10,
-  "orange": 7,
-  "egg": 14
-}
-
-user scans receipt
-1.apple123
-- does not exist in alias, find best match in items => "apple"
-- add alias "apple123" : "apple"
-
-2.apple123
-- exists in alias, find matching item => "apple"
-- find expiry date for apple => items["apple"]
-
-3.egg
-- does not exist in alias, exists in items
-- return expiry date
- */
 
 public class ListsModel {
 

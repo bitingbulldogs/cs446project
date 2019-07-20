@@ -274,7 +274,8 @@ public class MainActivity extends AppCompatActivity {
 
         //store in shared preferences
         ListsModel lm = new ListsModel(this);
-        lm.addToList("inventory", name.toLowerCase(), date);
+        lm.addToList("inventory", name, date);
+        lm.addToList("common", name, date);
 
         int pos = insertItem(item);
         recyclerView.smoothScrollToPosition(pos);
