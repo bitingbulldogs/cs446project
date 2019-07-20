@@ -156,10 +156,13 @@ public class CameraActivity extends AppCompatActivity {
                 lm.addToList("alias", key, cat);
                 lm.addToList("common", cat, val);
             }
-            lm.printList("inventory");
-            lm.printList("alias");
-            lm.printList("common");
         }
+        System.out.println("This is invetory list");
+        lm.printList("inventory");
+        System.out.println("This is alias list");
+        lm.printList("alias");
+        System.out.println("This is common list");
+        lm.printList("common");
         Intent intent = new Intent(this, MainActivity.class);
         this.startActivity(intent);
         finish();

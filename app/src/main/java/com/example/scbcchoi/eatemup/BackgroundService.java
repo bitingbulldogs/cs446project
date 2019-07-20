@@ -89,20 +89,27 @@ public class BackgroundService extends IntentService {
     //It's the background logic executing once a day
     @Override
     protected void onHandleIntent(Intent intent) {
+        System.out.println("Background Handeler called!");
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "eatemup")
+                .setSmallIcon(R.drawable.camera_icon)
+                .setContentTitle("Eat Em Up")
+                .setContentText("You got food expirying, eat em up!")
+                .setPriority(NotificationCompat.PRIORITY_MAX);
+
+        //NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+        Intent mainActivity = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, mainActivity, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pendingIntent);
+        notificationManager.notify(notificationID, builder.build());
+
         //pretty straightforward
         oneDayHasPassed(this);
 
-        if(somethingExpired){
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "eatemup")
-                    .setSmallIcon(R.drawable.camera_icon)
-                    .setContentTitle("Eat Em Up")
-                    .setContentText("You got food expirying, eat em up!")
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-            Intent mainActivity = new Intent(this, MainActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, mainActivity, PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.setContentIntent(pendingIntent);
-            notificationManager.notify(notificationID, builder.build());
+        if(true){
         }
     }
 }

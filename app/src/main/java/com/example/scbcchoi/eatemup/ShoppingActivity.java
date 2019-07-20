@@ -110,7 +110,18 @@ public class ShoppingActivity extends AppCompatActivity {
         }
     }
 
+    //add everything to inventory list
     public void gotoMain(View v){
+        ListsModel lm = new ListsModel(this);
+        for(int i = 0; i < checkBoxes.length; ++i){
+            if(checkBoxes[i]) {
+                String name = shoppinglist.get(i).getName();
+                int expiryDate = lm.getExpiryDate(name).first;
+                lm.addToList("inventory", name, expiryDate);
+                lm.removeFromList("shopping", name);
+            }
+        }
+
         Intent intent = new Intent(this, MainActivity.class);
         this.startActivity(intent);
         finish();
