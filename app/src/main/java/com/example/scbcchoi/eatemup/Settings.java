@@ -110,7 +110,7 @@ public class Settings extends AppCompatActivity {
         if(!hour.equals("") && !minute.equals("") && dhour >= 0 && dhour < 24 && dmin >= 0 && dmin < 60){
             setInt("hour", dhour, this);
             setInt("minute", dmin, this);
-            Settings.setStr("todaysDate", "", this);
+            //Settings.setStr("todaysDate", "", this);
             System.out.println("Background Init!");
             backgroundInit(this);
 
@@ -123,6 +123,13 @@ public class Settings extends AppCompatActivity {
         else{
             Toast.makeText(this, "invalid hour or minutes!", Toast.LENGTH_SHORT).show();
         }
+    }
 
+    public void clearSettings(View v){
+        ListsModel lm = new ListsModel(this);
+        lm.clearList("history");
+        lm.clearList("inventory");
+        lm.clearList("shopping");
+        //Settings.setStr("todaysDate", "", this);
     }
 }
