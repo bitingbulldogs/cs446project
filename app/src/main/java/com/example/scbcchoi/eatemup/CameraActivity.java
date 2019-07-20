@@ -117,16 +117,16 @@ public class CameraActivity extends AppCompatActivity {
             recyclerView.setAdapter(scanA);
 
             //hide the scan button
-            Button b = findViewById(R.id.button);
-            b.setVisibility(View.GONE);
+//            Button b = findViewById(R.id.button);
+//            b.setVisibility(View.GONE);
         }
     }
 
-    public void scan(View v){
-        Intent intent = new Intent(this, OcrCaptureActivity.class);
-        startActivity(intent);
-        finish();
-    }
+//    public void scan(View v){
+//        Intent intent = new Intent(this, OcrCaptureActivity.class);
+//        startActivity(intent);
+//        finish();
+//    }
 
     public void selectAllScans(View v){
         allischecked = !allischecked;
