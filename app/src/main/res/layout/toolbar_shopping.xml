@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:text="@string/shopping"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/orange"
             android:textSize="25dp"
             android:textStyle="bold" />
 

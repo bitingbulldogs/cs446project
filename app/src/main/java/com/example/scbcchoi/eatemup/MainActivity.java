@@ -174,8 +174,8 @@ public class MainActivity extends AppCompatActivity {
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             mode.getMenuInflater().inflate(R.menu.multi,menu);
             //mode.setTitle();
-            navigationView.setVisibility(View.GONE);
-            toolbar.setVisibility(View.GONE);
+            //navigationView.setVisibility(View.GONE);
+            //toolbar.setVisibility(View.GONE);
             return true;
         }
 
@@ -183,8 +183,8 @@ public class MainActivity extends AppCompatActivity {
         public void onDestroyActionMode(ActionMode mode) {
             actionMode = null;
             adapter.clearSelection();
-            navigationView.setVisibility(View.VISIBLE);
-            toolbar.setVisibility(View.VISIBLE);
+            //navigationView.setVisibility(View.VISIBLE);
+            //toolbar.setVisibility(View.VISIBLE);
         }
     }
 
