@@ -301,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
         lm.removeFromList("inventory", itemToDelete);
         InventoryList.remove(adapter.getPos());//index of item changed
         int pos = insertItem(item);
-        lm.addToList("inventory", item.getName().toLowerCase(), item.getDateInt());
+        lm.addToList("inventory", item.getName(), item.getDateInt());
         recyclerView.smoothScrollToPosition(pos);
         adapter.notifyDataSetChanged();
 

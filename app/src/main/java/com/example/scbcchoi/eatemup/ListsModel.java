@@ -81,7 +81,7 @@ public class ListsModel {
             for (int i = 0; i<jsonObject.names().length(); i++){
                 String key = jsonObject.names().getString(i);
                 int val = Integer.parseInt(jsonObject.get(key).toString());
-                addToList("common", key, val);
+                addToList("common", key.toLowerCase(), val);
             }
         } catch (Exception e){
             Log.e("ERROR", "JSON Object init exception");
@@ -241,7 +241,7 @@ public class ListsModel {
 
         // if foodItem matches an item in items list, add the mapping to alias list
         if (matchFound) {
-            addToList("alias", foodItem, bestMatchItem);
+            addToList("alias", foodItem.toLowerCase(), bestMatchItem);
             return new Pair(bestMatchItemExpiry, bestMatchItem);
         }
 

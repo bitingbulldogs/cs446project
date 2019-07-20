@@ -153,8 +153,8 @@ public class CameraActivity extends AppCompatActivity {
                 int val = scanlist.get(i).getExpireDate(); //date
                 String cat = scanlist.get(i).getCategory();
                 lm.addToList("inventory", key, val);
-                lm.addToList("alias", key, cat);
-                lm.addToList("common", cat, val);
+                lm.addToList("alias", key.toLowerCase(), cat.toLowerCase());
+                lm.addToList("common", cat.toLowerCase(), val);
             }
             lm.printList("inventory");
             lm.printList("alias");
