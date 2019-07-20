@@ -16,7 +16,9 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -95,6 +97,8 @@ public class ListsModel {
             InventoryListItem item = new InventoryListItem(entry.getKey(), Integer.parseInt(entry.getValue().toString()));
             list.add(item);
         }
+
+        Collections.sort(list);
 
         return list;
     }
@@ -245,11 +249,11 @@ public class ListsModel {
     }
 
     public boolean aliasExists(String s){
-        return aliasList.contains(s);
+        return aliasList.contains(s.toLowerCase());
     }
 
     public boolean itemExists(String s){
-        return commonItemList.contains(s);
+        return commonItemList.contains(s.toLowerCase());
     }
 
     public String getAlias(String alias){
