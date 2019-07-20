@@ -215,10 +215,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 34de5343636fdbff8c288eacbc9d758d3fc16ef6
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -230,8 +226,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showAbout() {
-        Toast.makeText(this, "About", Toast.LENGTH_SHORT).show();
-
+        Intent intent = new Intent(this, AboutActivity.class);
+        startActivity(intent);
     }
 
     public void showRecipe() {
@@ -397,9 +393,6 @@ public class MainActivity extends AppCompatActivity {
         Calendar tempCalendar = Calendar.getInstance();
         long millis1 = tempCalendar.getTimeInMillis();
 
-        int tempDay = datePicker.getDayOfMonth();
-        int tempMonth = datePicker.getMonth();
-        int tempYear =  datePicker.getYear();
         tempCalendar.set(datePicker.getYear(),datePicker.getMonth(),datePicker.getDayOfMonth(),0,0);
 
         long millis2 = tempCalendar.getTimeInMillis();
