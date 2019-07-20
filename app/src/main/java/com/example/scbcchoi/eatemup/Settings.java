@@ -26,7 +26,6 @@ public class Settings extends AppCompatActivity {
     private static int defaultmin = 30;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

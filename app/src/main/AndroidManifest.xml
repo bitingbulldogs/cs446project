@@ -24,6 +24,9 @@
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="ocr" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <receiver android:name=".BootRec"
             android:enabled="false">
@@ -55,6 +58,8 @@
         <activity android:name="com.example.scbcchoi.eatemup.Settings">
         </activity>
         <activity android:name="com.example.scbcchoi.eatemup.RecipeActivity">
+        </activity>
+        <activity android:name="com.example.scbcchoi.eatemup.AboutActivity">
         </activity>
 
 

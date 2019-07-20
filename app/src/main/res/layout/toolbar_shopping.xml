@@ -16,8 +16,8 @@
             android:gravity="center_vertical"
             android:text="@string/shopping"
             android:textColor="@color/orange"
-            android:textSize="25dp"
-            android:textStyle="bold" />
+            android:fontFamily="@font/righteous"
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="fill_parent"
