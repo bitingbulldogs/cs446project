@@ -94,7 +94,7 @@ public class BackgroundService extends IntentService {
         //pretty straightforward
         oneDayHasPassed(this);
 
-        if(true){
+        if(somethingExpired){
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, MainActivity.channelIDStr)
                     .setSmallIcon(R.drawable.camera_icon)
                     .setContentTitle("Eat Em Up")
