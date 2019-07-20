@@ -132,6 +132,17 @@ public class ListsModel {
         return newMap;
     }
 
+    public Map<String, String> getAliasList(){
+        Map<String, ?> map = aliasList.getAll();
+        Map<String, String> newMap = new HashMap<>();
+
+        for (Map.Entry<String, ?> entry : map.entrySet()) {
+            newMap.put(entry.getKey() ,entry.getValue().toString());
+        }
+
+        return newMap;
+    }
+
     public List<String> getShoppingList(){
         List<String> list = new ArrayList<>();
         Map<String, ?> map = shoppingList.getAll();
