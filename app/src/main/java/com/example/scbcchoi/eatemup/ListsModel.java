@@ -258,4 +258,7 @@ public class ListsModel {
         return commonItemList.contains(s);
     }
 
+    public String getAlias(String alias){
+        return aliasList.getString(alias, null);
+    }
 }
