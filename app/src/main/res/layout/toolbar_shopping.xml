@@ -16,8 +16,8 @@
             android:gravity="center_vertical"
             android:text="@string/shopping"
             android:textColor="@color/orange"
-            android:textSize="25dp"
-            android:textStyle="bold" />
+            android:fontFamily="@font/righteous"
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
-                android:text="Done"
+                android:text="I bought These"
                 android:onClick="gotoMain"/>
 
         </LinearLayout>
