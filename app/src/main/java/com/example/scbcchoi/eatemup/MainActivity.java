@@ -188,13 +188,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    public void scan(View v){
-        Intent intent = new Intent(this, OcrCaptureActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -220,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void cameraClick(View view) {
-        Intent intent = new Intent(this, CameraActivity.class);
+        Intent intent = new Intent(this, OcrCaptureActivity.class);
         startActivity(intent);
         //finish();
     }
