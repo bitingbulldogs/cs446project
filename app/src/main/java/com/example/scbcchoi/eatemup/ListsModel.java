@@ -81,7 +81,7 @@ public class ListsModel {
             for (int i = 0; i<jsonObject.names().length(); i++){
                 String key = jsonObject.names().getString(i);
                 int val = Integer.parseInt(jsonObject.get(key).toString());
-                addToList("common", key, val);
+                addToList("common", key.toLowerCase(), val);
             }
         } catch (Exception e){
             Log.e("ERROR", "JSON Object init exception");
@@ -215,6 +215,7 @@ public class ListsModel {
     public Pair<Integer, String> closestItemMatch(String foodItem){
         // if found, return expiry date, map alias with found item and add to alias list
         // else return -1 to indicate no match is found
+        foodItem = foodItem.toLowerCase();
         int maxLength = 0;
         String bestMatchItem = "";
         int bestMatchItemExpiry = -1;
@@ -226,6 +227,8 @@ public class ListsModel {
                 for (int j=i+1; j<=foodItem.length(); j++){
                     String substring = foodItem.substring(i, j);
                     int len = matchesSubstring(substring, entry.getKey())? substring.length() : 0;
+
+                    // ratio is set to 0.7 ie. "water" would not match "watermelon" but "watermel" would
                     if (len > maxLength && (double)len/entry.getKey().length() >= 0.7){
                         matchFound = true;
                         maxLength = len;
@@ -238,7 +241,7 @@ public class ListsModel {
 
         // if foodItem matches an item in items list, add the mapping to alias list
         if (matchFound) {
-            addToList("alias", foodItem, bestMatchItem);
+            addToList("alias", foodItem.toLowerCase(), bestMatchItem);
             return new Pair(bestMatchItemExpiry, bestMatchItem);
         }
 

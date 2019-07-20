@@ -82,7 +82,9 @@ public class Settings extends AppCompatActivity {
         calendar.set(Calendar.MINUTE, minute);
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY , alarmIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                30000,//AlarmManager.INTERVAL_DAY ,
+                alarmIntent);
     }
 
     public void doneSetting(View v){
@@ -100,6 +102,7 @@ public class Settings extends AppCompatActivity {
             setInt("hour", dhour, this);
             setInt("minute", dmin, this);
             Settings.setStr("todaysDate", "", this);
+            System.out.println("Background Init!");
             backgroundInit(this);
 
             //everything is fine. we go to main

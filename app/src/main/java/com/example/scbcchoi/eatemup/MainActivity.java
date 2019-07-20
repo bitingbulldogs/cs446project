@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //init back ground service
-        Settings.backgroundInit(this);
+        //Settings.backgroundInit(this);
 
         //init Lists Model
         ListsModel lm = new ListsModel(this);
@@ -301,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
         lm.removeFromList("inventory", itemToDelete);
         InventoryList.remove(adapter.getPos());//index of item changed
         int pos = insertItem(item);
-        lm.addToList("inventory", item.getName().toLowerCase(), item.getDateInt());
+        lm.addToList("inventory", item.getName(), item.getDateInt());
         recyclerView.smoothScrollToPosition(pos);
         adapter.notifyDataSetChanged();
 
@@ -344,9 +344,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void clearAll(View v){
         ListsModel lm = new ListsModel(this);
-        lm.clearList("alias");
+        //lm.clearList("alias");
         lm.clearList("inventory");
-        lm.clearList("shopping");
+        //lm.clearList("shopping");
         InventoryList = lm.getInventoryList();
         adapter = new InventoryAdapter(InventoryList);
         initAdapter();
