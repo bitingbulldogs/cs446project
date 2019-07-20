@@ -91,11 +91,6 @@ public class MainActivity extends AppCompatActivity {
                         showSettings();
                         drawerLayout.closeDrawers();
                         return true;
-                    case R.id.history:
-                        menuItem.setChecked(true);
-                        showExpiryHistory();
-                        drawerLayout.closeDrawers();
-                        return true;
                 }
                 return false;
             }
@@ -224,10 +219,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void showExpiryHistory() {
-        Toast.makeText(this, "History", Toast.LENGTH_SHORT).show();
-    }
-
     public void cameraClick(View view) {
         Intent intent = new Intent(this, CameraActivity.class);
         startActivity(intent);
@@ -310,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
         lm.removeFromList("inventory", itemToDelete);
         InventoryList.remove(adapter.getPos());//index of item changed
         int pos = insertItem(item);
-        lm.addToList("inventory", item.getName().toLowerCase(), item.getDateInt());
+        lm.addToList("inventory", item.getName(), item.getDateInt());
         recyclerView.smoothScrollToPosition(pos);
         adapter.notifyDataSetChanged();
 

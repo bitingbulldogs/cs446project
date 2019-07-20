@@ -80,10 +80,10 @@ public class RecipeAdapter extends BaseAdapter {
             ingrd.setText(ing);
 
             String url = (String) obj.get("thumbnail");
-            if(!url.equals("")) {
-                Bitmap bitmap = new getImage().execute(url).get();
-                thumbnail.setImageBitmap(bitmap);
-            }
+//            if(!url.equals("")) {
+            Bitmap bitmap = new getImage().execute(url).get();
+            thumbnail.setImageBitmap(bitmap);
+//            }
 
             href = (String) obj.get("href");
 

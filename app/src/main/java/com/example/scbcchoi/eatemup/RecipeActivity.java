@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class RecipeActivity extends AppCompatActivity {
@@ -65,8 +66,15 @@ public class RecipeActivity extends AppCompatActivity {
             JSONArray recipeArray = (JSONArray) JO.get("results");
 
             int num = Math.min(7, recipeArray.length());
-            for (int j = 0; j < num; j++) {
+            int temp = 0;
+            for (int j = 0; temp < num; j++) {
+                if(((JSONObject)recipeArray.get(j)).get("thumbnail").equals("") ||
+                        (((String)((JSONObject)recipeArray.get(j)).get("href")).contains("kraftfoods") ||
+                        ((String)((JSONObject)recipeArray.get(j)).get("href")).contains("eatingwell"))) {
+                    continue;
+                }
                 allRecipes.put(recipeArray.get(j));
+                temp++;
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -82,8 +90,15 @@ public class RecipeActivity extends AppCompatActivity {
                     JSONArray recipeArray = (JSONArray) JO.get("results");
 
                     int num = Math.min(7, recipeArray.length());
-                    for (int j = 0; j < num; j++) {
+                    int temp = 0;
+                    for (int j = 0; temp < num; j++) {
+                        if(((JSONObject)recipeArray.get(j)).get("thumbnail").equals("") ||
+                                (((String)((JSONObject)recipeArray.get(j)).get("href")).contains("kraftfoods") ||
+                                        ((String)((JSONObject)recipeArray.get(j)).get("href")).contains("eatingwell"))) {
+                            continue;
+                        }
                         allRecipes.put(recipeArray.get(j));
+                        temp++;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -93,11 +108,54 @@ public class RecipeActivity extends AppCompatActivity {
     }
 
     public void getItems() {
-        ListsModel lm = new ListsModel(this);
-        List<InventoryListItem> invList = lm.getInventoryList();
-        int days = Integer.parseInt(invList.get(0).getDate());
-        int num = Math.min(invList.size(), 5);
-        for(int i=0; i<num; i++) {
+//        ListsModel lm = new ListsModel(this);
+//        List<InventoryListItem> invList = lm.getInventoryList();
+//        Map<String, String> alias = lm.getAliasList();
+//        int days = 0;
+//        if(Integer.parseInt(invList.get(0).getDate()) > 5) {
+//            days = Integer.parseInt(invList.get(0).getDate());
+//        }
+//        int num = 0;
+//        if(days > 5) {
+//            num = Math.min(invList.size(), 5);
+//        }
+//        else {
+//            for(int i=0; i<invList.size(); i++) {
+//                if(Integer.parseInt(invList.get(i).getDate()) <= 5) {
+//                    num++;
+//                }
+//            }
+//        }
+//        for(int i=0; i<num; i++) {
+//            String name = invList.get(i).getName();
+//            int date = Integer.parseInt(invList.get(i).getDate());
+//            String item = "";
+//            if(days > 5 && date == days) {
+//                if(lm.aliasExists(name)) {
+//                    alias.get(name);
+//                }
+//                else {
+//                    item = name;
+//                }
+//                immediateExpire.add(item);
+//            }
+//            else if(days <= 5 && date <=5) {
+//                if(lm.aliasExists(name)) {
+//                    alias.get(name);
+//                }
+//                else {
+//                    item = name;
+//                }
+//                immediateExpire.add(item);
+//            }
+//            else {
+//                break;
+//            }
+            ListsModel lm = new ListsModel(this);
+            List<InventoryListItem> invList = lm.getInventoryList();
+            int days = Integer.parseInt(invList.get(0).getDate());
+            int num = Math.min(invList.size(), 5);
+            for(int i=0; i<num; i++) {
             if(Integer.parseInt(invList.get(i).getDate()) <= days) {
                 immediateExpire.add(invList.get(i).getName());
             }
