@@ -11,21 +11,23 @@ import java.util.Calendar;
 public class BootRec extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent i) {
+        //System.out.println("BootRec is getting called!");
+
+
+        /*
         if (i.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
-            //setting the alarm
-            Intent intent = new Intent(context, BackgroundService.class);
-            PendingIntent alarmIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            //Set alarm to be 18:00 for each day.
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 18);
-            calendar.set(Calendar.MINUTE, 0);
-
-            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                    1000 * 60 * 60 * 24 , alarmIntent);
-
+            Settings.backgroundInit(context);
         }
+        */
+        /*
+        else {
+            Intent notifyIntent = new Intent(context, BackgroundService.class);
+            context.startActivity(notifyIntent);
+        }
+
+
+        Intent notifyIntent = new Intent(context, BackgroundService.class);
+        context.startActivity(notifyIntent);
+        */
     }
 }

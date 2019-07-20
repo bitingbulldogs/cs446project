@@ -20,7 +20,7 @@ import java.util.Set;
 
 public class BackgroundService extends IntentService {
 
-    private int notificationID = 10;
+    public static int notificationID = 0;
     static boolean somethingExpired = false; //something expired today
     private static int expiryDateUpBound = 5; //at most 5 days in history
     public BackgroundService(){
@@ -91,25 +91,22 @@ public class BackgroundService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         System.out.println("Background Handeler called!");
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "eatemup")
-                .setSmallIcon(R.drawable.camera_icon)
-                .setContentTitle("Eat Em Up")
-                .setContentText("You got food expirying, eat em up!")
-                .setPriority(NotificationCompat.PRIORITY_MAX);
-
-        //NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-
-        Intent mainActivity = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, mainActivity, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(pendingIntent);
-        notificationManager.notify(notificationID, builder.build());
-
         //pretty straightforward
         oneDayHasPassed(this);
 
-        if(true){
+        if(somethingExpired){
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, MainActivity.channelIDStr)
+                    .setSmallIcon(R.drawable.camera_icon)
+                    .setContentTitle("Eat Em Up")
+                    .setContentText("You got food expirying, eat em up!")
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+            //NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            Intent mainActivity = new Intent(this, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, mainActivity, PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.setContentIntent(pendingIntent);
+            notificationManager.notify(notificationID, builder.build());
         }
     }
 }

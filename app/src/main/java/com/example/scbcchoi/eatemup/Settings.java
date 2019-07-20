@@ -1,12 +1,15 @@
 package com.example.scbcchoi.eatemup;
 
 import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +24,8 @@ public class Settings extends AppCompatActivity {
     private static SharedPreferences settingsStringLocalStorage;
     private static int defaulthour = 17;
     private static int defaultmin = 30;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,8 @@ public class Settings extends AppCompatActivity {
                 .apply();
     }
 
+
+
     //init background service
     public static void backgroundInit(Context context){
         //init receiver
@@ -65,7 +72,9 @@ public class Settings extends AppCompatActivity {
 
         //init background intent
         Intent intent = new Intent(context, BackgroundService.class);
+        //Intent intent = new Intent(context, BootRec.class);
         PendingIntent alarmIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        //PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //try to get hour of day and minute from local storage
         int hourOfDay = getInt("hour", context);
@@ -82,8 +91,8 @@ public class Settings extends AppCompatActivity {
         calendar.set(Calendar.MINUTE, minute);
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                30000,//AlarmManager.INTERVAL_DAY ,
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY ,
                 alarmIntent);
     }
 

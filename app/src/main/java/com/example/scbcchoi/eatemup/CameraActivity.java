@@ -120,6 +120,12 @@ public class CameraActivity extends AppCompatActivity {
 //            Button b = findViewById(R.id.button);
 //            b.setVisibility(View.GONE);
         }
+
+        else {
+            Intent ocrIntent = new Intent(this, OcrCaptureActivity.class);
+            startActivity(ocrIntent);
+            finish();
+        }
     }
 
 //    public void scan(View v){
