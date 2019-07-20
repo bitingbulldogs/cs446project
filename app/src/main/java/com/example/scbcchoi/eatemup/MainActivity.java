@@ -274,7 +274,8 @@ public class MainActivity extends AppCompatActivity {
 
         //store in shared preferences
         ListsModel lm = new ListsModel(this);
-        lm.addToList("inventory", name.toLowerCase(), date);
+        lm.addToList("inventory", name, date);
+        lm.addToList("common", name, date);
 
         int pos = insertItem(item);
         recyclerView.smoothScrollToPosition(pos);
@@ -299,7 +300,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ListsModel lm = new ListsModel(this);
-        lm.removeFromList("inventory",InventoryList.get(adapter.getPos()).getName());
+
+        String itemToDelete = InventoryList.get(adapter.getPos()).getName();
+        String alias = lm.getAlias(itemToDelete);
+        if (alias != null){
+            lm.addToList("alias", item.getName().toLowerCase(), alias);
+        }
+
+        lm.removeFromList("inventory", itemToDelete);
         InventoryList.remove(adapter.getPos());//index of item changed
         int pos = insertItem(item);
         lm.addToList("inventory", item.getName().toLowerCase(), item.getDateInt());

@@ -21,28 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
-/*
-initial app load
-
-items = {
-  "apple": 10,
-  "orange": 7,
-  "egg": 14
-}
-
-user scans receipt
-1.apple123
-- does not exist in alias, find best match in items => "apple"
-- add alias "apple123" : "apple"
-
-2.apple123
-- exists in alias, find matching item => "apple"
-- find expiry date for apple => items["apple"]
-
-3.egg
-- does not exist in alias, exists in items
-- return expiry date
- */
 
 public class ListsModel {
 
@@ -245,10 +223,6 @@ public class ListsModel {
                     String substring = foodItem.substring(i, j);
                     int len = matchesSubstring(substring, entry.getKey())? substring.length() : 0;
                     if (len > maxLength && (double)len/entry.getKey().length() >= 0.7){
-                        System.out.println(len);
-                        System.out.println(entry.getKey().length());
-                        System.out.println(entry.getKey());
-                        System.out.println((double)len/entry.getKey().length());
                         matchFound = true;
                         maxLength = len;
                         bestMatchItem = entry.getKey();
@@ -261,8 +235,6 @@ public class ListsModel {
         // if foodItem matches an item in items list, add the mapping to alias list
         if (matchFound) {
             addToList("alias", foodItem, bestMatchItem);
-            System.out.println("yooo");
-            System.out.println(maxLength);
             return new Pair(bestMatchItemExpiry, bestMatchItem);
         }
 
@@ -291,4 +263,7 @@ public class ListsModel {
         return commonItemList.contains(s);
     }
 
+    public String getAlias(String alias){
+        return aliasList.getString(alias, null);
+    }
 }

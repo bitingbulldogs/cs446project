@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -53,7 +54,7 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ScanVH>  {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ScanVH scanVH, int i) {
+    public void onBindViewHolder(@NonNull final ScanVH scanVH, int i) {
         ScanItem item = scanItemList.get(i);
         scanVH.itemName.setText(item.getName());
         scanVH.itemCat.setText(item.getCategory());
@@ -62,8 +63,44 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ScanVH>  {
         scanVH.checkbox.setText(Integer.toString(i));
 
 
+        scanVH.itemName.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                String name = scanVH.itemName.getText().toString();
+                ScanItem scani = scanItemList.get(scanVH.getAdapterPosition());
+                scani.setName(name);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
+
+        scanVH.itemCat.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                String cat = scanVH.itemCat.getText().toString();
+                ScanItem scani = scanItemList.get(scanVH.getAdapterPosition());
+                scani.setCat(cat);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
+
+        scanVH.expireDate.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                String datetext = scanVH.expireDate.getText().toString();
+                if(!datetext.equals("")){
+                    int date = Integer.valueOf(datetext);
+                    ScanItem scani = scanItemList.get(scanVH.getAdapterPosition());
+                    scani.setDate(date);
+                }
+
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
+
+
     }
 
+    /*
     @Override
     public void onViewDetachedFromWindow(@NonNull ScanVH scanVH){
         String name = scanVH.itemName.getText().toString();
@@ -74,6 +111,7 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ScanVH>  {
         scani.setCat(cat);
         scani.setDate(date);
     }
+    */
 
     public List<ScanItem> getScanItemList(){
         return scanItemList;
