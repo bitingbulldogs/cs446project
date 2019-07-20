@@ -3,10 +3,13 @@ package com.example.scbcchoi.eatemup;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -48,8 +51,31 @@ public class MainActivity extends AppCompatActivity {
     private ActionMode.Callback actionModeCallBack;
     private Dialog datePickerDialog;
 
+    static String channelIDStr = "whateverEatEmUo";
+    String channel_name = "Eatemup";
+    String channel_description = "notification channel for eatemup";
+
     // to test recylerView, should be removed later
     List<InventoryListItem> InventoryList;
+
+    private void createNotificationChannel() {
+        //calculae expiry date
+        BackgroundService.oneDayHasPassed(this);
+
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = channel_name;
+            String description = channel_description;
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(channelIDStr, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //init back ground service
+        createNotificationChannel();
         //Settings.backgroundInit(this);
 
         //init Lists Model
@@ -188,12 +215,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    public void scan(View v){
-        Intent intent = new Intent(this, OcrCaptureActivity.class);
-        startActivity(intent);
-        finish();
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
