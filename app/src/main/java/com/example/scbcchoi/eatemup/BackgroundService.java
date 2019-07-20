@@ -54,6 +54,8 @@ public class BackgroundService extends IntentService {
         Map<String, Integer> historyMap = lm.getExpiredHistoryList();
         for(int i = 0; i < inventorys.size(); ++i){
             int expiryDate = inventorys.get(i).getDateInt() - 1;
+            if(expiryDate == 0) continue;
+
             String key = inventorys.get(i).getName();
             lm.addToList("inventory", key, expiryDate);
 

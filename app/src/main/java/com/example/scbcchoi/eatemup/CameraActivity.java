@@ -107,10 +107,11 @@ public class CameraActivity extends AppCompatActivity {
             for(int i = 0; i < resultSize; ++i){
                 int expiryDate = 0;
                 expiryDate = lm.getExpiryDate(result.get(i)).first;
+                String cat = lm.getExpiryDate(result.get(i)).second;
                 keys[i] = result.get(i);
                 vals[i] = expiryDate;
-                if(lm.aliasExists(result.get(i))) checkBoxes[i] = true;
-                scanlist.add(new ScanItem(result.get(i), "Null Cat", expiryDate));
+                if(lm.aliasExists(result.get(i)) || expiryDate > 0) checkBoxes[i] = true;
+                scanlist.add(new ScanItem(result.get(i), cat, expiryDate));
             }
             scanA = new ScanAdapter(scanlist);
             recyclerView.setAdapter(scanA);
