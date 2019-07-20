@@ -91,11 +91,6 @@ public class MainActivity extends AppCompatActivity {
                         showSettings();
                         drawerLayout.closeDrawers();
                         return true;
-                    case R.id.history:
-                        menuItem.setChecked(true);
-                        showExpiryHistory();
-                        drawerLayout.closeDrawers();
-                        return true;
                 }
                 return false;
             }
@@ -222,10 +217,6 @@ public class MainActivity extends AppCompatActivity {
     public void showSettings() {
         Intent intent = new Intent(this, Settings.class);
         startActivity(intent);
-    }
-
-    public void showExpiryHistory() {
-        Toast.makeText(this, "History", Toast.LENGTH_SHORT).show();
     }
 
     public void cameraClick(View view) {
