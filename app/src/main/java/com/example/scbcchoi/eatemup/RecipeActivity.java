@@ -46,6 +46,10 @@ public class RecipeActivity extends AppCompatActivity {
 
             RecipeAdapter list = new RecipeAdapter(getApplicationContext(), allRecipes);
             recipeGrid.setAdapter(list);
+
+            if(allRecipes.length() == 0) {
+                setContentView(R.layout.recipe_empty);
+            }
         }
         else {
             setContentView(R.layout.recipe_empty);
