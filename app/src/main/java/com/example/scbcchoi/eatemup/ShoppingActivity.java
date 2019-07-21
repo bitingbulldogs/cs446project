@@ -64,7 +64,7 @@ public class ShoppingActivity extends AppCompatActivity {
         List<String> shopls = lm.getShoppingList();
 
         boolean tmpCheckboxs[] = new boolean[shopls.size()];
-        if(checkBoxes != null){
+        if(checkBoxes != null && tmpCheckboxs.length > checkBoxes.length){
             for(int i = 0; i < checkBoxes.length; ++i) tmpCheckboxs[i] = checkBoxes[i];
         }
         checkBoxes = tmpCheckboxs;
