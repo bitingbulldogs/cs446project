@@ -144,7 +144,8 @@ public class RecipeActivity extends AppCompatActivity {
                 }
             }
         }
-        for(int i=0; i<num; i++) {
+        int temp = 0;
+        for(int i=0; temp<num; i++) {
             String name = invList.get(i).getName().toLowerCase();
             int date = Integer.parseInt(invList.get(i).getDate());
             String item = "";
@@ -159,6 +160,7 @@ public class RecipeActivity extends AppCompatActivity {
                     item = name;
                 }
                 immediateExpire.add(item);
+                temp++;
             }
             else if(days <= 5 && (date>=0 && date <=5)) {
                 if(lm.aliasExists(name)) {
@@ -168,6 +170,7 @@ public class RecipeActivity extends AppCompatActivity {
                     item = name;
                 }
                 immediateExpire.add(item);
+                temp++;
             }
             else {
                 break;
