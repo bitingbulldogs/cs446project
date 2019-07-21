@@ -144,16 +144,17 @@ public class CameraActivity extends AppCompatActivity {
     */
 
     public void selectAllScans(View v){
-        allischecked = !allischecked;
+        CheckBox thisc = (CheckBox) v;
+        allischecked = thisc.isChecked();
         boolean checked = allischecked;
         for(int i = 0; i < checkBoxes.length; ++i) checkBoxes[i] = checked;
 
         int i = 0;
         View rv;
         CheckBox c;
-        while(true){
-            rv = recyclerView.getLayoutManager().findViewByPosition(i++);
-            if(rv == null) break;
+        for(int j = 0; j < recyclerView.getLayoutManager().getChildCount(); ++j){
+            rv = recyclerView.getLayoutManager().findViewByPosition(j);
+            if(rv == null) continue;
             c = rv.findViewById(R.id.scan_checkbox);
             c.setChecked(checked);
         }

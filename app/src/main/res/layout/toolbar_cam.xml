@@ -35,6 +35,7 @@
                 android:textSize="8sp"
                 android:textColor="@color/colorGrey"
                 android:layout_gravity="center_vertical"
+                android:visibility="invisible"
 
                 android:onClick="selectAllScans"/>
 
