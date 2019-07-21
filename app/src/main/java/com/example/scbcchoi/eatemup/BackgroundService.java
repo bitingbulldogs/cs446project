@@ -42,7 +42,6 @@ public class BackgroundService extends IntentService {
         if(storageValue.equals(todaysDate)) return true;
         else {
             interval = dateInterval(todaysDate, storageValue);
-
             Settings.setStr(key, todaysDate, c);
             return false;
         }
@@ -64,8 +63,8 @@ public class BackgroundService extends IntentService {
         return 1;
     }
 
-    public void oneDayHasPassed(Context c){
-        boolean flag = false;
+    public static void oneDayHasPassed(Context c){
+//        boolean flag = false;
         System.out.println("One day has passed!");
         interval = 1;
 
@@ -80,9 +79,9 @@ public class BackgroundService extends IntentService {
         Map<String, Integer> historyMap = lm.getExpiredHistoryList();
         for(int i = 0; i < inventorys.size(); ++i){
             int expiryDate = inventorys.get(i).getDateInt() - interval;
-            if(expiryDate == -1) {
-                flag = true;
-            }
+//            if(expiryDate == -1) {
+//                flag = true;
+//            }
             String key = inventorys.get(i).getName();
             if(expiryDate <= -2) {
                 lm.addToList("inventory", key, -1);
@@ -100,22 +99,23 @@ public class BackgroundService extends IntentService {
                 lm.addToList("history", key, maxExpiry + 1);
             }
         }
-        if(flag) {
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, MainActivity.channelIDStr)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle("Eat'em Up!")
-                    .setContentText("You have some expired food!")
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-            //NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-            Intent mainActivity = new Intent(this, MainActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, mainActivity, PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.setContentIntent(pendingIntent);
-            notificationManager.notify(notificationID, builder.build());
-        }
+//        if(flag) {
+//            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, MainActivity.channelIDStr)
+//                    .setSmallIcon(R.mipmap.ic_launcher)
+//                    .setContentTitle("Eat'em Up!")
+//                    .setContentText("You have some expired food!")
+//                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+//
+//            //NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+//            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+//            Intent mainActivity = new Intent(this, MainActivity.class);
+//            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, mainActivity, PendingIntent.FLAG_UPDATE_CURRENT);
+//            builder.setContentIntent(pendingIntent);
+//            notificationManager.notify(notificationID, builder.build());
+//        }
     }
 
+    //it only returns true when something is expiring and not expired.
     public boolean isSomethingExpired(){
         System.out.println("isSomethingExpired is called!");
         ListsModel lm = new ListsModel(this);
@@ -124,6 +124,7 @@ public class BackgroundService extends IntentService {
         for(int i = 0; i < il.size(); ++i){
             String key = il.get(i).getName();
             int date = il.get(i).getDateInt();
+            if(date == -1) continue;
             System.out.println("key = " + key + ", date = " + date);
             if(date < defaultRemindingDate) return true;
             else if(historyMap.containsKey(key)){
