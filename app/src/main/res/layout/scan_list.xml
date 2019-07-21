@@ -63,7 +63,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:layout_marginEnd="100dp"
+                    android:layout_marginEnd="20dp"
                     android:textSize="20sp"
                     android:layout_weight="1"
                     android:gravity="start"/>
@@ -84,7 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:layout_marginEnd="100dp"
+                    android:layout_marginEnd="20dp"
                     android:textSize="20sp"
                     android:layout_weight="1"
                     android:gravity="start"/>
@@ -116,13 +116,13 @@
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="50dp"
+                    android:layout_marginEnd="20dp"
                     android:textSize="20sp"
                     android:text=" days"/>
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginEnd="20dp"
                     android:layout_gravity="center_vertical"
                     android:onClick="pickDate"
                     android:tag="addScanPick"
