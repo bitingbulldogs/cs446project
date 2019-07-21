@@ -16,11 +16,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
 
 public class Settings extends AppCompatActivity {
+    private Dialog timePickerDialog;
     private static SharedPreferences settingsLocalStorage;
     private static SharedPreferences settingsStringLocalStorage;
     private static int defaulthour = 17;
@@ -37,8 +40,8 @@ public class Settings extends AppCompatActivity {
         if(hourOfDay < 0) hourOfDay = defaulthour; //by default we set it to 17:30
         if(minute < 0) minute = defaultmin;
 
-        EditText dh = findViewById(R.id.defaultHour);
-        EditText dm = findViewById(R.id.defaultMinute);
+        TextView dh = findViewById(R.id.defaultHour);
+        TextView dm = findViewById(R.id.defaultMinute);
         dh.setHint(Integer.toString(hourOfDay));
         dm.setHint(Integer.toString(minute));
     }
@@ -108,8 +111,8 @@ public class Settings extends AppCompatActivity {
 
     public void doneSetting(View v){
         //set notification times
-        EditText edtHour = findViewById(R.id.defaultHour);
-        EditText edtMinute = findViewById(R.id.defaultMinute);
+        TextView edtHour = findViewById(R.id.defaultHour);
+        TextView edtMinute = findViewById(R.id.defaultMinute);
         String hour = edtHour.getText().toString();
         String minute = edtMinute.getText().toString();
         if(hour.equals("")) hour = Integer.toString(defaulthour);
@@ -152,5 +155,48 @@ public class Settings extends AppCompatActivity {
 
     public void no(View v){
         settingDialog.dismiss();
+    }
+
+    public void setTimeClick(View view){
+        timePickerDialog = new Dialog(view.getContext());
+        timePickerDialog.setContentView(R.layout.dialog_setting_timepicker);
+
+        TimePicker timePicker = timePickerDialog.findViewById(R.id.time_picker);
+        timePicker.setIs24HourView(true);
+
+        TextView edtHour = findViewById(R.id.defaultHour);
+        TextView edtMinute = findViewById(R.id.defaultMinute);
+
+        String hour = edtHour.getText().toString();
+        String minute = edtMinute.getText().toString();
+
+        if(hour.equals("") || minute.equals("")){
+            timePicker.setCurrentHour(17);
+            timePicker.setCurrentMinute(30);
+        } else {
+            timePicker.setCurrentHour(Integer.parseInt(hour));
+            timePicker.setCurrentMinute(Integer.parseInt(minute));
+        }
+        timePickerDialog.show();
+    }
+
+    public void dialogTimeCancel(View view){
+        timePickerDialog.dismiss();
+
+    }
+
+    public void dialogTimeSelect(View view){
+        TimePicker timePicker = timePickerDialog.findViewById(R.id.time_picker);
+
+        int hours = timePicker.getCurrentHour();
+        int minutes = timePicker.getCurrentMinute();
+
+        TextView edtHour = findViewById(R.id.defaultHour);
+        TextView edtMinute = findViewById(R.id.defaultMinute);
+
+        edtHour.setText(Integer.toString(hours));
+        edtMinute.setText(Integer.toString(minutes));
+
+        timePickerDialog.dismiss();
     }
 }

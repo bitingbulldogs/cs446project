@@ -29,21 +29,19 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="10dp"/>
 
-        <EditText
+        <TextView
+            android:onClick="setTimeClick"
             android:id="@+id/defaultHour"
-            android:layout_width="wrap_content"
+            android:hint="17"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
+            android:layout_gravity="start|center_vertical"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="10dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:inputType="number"
             app:layout_constraintVertical_bias="0.05" />
         <TextView
             android:layout_width="wrap_content"
@@ -54,24 +52,35 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="1dp"/>
 
-        <EditText
+        <TextView
             android:id="@+id/defaultMinute"
-            android:layout_width="wrap_content"
+            android:onClick="setTimeClick"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
+            android:layout_gravity="center_vertical"
             android:layout_marginStart="12dp"
-            android:layout_marginEnd="80dp"
+            android:layout_marginEnd="12dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:hint="@string/defaultMinute"
-            android:inputType="number"
             android:textSize="20sp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_access_time"
+            android:background="@null"
+            android:onClick="setTimeClick"
+            />
+
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/defaultHourTextview"
         app:layout_constraintLeft_toLeftOf="parent"
         android:orientation="horizontal">
