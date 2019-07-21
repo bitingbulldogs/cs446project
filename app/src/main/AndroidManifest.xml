@@ -59,6 +59,8 @@
         </activity>
         <activity android:name="com.example.scbcchoi.eatemup.RecipeActivity">
         </activity>
+        <activity android:name="com.example.scbcchoi.eatemup.AboutActivity">
+        </activity>
 
 
     </application>
