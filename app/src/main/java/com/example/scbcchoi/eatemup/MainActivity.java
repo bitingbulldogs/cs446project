@@ -431,7 +431,7 @@ public class MainActivity extends AppCompatActivity {
     public void dateSelect(View view){
         EditText editText;
         if(pickID == R.id.dialog_date) editText = adapter.inventoryDialog.findViewById(pickID);
-        else if(pickID == R.id.dialog_date) editText = addDialog.findViewById(pickID);
+        else if(pickID == R.id.dialog_date_add) editText = addDialog.findViewById(pickID);
         else editText = findViewById(pickID);
         dateSelectHelper(view, editText);
     }
