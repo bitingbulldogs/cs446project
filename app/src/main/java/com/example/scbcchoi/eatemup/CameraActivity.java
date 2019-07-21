@@ -202,11 +202,7 @@ public class CameraActivity extends AppCompatActivity {
 
         long millis2 = tempCalendar.getTimeInMillis();
 
-        if(millis2 < millis1){
-            Toast.makeText(view.getContext(), "Hey,it's already expired, add it to the shopping list", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        editText.setText((String.valueOf((millis2 - millis1)/(1000*3600*24))));
+        editText.setText((String.valueOf(1+(millis2 - millis1)/(1000*3600*24))));
         datePickerDialog.dismiss();
     }
 

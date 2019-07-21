@@ -9,6 +9,7 @@ import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.BadParcelableException;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -63,7 +64,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void createNotificationChannel() {
         //calculae expiry date
-        BackgroundService.oneDayHasPassed(this);
+        BackgroundService bgs = new BackgroundService();
+        bgs.oneDayHasPassed(this);
 
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -422,18 +424,14 @@ public class MainActivity extends AppCompatActivity {
 
         long millis2 = tempCalendar.getTimeInMillis();
 
-        if(millis2 < millis1){
-            Toast.makeText(view.getContext(), "Hey,it's already expired, add it to the shopping list", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        editText.setText((String.valueOf((millis2 - millis1)/(1000*3600*24))));
+        editText.setText((String.valueOf(1+(millis2 - millis1)/(1000*3600*24))));
         datePickerDialog.dismiss();
     }
 
     public void dateSelect(View view){
         EditText editText;
         if(pickID == R.id.dialog_date) editText = adapter.inventoryDialog.findViewById(pickID);
-        else if(pickID == R.id.dialog_date) editText = addDialog.findViewById(pickID);
+        else if(pickID == R.id.dialog_date_add) editText = addDialog.findViewById(pickID);
         else editText = findViewById(pickID);
         dateSelectHelper(view, editText);
     }

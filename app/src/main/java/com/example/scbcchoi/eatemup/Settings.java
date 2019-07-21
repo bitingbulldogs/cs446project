@@ -28,6 +28,7 @@ public class Settings extends AppCompatActivity {
     private static SharedPreferences settingsStringLocalStorage;
     private static int defaulthour = 17;
     private static int defaultmin = 30;
+    private Dialog settingDialog;
 
 
     @Override
@@ -138,11 +139,22 @@ public class Settings extends AppCompatActivity {
     }
 
     public void clearSettings(View v){
+        settingDialog = new Dialog(v.getContext());
+        settingDialog.setContentView(R.layout.confirm);
+        settingDialog.show();
+    }
+
+    public void yes(View v){
         ListsModel lm = new ListsModel(this);
         lm.clearList("history");
         lm.clearList("inventory");
         lm.clearList("shopping");
         //Settings.setStr("todaysDate", "", this);
+        settingDialog.dismiss();;
+    }
+
+    public void no(View v){
+        settingDialog.dismiss();
     }
 
     public void setTimeClick(View view){
