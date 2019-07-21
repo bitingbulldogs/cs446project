@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.content.Intent;
+import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -34,6 +35,7 @@ public class CameraActivity extends AppCompatActivity {
     private int vals[];
     private boolean allischecked = false;
     private ScanAdapter scanA;
+    private EditText ed;
 
     public boolean similar(String s1, String s2) {
         String filterds1 = s1.replaceAll("[^a-zA-Z]", "");
@@ -188,6 +190,9 @@ public class CameraActivity extends AppCompatActivity {
 
     private Dialog datePickerDialog;
     public void pickDate(View view){
+        ViewGroup vg = (ViewGroup) view.getParent();
+        ed = vg.findViewById(R.id.rv_scandate);
+
         datePickerDialog = new Dialog(view.getContext());
         datePickerDialog.setContentView(R.layout.dialog_date_picker);
         datePickerDialog.show();
@@ -208,7 +213,8 @@ public class CameraActivity extends AppCompatActivity {
 
     public void dateSelect(View view){
         EditText editText;
-        editText = findViewById(R.id.rv_scandate);
+        //editText = findViewById(R.id.rv_scandate);
+        editText = ed;
         dateSelectHelper(view, editText);
     }
 
