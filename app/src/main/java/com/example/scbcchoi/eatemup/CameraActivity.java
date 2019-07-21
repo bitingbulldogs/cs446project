@@ -152,12 +152,11 @@ public class CameraActivity extends AppCompatActivity {
         int i = 0;
         View rv;
         CheckBox c;
-        for(int j = 0; j < recyclerView.getLayoutManager().getChildCount(); ++j){
-            rv = recyclerView.getLayoutManager().findViewByPosition(j);
-            if(rv == null) continue;
-            c = rv.findViewById(R.id.scan_checkbox);
-            c.setChecked(checked);
-        }
+        int j = 0;
+
+        scanA = new ScanAdapter(scanlist);
+        recyclerView.setAdapter(scanA);
+        recyclerView.getAdapter().notifyDataSetChanged();
     }
 
     public void doneScanning(View v){

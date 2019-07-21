@@ -37,6 +37,9 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ScanVH>  {
 
 
         }
+        public CheckBox getCheckbox(){
+            return checkbox;
+        }
     }
 
     @NonNull
@@ -100,6 +103,7 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ScanVH>  {
 
     }
 
+
     /*
     @Override
     public void onViewDetachedFromWindow(@NonNull ScanVH scanVH){
@@ -116,4 +120,6 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ScanVH>  {
     public List<ScanItem> getScanItemList(){
         return scanItemList;
     }
+
+
 }

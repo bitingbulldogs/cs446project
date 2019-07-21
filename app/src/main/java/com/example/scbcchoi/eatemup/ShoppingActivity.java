@@ -107,12 +107,9 @@ public class ShoppingActivity extends AppCompatActivity {
         int i = 0;
         View rv;
         CheckBox c;
-        while(true){
-            rv = recyclerView.getLayoutManager().findViewByPosition(i++);
-            if(rv == null) break;
-            c = rv.findViewById(R.id.shop_checkbox);
-            c.setChecked(checked);
-        }
+
+        ShoppingAdapter shopA = new ShoppingAdapter(shoppinglist);
+        recyclerView.setAdapter(shopA);
     }
 
     //add everything to inventory list

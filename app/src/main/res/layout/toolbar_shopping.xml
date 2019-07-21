@@ -32,7 +32,7 @@
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:visibility="invisible"
+                android:visibility="visible"
 
                 android:onClick="selectAllShopItems"
                 android:id="@+id/shop_checkALL"
