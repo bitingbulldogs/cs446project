@@ -9,6 +9,7 @@ import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.BadParcelableException;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -63,7 +64,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void createNotificationChannel() {
         //calculae expiry date
-        BackgroundService.oneDayHasPassed(this);
+        BackgroundService bgs = new BackgroundService();
+        bgs.oneDayHasPassed(this);
 
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -433,7 +435,7 @@ public class MainActivity extends AppCompatActivity {
     public void dateSelect(View view){
         EditText editText;
         if(pickID == R.id.dialog_date) editText = adapter.inventoryDialog.findViewById(pickID);
-        else if(pickID == R.id.dialog_date) editText = addDialog.findViewById(pickID);
+        else if(pickID == R.id.dialog_date_add) editText = addDialog.findViewById(pickID);
         else editText = findViewById(pickID);
         dateSelectHelper(view, editText);
     }
