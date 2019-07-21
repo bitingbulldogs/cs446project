@@ -254,18 +254,32 @@ public class MainActivity extends AppCompatActivity {
         //finish();
     }
 
+
+
     //insert an item to InventoryList
     //assuming the List has been sorted
     private int insertItem(InventoryListItem item){
         int j = item.getDateInt();
+        boolean flag = false;
+        int pos = 0;
+        for(int i=0; i<InventoryList.size(); i++) {
+            if(InventoryList.get(i).getName().equals(item.getName())) {
+                flag = true;
+                pos = i;
+                break;
+            }
+        }
+        if(flag == true) {
+            InventoryList.remove(pos);
+        }
         for (int i = 0; i < InventoryList.size(); i++) {
-            if (InventoryList.get(i).getDateInt() >= j){
-                InventoryList.add(i,item);
+            if (InventoryList.get(i).getDateInt() >= j) {
+                InventoryList.add(i, item);
                 return i;
             }
         }
         InventoryList.add(item);
-        return InventoryList.size()-1;
+        return InventoryList.size() - 1;
     }
 
     public void addCancel(View view){
@@ -283,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         int date = Integer.parseInt(dateText.getText().toString());
-        String name = nameText.getText().toString().toLowerCase();
+        String name = nameText.getText().toString();
         InventoryListItem item = new InventoryListItem(name, date);
 
         //store in shared preferences
@@ -321,7 +335,7 @@ public class MainActivity extends AppCompatActivity {
             lm.addToList("alias", item.getName().toLowerCase(), alias);
         }
 
-        lm.removeFromList("inventory", itemToDelete);
+//        lm.removeFromList("inventory", itemToDelete);
         InventoryList.remove(adapter.getPos());//index of item changed
         int pos = insertItem(item);
         lm.addToList("inventory", item.getName(), item.getDateInt());
