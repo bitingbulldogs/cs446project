@@ -53,7 +53,8 @@ public class BackgroundService extends IntentService {
         try{
             Date firstDate = s.parse(d1);
             Date secondDate = s.parse(d2);
-            long diffInMillies = Math.abs(secondDate.getTime() - firstDate.getTime());
+            long diffInMillies = firstDate.getTime() - secondDate.getTime();
+            if(diffInMillies < 0) return 1;
             long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
             return (int)diff;
 
@@ -160,7 +161,11 @@ public class BackgroundService extends IntentService {
 
             List<String> list = new ArrayList<>();
             for(int i=0; i<il.size(); i++) {
-                if(il.get(i).getDateInt() >= 0 && il.get(i).getDateInt() <= 10) {
+                //boolean weHaveAHistory = lm.getExpiredHistoryList().containsKey(il.get(i).getName());
+                //int remindingDate = defaultRemindingDate;
+                //if(weHaveAHistory) remindingDate = lm.getExpiredHistoryList().get(il.get(i).getName()).intValue();
+
+                if(il.get(i).getDateInt() >= 0 && il.get(i).getDateInt() <= defaultRemindingDate) {
                     list.add(il.get(i).getName());
                 }
             }
@@ -169,11 +174,10 @@ public class BackgroundService extends IntentService {
 
             //maxNum has to be > 0.
             for(int i = 0; i < maxNum; ++i) {
-                content += il.get(i).getName() + "\n";
+                content += list.get(i) + "\n";
             }
-            if(list.size() > 3) {
-                content += "...";
-            }
+            content += "...";
+
 
 //            content = content.substring(0,content.length()-2);
             String contentFirst = "Your food is expiring! Eat'em up!";
