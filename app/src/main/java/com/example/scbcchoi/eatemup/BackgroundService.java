@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class BackgroundService extends IntentService {
 
@@ -24,6 +25,7 @@ public class BackgroundService extends IntentService {
     static boolean somethingExpired = false; //something expired today
     private static int expiryDateUpBound = 8; //at most 5 days in history
     private static int defaultRemindingDate = 3;
+    private static int interval = 1;
     public BackgroundService(){
         super("BackgroundService");
     }
@@ -38,13 +40,32 @@ public class BackgroundService extends IntentService {
         //if we already calculated this
         if(storageValue.equals(todaysDate)) return true;
         else {
+            interval = dateInterval(todaysDate, storageValue);
+
             Settings.setStr(key, todaysDate, c);
             return false;
         }
     }
 
+    public static int dateInterval(String d1, String d2){
+        if(d1.equals("") || d2.equals("")) return 1;
+        SimpleDateFormat s = new SimpleDateFormat("MM/dd/yyyy");
+        try{
+            Date firstDate = s.parse(d1);
+            Date secondDate = s.parse(d2);
+            long diffInMillies = Math.abs(secondDate.getTime() - firstDate.getTime());
+            long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+            return (int)diff;
+
+        } catch (Exception e){
+            System.out.println("dateInterval Doesn't work!");
+        }
+        return 1;
+    }
+
     public static void oneDayHasPassed(Context c){
         System.out.println("One day has passed!");
+        interval = 1;
 
         //if we already calculated this, then we simply return
         if(todayHasCalculated(c)) return;
@@ -56,10 +77,10 @@ public class BackgroundService extends IntentService {
 
         Map<String, Integer> historyMap = lm.getExpiredHistoryList();
         for(int i = 0; i < inventorys.size(); ++i){
-            int expiryDate = inventorys.get(i).getDateInt() - 1;
+            int expiryDate = inventorys.get(i).getDateInt() - interval;
             String key = inventorys.get(i).getName();
-            if(expiryDate == -2) {
-                lm.addToList("inventory", key, expiryDate + 1);
+            if(expiryDate <= -2) {
+                lm.addToList("inventory", key, -1);
                 continue;
             }
             lm.addToList("inventory", key, expiryDate);
@@ -97,7 +118,7 @@ public class BackgroundService extends IntentService {
 
     public static String todaysDate(){
         Date c = Calendar.getInstance().getTime();
-        SimpleDateFormat s = new SimpleDateFormat("dd-MMM-yyyy");
+        SimpleDateFormat s = new SimpleDateFormat("MM/dd/yyyy");
         String ret = s.format(c);
         return ret;
     }
