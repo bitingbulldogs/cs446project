@@ -30,6 +30,15 @@ public class Settings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting);
+        int hourOfDay = getInt("hour", this);
+        int minute = getInt("minute", this);
+        if(hourOfDay < 0) hourOfDay = defaulthour; //by default we set it to 17:30
+        if(minute < 0) minute = defaultmin;
+
+        EditText dh = findViewById(R.id.defaultHour);
+        EditText dm = findViewById(R.id.defaultMinute);
+        dh.setHint(Integer.toString(hourOfDay));
+        dm.setHint(Integer.toString(minute));
     }
 
     public static void setInt(String key, int val, Context context){

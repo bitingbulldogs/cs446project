@@ -22,7 +22,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Notification Hour:"
+            android:text="Alarm Time:"
             android:textSize="20sp"
             android:textColor="@color/colorGrey"
             android:layout_marginTop="8dp"
@@ -31,42 +31,32 @@
 
         <EditText
             android:id="@+id/defaultHour"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_marginStart="12dp"
-            android:layout_marginEnd="80dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:hint="@string/defaultHour"
-            android:inputType="text"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:inputType="number"
             app:layout_constraintVertical_bias="0.05" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/defaultHourTextview"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Notification minutes:"
+            android:text=":"
             android:textSize="20sp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="1dp"/>
 
         <EditText
             android:id="@+id/defaultMinute"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_marginStart="12dp"
@@ -74,7 +64,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:hint="@string/defaultMinute"
-            android:inputType="text"
+            android:inputType="number"
             android:textSize="20sp" />
     </LinearLayout>
 
