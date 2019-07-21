@@ -42,8 +42,20 @@ public class Settings extends AppCompatActivity {
 
         TextView dh = findViewById(R.id.defaultHour);
         TextView dm = findViewById(R.id.defaultMinute);
-        dh.setHint(Integer.toString(hourOfDay));
-        dm.setHint(Integer.toString(minute));
+
+        String tempHour = Integer.toString(hourOfDay);
+        String tempMinute = Integer.toString(minute);
+
+        if (hourOfDay < 10){
+            tempHour = "0" + tempHour;
+        }
+        if (minute < 10){
+            tempMinute = "0" + tempMinute;
+        }
+
+
+        dh.setText(tempHour);
+        dm.setText(tempMinute);
     }
 
     public static void setInt(String key, int val, Context context){
@@ -194,8 +206,17 @@ public class Settings extends AppCompatActivity {
         TextView edtHour = findViewById(R.id.defaultHour);
         TextView edtMinute = findViewById(R.id.defaultMinute);
 
-        edtHour.setText(Integer.toString(hours));
-        edtMinute.setText(Integer.toString(minutes));
+        String sHours =  Integer.toString(hours);
+        String sMinutes = Integer.toString(minutes);
+
+        if (hours < 10){
+            sHours = "0" + sHours;
+        }
+        if (minutes < 10){
+            sMinutes = "0" + sMinutes;
+        }
+        edtHour.setText(sHours);
+        edtMinute.setText(sMinutes);
 
         timePickerDialog.dismiss();
     }
