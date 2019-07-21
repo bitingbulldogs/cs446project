@@ -3,10 +3,13 @@ package com.example.scbcchoi.eatemup;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +31,7 @@ import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -48,8 +52,33 @@ public class MainActivity extends AppCompatActivity {
     private ActionMode.Callback actionModeCallBack;
     private Dialog datePickerDialog;
 
+    public static int pickID;
+
+    static String channelIDStr = "whateverEatEmUo";
+    String channel_name = "Eatemup";
+    String channel_description = "notification channel for eatemup";
+
     // to test recylerView, should be removed later
     List<InventoryListItem> InventoryList;
+
+    private void createNotificationChannel() {
+        //calculae expiry date
+        BackgroundService.oneDayHasPassed(this);
+
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = channel_name;
+            String description = channel_description;
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(channelIDStr, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //init back ground service
+        createNotificationChannel();
         //Settings.backgroundInit(this);
 
         //init Lists Model
@@ -174,8 +204,8 @@ public class MainActivity extends AppCompatActivity {
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             mode.getMenuInflater().inflate(R.menu.multi,menu);
             //mode.setTitle();
-            navigationView.setVisibility(View.GONE);
-            toolbar.setVisibility(View.GONE);
+            //navigationView.setVisibility(View.GONE);
+            //toolbar.setVisibility(View.GONE);
             return true;
         }
 
@@ -183,8 +213,8 @@ public class MainActivity extends AppCompatActivity {
         public void onDestroyActionMode(ActionMode mode) {
             actionMode = null;
             adapter.clearSelection();
-            navigationView.setVisibility(View.VISIBLE);
-            toolbar.setVisibility(View.VISIBLE);
+            //navigationView.setVisibility(View.VISIBLE);
+            //toolbar.setVisibility(View.VISIBLE);
         }
     }
 
@@ -199,8 +229,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showAbout() {
-        Toast.makeText(this, "About", Toast.LENGTH_SHORT).show();
-
+        Intent intent = new Intent(this, AboutActivity.class);
+        startActivity(intent);
     }
 
     public void showRecipe() {
@@ -213,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void cameraClick(View view) {
-        Intent intent = new Intent(this, OcrCaptureActivity.class);
+        Intent intent = new Intent(this, CameraActivity.class);
         startActivity(intent);
         //finish();
     }
@@ -364,6 +394,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void pickDate(View view){
+        String tag = String.valueOf(view.getTag());
+        System.out.println("view's tag is " + tag);
+        if(tag.equals("addDatePick")) pickID = R.id.dialog_date_add;
+        else if(tag.equals("inventoryDatePick")) pickID = R.id.dialog_date;
+        else if(tag.equals("addScanPick")) pickID = R.id.rv_scandate;
         datePickerDialog = new Dialog(view.getContext());
         datePickerDialog.setContentView(R.layout.dialog_date_picker);
         datePickerDialog.show();
@@ -374,15 +409,11 @@ public class MainActivity extends AppCompatActivity {
         datePickerDialog.dismiss();
     }
 
-    public void dateSelect(View view){
-        EditText editText = addDialog.findViewById(R.id.dialog_date_add);
+    private void dateSelectHelper(View view, EditText editText){
         DatePicker datePicker = datePickerDialog.findViewById(R.id.date_picker);
         Calendar tempCalendar = Calendar.getInstance();
         long millis1 = tempCalendar.getTimeInMillis();
 
-        int tempDay = datePicker.getDayOfMonth();
-        int tempMonth = datePicker.getMonth();
-        int tempYear =  datePicker.getYear();
         tempCalendar.set(datePicker.getYear(),datePicker.getMonth(),datePicker.getDayOfMonth(),0,0);
 
         long millis2 = tempCalendar.getTimeInMillis();
@@ -394,5 +425,15 @@ public class MainActivity extends AppCompatActivity {
         editText.setText((String.valueOf((millis2 - millis1)/(1000*3600*24))));
         datePickerDialog.dismiss();
     }
+
+    public void dateSelect(View view){
+        EditText editText;
+        if(pickID == R.id.dialog_date) editText = adapter.inventoryDialog.findViewById(pickID);
+        else if(pickID == R.id.dialog_date) editText = addDialog.findViewById(pickID);
+        else editText = findViewById(pickID);
+        dateSelectHelper(view, editText);
+    }
+
+
 
 }

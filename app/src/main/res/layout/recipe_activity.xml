@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".RecipeActivity">
     <include
         android:id="@+id/toolbar_recipe"
@@ -12,19 +13,24 @@
     
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        >
+
         <GridView
+            android:scrollbarStyle="outsideInset"
             android:id="@+id/recipe_grid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:smoothScrollbar="true"
-            android:layout_marginTop="60dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
             android:numColumns="1"
-            android:columnWidth="200dp"
             android:gravity="center"
-            android:verticalSpacing="2dp"
-            android:horizontalSpacing="2dp"></GridView>
+            android:verticalSpacing="8dp"
+            android:horizontalSpacing="8dp">
+        </GridView>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
