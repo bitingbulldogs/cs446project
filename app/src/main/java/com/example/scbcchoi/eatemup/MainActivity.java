@@ -340,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
             lm.addToList("alias", item.getName().toLowerCase(), alias);
         }
 
-//        lm.removeFromList("inventory", itemToDelete);
+        lm.removeFromList("inventory", itemToDelete);
         InventoryList.remove(adapter.getPos());//index of item changed
         int pos = insertItem(item);
         lm.addToList("inventory", item.getName(), item.getDateInt());

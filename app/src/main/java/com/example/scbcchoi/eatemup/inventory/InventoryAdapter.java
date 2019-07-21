@@ -3,6 +3,7 @@ package com.example.scbcchoi.eatemup.inventory;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.CardView;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.scbcchoi.eatemup.R;
@@ -212,10 +214,27 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
 
 
     public void showDialog(int position){
+
         EditText dialogName = inventoryDialog.findViewById(R.id.dialog_name);
         EditText dialogDate = inventoryDialog.findViewById(R.id.dialog_date);
+        ImageButton imageButton = inventoryDialog.findViewById(R.id.image_button_calender);
         dialogName.setText(inventoryList.get(position).getName());
-        dialogDate.setText(inventoryList.get(position).getDate());
+        if(inventoryList.get(position).getDateInt() == -1){
+            imageButton.setFocusable(false);
+            imageButton.setClickable(false);
+            dialogDate.setText("Expired");
+            dialogDate.setFocusable(false);
+            dialogDate.setTextColor(Color.RED);
+        } else {
+            imageButton.setFocusable(true);
+            imageButton.setClickable(true);
+            dialogDate.setText(inventoryList.get(position).getDate());
+            dialogDate.setTextColor(Color.BLACK);
+            dialogDate.setFocusableInTouchMode(true);
+            dialogDate.setFocusable(true);
+        }
+
+
         inventoryDialog.show();
     }
 
@@ -230,7 +249,12 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
             return new InventoryListItem("",0);
         } else {
             inventoryDialog.dismiss();
-            return new InventoryListItem(name, Integer.parseInt(date));
+            if(date.equals("Expired")){
+                date = "-1";
+                return new InventoryListItem(name, -1);
+            } else {
+                return new InventoryListItem(name, Integer.parseInt(date));
+            }
         }
     }
 
