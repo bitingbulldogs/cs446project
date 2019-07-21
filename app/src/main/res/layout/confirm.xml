@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="350dp"
+    android:layout_height="200dp"
+    android:layout_gravity="center"
+    android:background="@android:color/white"
+    android:id="@+id/confirmDialog"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:orientation="horizontal"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="24dp"
+            android:fontFamily="@font/autour_one"
+            android:layout_centerVertical="true"
+            android:text="Confirmation"
+            android:textColor="@color/orange"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/shopadd_cancel"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:onClick="no"
+            android:background="@drawable/close_icon"
+            android:layout_marginEnd="12dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:layout_marginStart="24dp">
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Are you sure you want to clear all the data?"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/confirmyes"
+            android:onClick="yes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/transparent_button"
+            android:text="Yes"
+            android:layout_marginRight="40dp"
+            android:layout_alignParentRight="true"/>
+
+        <Button
+            android:id="@+id/confirmno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/transparent_button"
+            android:onClick="no"
+            android:text="No"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="40dp"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -29,7 +29,7 @@
     <string name="defaultMinute">30</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
-    <string name="about_inventory">2 Ways to add to inventory list: Scan a receipt using the camera or click on the add button the main screen to add an item</string>
+    <string name="about_inventory"> 2 Ways to add to inventory list: Scan a receipt using the camera or click on the add button the main screen to add an item</string>
     <string name="about_setting">The notification will default to 5:30PM daily (if there are items expired/expiring soon). You can change this in the settings.</string>
     <string name="about_developers">Developed by Biting Bulldogs</string>
     <string name="empty_recipe">There are no recipes to display!</string>
