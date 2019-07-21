@@ -76,17 +76,30 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
 
         if(showMultiSelect){
             inventoryVH.checkBox.setVisibility(View.VISIBLE);
+            inventoryVH.has_expired.setVisibility(View.GONE);
             inventoryVH.day_s.setVisibility(View.GONE);
             inventoryVH.expire_in.setVisibility(View.GONE);
             inventoryVH.textViewDate.setVisibility(View.GONE);
             inventoryVH.checkBox.setChecked(selectedItem.get(position));
 
         }else {
-            inventoryVH.day_s.setVisibility(View.VISIBLE);
-            inventoryVH.expire_in.setVisibility(View.VISIBLE);
-            inventoryVH.textViewDate.setVisibility(View.VISIBLE);
-            inventoryVH.checkBox.setVisibility(View.GONE);
-            inventoryVH.checkBox.setChecked(false);
+
+            if(days == -1) {
+                inventoryVH.has_expired.setVisibility(View.VISIBLE);
+                inventoryVH.day_s.setVisibility(View.GONE);
+                inventoryVH.expire_in.setVisibility(View.GONE);
+                inventoryVH.textViewDate.setVisibility(View.GONE);
+                inventoryVH.checkBox.setVisibility(View.GONE);
+                inventoryVH.checkBox.setChecked(false);
+
+            } else  {
+                inventoryVH.has_expired.setVisibility(View.GONE);
+                inventoryVH.day_s.setVisibility(View.VISIBLE);
+                inventoryVH.expire_in.setVisibility(View.VISIBLE);
+                inventoryVH.textViewDate.setVisibility(View.VISIBLE);
+                inventoryVH.checkBox.setVisibility(View.GONE);
+                inventoryVH.checkBox.setChecked(false);
+            }
         }
 
         inventoryVH.inventoryCardView.setOnClickListener(new View.OnClickListener() {
@@ -147,12 +160,13 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
     }
 
     class InventoryVH extends RecyclerView.ViewHolder{
-        private TextView textViewName, textViewDate, expire_in, day_s;
+        private TextView textViewName, textViewDate, expire_in, day_s, has_expired;
         private CardView inventoryCardView;
         private CheckBox checkBox;
 
         public InventoryVH (@NonNull View itemView) {
             super(itemView);
+            has_expired = itemView.findViewById(R.id.has_expired);
             expire_in = itemView.findViewById(R.id.will_expire_in);
             day_s = itemView.findViewById(R.id.day_s);
             textViewName = itemView.findViewById(R.id.rv_inventory_name);

@@ -296,6 +296,11 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        if(dateText.getText().toString().length() >= 6){
+            Toast.makeText(view.getContext(), "Invalid intput", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         int date = Integer.parseInt(dateText.getText().toString());
         String name = nameText.getText().toString();
         InventoryListItem item = new InventoryListItem(name, date);
@@ -363,7 +368,6 @@ public class MainActivity extends AppCompatActivity {
         List<Integer>  selection = adapter.getSelection();
         ListsModel lm = new ListsModel(this);
         for(Integer i: selection){
-            lm.removeFromList("inventory",InventoryList.get(i).getName());
             lm.addToList("shopping",InventoryList.get(i).getName(),"");
             //Is this correct?
         }

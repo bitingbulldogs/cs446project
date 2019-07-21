@@ -58,7 +58,7 @@ public class BackgroundService extends IntentService {
         for(int i = 0; i < inventorys.size(); ++i){
             int expiryDate = inventorys.get(i).getDateInt() - 1;
             String key = inventorys.get(i).getName();
-            if(expiryDate == -1) {
+            if(expiryDate == -2) {
                 lm.addToList("inventory", key, expiryDate + 1);
                 continue;
             }
@@ -123,7 +123,7 @@ public class BackgroundService extends IntentService {
             content += " are expiring! Eat em up!";
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, MainActivity.channelIDStr)
-                    .setSmallIcon(R.drawable.camera_icon)
+                    .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle("Eat Em Up")
                     .setContentText(content)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT);

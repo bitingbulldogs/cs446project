@@ -16,6 +16,19 @@
         android:id="@+id/cv_inventory"
         app:cardElevation="4dp">
 
+    <TextView
+        android:id="@+id/has_expired"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text="Expired"
+        android:fontFamily="@font/gudea"
+        android:textColor="@color/red"
+        android:layout_gravity="end|center_vertical"
+        android:textSize="20sp"
+
+        />
+
     <CheckBox
         android:id="@+id/inventory_checkbox"
         android:layout_gravity="end|center_vertical"
