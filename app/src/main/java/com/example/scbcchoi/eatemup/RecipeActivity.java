@@ -71,7 +71,7 @@ public class RecipeActivity extends AppCompatActivity {
             JSONObject JO = new JSONObject(data);
             JSONArray recipeArray = (JSONArray) JO.get("results");
 
-            int num = Math.min(7, recipeArray.length());
+            int num = Math.min(10, recipeArray.length());
             int temp = 0;
             for (int j = 0; temp < num; j++) {
                 if(((JSONObject)recipeArray.get(j)).get("thumbnail").equals("") ||
