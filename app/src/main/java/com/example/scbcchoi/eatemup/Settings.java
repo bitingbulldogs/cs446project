@@ -28,7 +28,6 @@ public class Settings extends AppCompatActivity {
     private static SharedPreferences settingsStringLocalStorage;
     private static int defaulthour = 17;
     private static int defaultmin = 30;
-    private Dialog settingDialog;
 
 
     @Override
@@ -42,8 +41,20 @@ public class Settings extends AppCompatActivity {
 
         TextView dh = findViewById(R.id.defaultHour);
         TextView dm = findViewById(R.id.defaultMinute);
-        dh.setHint(Integer.toString(hourOfDay));
-        dm.setHint(Integer.toString(minute));
+
+        String tempHour = Integer.toString(hourOfDay);
+        String tempMinute = Integer.toString(minute);
+
+        if (hourOfDay < 10){
+            tempHour = "0" + tempHour;
+        }
+        if (minute < 10){
+            tempMinute = "0" + tempMinute;
+        }
+
+
+        dh.setText(tempHour);
+        dm.setText(tempMinute);
     }
 
     public static void setInt(String key, int val, Context context){
@@ -139,22 +150,11 @@ public class Settings extends AppCompatActivity {
     }
 
     public void clearSettings(View v){
-        settingDialog = new Dialog(v.getContext());
-        settingDialog.setContentView(R.layout.confirm);
-        settingDialog.show();
-    }
-
-    public void yes(View v){
         ListsModel lm = new ListsModel(this);
         lm.clearList("history");
         lm.clearList("inventory");
         lm.clearList("shopping");
         //Settings.setStr("todaysDate", "", this);
-        settingDialog.dismiss();;
-    }
-
-    public void no(View v){
-        settingDialog.dismiss();
     }
 
     public void setTimeClick(View view){
@@ -193,9 +193,17 @@ public class Settings extends AppCompatActivity {
 
         TextView edtHour = findViewById(R.id.defaultHour);
         TextView edtMinute = findViewById(R.id.defaultMinute);
+        String sHours =  Integer.toString(hours);
+        String sMinutes = Integer.toString(minutes);
 
-        edtHour.setText(Integer.toString(hours));
-        edtMinute.setText(Integer.toString(minutes));
+        if (hours < 10){
+            sHours = "0" + sHours;
+        }
+        if (minutes < 10){
+            sMinutes = "0" + sMinutes;
+        }
+        edtHour.setText(sHours);
+        edtMinute.setText(sMinutes);
 
         timePickerDialog.dismiss();
     }
