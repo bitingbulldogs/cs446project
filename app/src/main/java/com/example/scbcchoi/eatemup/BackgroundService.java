@@ -123,7 +123,7 @@ public class BackgroundService extends IntentService {
             content += " are expiring! Eat em up!";
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, MainActivity.channelIDStr)
-                    .setSmallIcon(R.drawable.camera_icon)
+                    .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle("Eat Em Up")
                     .setContentText(content)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT);

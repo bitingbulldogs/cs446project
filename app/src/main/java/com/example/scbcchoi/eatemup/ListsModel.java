@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
+//List model is where all the data is stored.
+//It offers an interface of sharedpreferences AKA local storage
 
 public class ListsModel {
 
