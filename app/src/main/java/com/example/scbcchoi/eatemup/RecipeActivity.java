@@ -30,20 +30,26 @@ public class RecipeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_activity);
-        recipeGrid = findViewById(R.id.recipe_grid);
+        getItems();
+
+        if(immediateExpire.size() != 0) {
+            recipeGrid = findViewById(R.id.recipe_grid);
 //        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        getItems();
-        try {
-            makeRecipeList();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+            try {
+                makeRecipeList();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
-        RecipeAdapter list = new RecipeAdapter(getApplicationContext(), allRecipes);
-        recipeGrid.setAdapter(list);
+            RecipeAdapter list = new RecipeAdapter(getApplicationContext(), allRecipes);
+            recipeGrid.setAdapter(list);
+        }
+        else {
+            setContentView(R.layout.recipe_empty);
+        }
 //        recipeGrid.getAdapter().notifyDataSetChanged();
     }
 
@@ -113,8 +119,18 @@ public class RecipeActivity extends AppCompatActivity {
         List<InventoryListItem> invList = lm.getInventoryList();
         Map<String, String> alias = lm.getAliasList();
         int days = 0;
-        if(Integer.parseInt(invList.get(0).getDate()) > 5) {
-            days = Integer.parseInt(invList.get(0).getDate());
+        int t=0;
+        while(t < invList.size()) {
+            int temp = Integer.parseInt(invList.get(t).getDate());
+            if(temp > 0) {
+                if(temp > 5) {
+                    days = temp;
+                }
+                break;
+            }
+            else {
+                t++;
+            }
         }
         int num = 0;
         if(days > 5) {
@@ -122,7 +138,8 @@ public class RecipeActivity extends AppCompatActivity {
         }
         else {
             for(int i=0; i<invList.size(); i++) {
-                if(Integer.parseInt(invList.get(i).getDate()) <= 5) {
+                int temp = Integer.parseInt(invList.get(i).getDate());
+                if(temp >= 0 && temp <= 5) {
                     num++;
                 }
             }
@@ -131,7 +148,10 @@ public class RecipeActivity extends AppCompatActivity {
             String name = invList.get(i).getName().toLowerCase();
             int date = Integer.parseInt(invList.get(i).getDate());
             String item = "";
-            if(days > 5 && date == days) {
+            if(date < 0) {
+                continue;
+            }
+            else if(days > 5 && date == days) {
                 if(lm.aliasExists(name)) {
                     item = alias.get(name);
                 }
@@ -140,7 +160,7 @@ public class RecipeActivity extends AppCompatActivity {
                 }
                 immediateExpire.add(item);
             }
-            else if(days <= 5 && date <=5) {
+            else if(days <= 5 && (date>=0 && date <=5)) {
                 if(lm.aliasExists(name)) {
                     item = alias.get(name);
                 }
