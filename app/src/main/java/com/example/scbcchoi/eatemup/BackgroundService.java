@@ -184,6 +184,7 @@ public class BackgroundService extends IntentService {
                     .setContentText(contentFirst)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT);
             builder.setStyle(new NotificationCompat.BigTextStyle().bigText(contentFirst + "\n\n" + content));
+            builder.setAutoCancel(true);
 
             //NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
