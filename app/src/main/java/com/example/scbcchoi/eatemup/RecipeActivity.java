@@ -128,7 +128,7 @@ public class RecipeActivity extends AppCompatActivity {
             }
         }
         for(int i=0; i<num; i++) {
-            String name = invList.get(i).getName();
+            String name = invList.get(i).getName().toLowerCase();
             int date = Integer.parseInt(invList.get(i).getDate());
             String item = "";
             if(days > 5 && date == days) {

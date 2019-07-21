@@ -210,7 +210,8 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
         EditText nameText = inventoryDialog.findViewById(R.id.dialog_name);
         EditText dateText = inventoryDialog.findViewById(R.id.dialog_date);
         String date = dateText.getText().toString();
-        String name = nameText.getText().toString().toLowerCase();
+        String name = nameText.getText().toString();
+        
         if (name.equals("") || date.equals("")) {
             return new InventoryListItem("",0);
         } else {
