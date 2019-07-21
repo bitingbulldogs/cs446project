@@ -249,7 +249,12 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
             return new InventoryListItem("",0);
         } else {
             inventoryDialog.dismiss();
-            return new InventoryListItem(name, Integer.parseInt(date));
+            if(date.equals("Expired")){
+                date = "-1";
+                return new InventoryListItem(name, -1);
+            } else {
+                return new InventoryListItem(name, Integer.parseInt(date));
+            }
         }
     }
 
