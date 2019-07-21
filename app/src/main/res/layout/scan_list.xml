@@ -83,6 +83,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" days"/>
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:onClick="pickDate"
+                    android:tag="addScanPick"
+                    android:background="@color/colorWhite"
+                    android:src="@drawable/ic_date_range" />
             </LinearLayout>
         </LinearLayout>
 

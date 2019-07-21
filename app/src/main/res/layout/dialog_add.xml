@@ -101,6 +101,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
             android:layout_gravity="center_vertical"
+            android:id="@+id/addDatePick"
+            android:tag="addDatePick"
             android:onClick="pickDate"
             android:background="@color/colorWhite"
             android:src="@drawable/ic_date_range" />

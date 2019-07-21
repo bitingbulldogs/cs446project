@@ -1,5 +1,6 @@
 package com.example.scbcchoi.eatemup;
 
+import android.app.Dialog;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -13,11 +14,15 @@ import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.scbcchoi.eatemup.inventory.InventoryListItem;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class CameraActivity extends AppCompatActivity {
@@ -121,7 +126,6 @@ public class CameraActivity extends AppCompatActivity {
 //            b.setVisibility(View.GONE);
         }
 
-
         else {
             Intent ocrIntent = new Intent(this, OcrCaptureActivity.class);
             startActivity(ocrIntent);
@@ -180,5 +184,39 @@ public class CameraActivity extends AppCompatActivity {
         CheckBox c = v.findViewById(R.id.scan_checkbox);
         int i = Integer.valueOf(c.getText().toString());
         checkBoxes[i] = c.isChecked();
+    }
+
+    private Dialog datePickerDialog;
+    public void pickDate(View view){
+        datePickerDialog = new Dialog(view.getContext());
+        datePickerDialog.setContentView(R.layout.dialog_date_picker);
+        datePickerDialog.show();
+    }
+
+    private void dateSelectHelper(View view, EditText editText){
+        DatePicker datePicker = datePickerDialog.findViewById(R.id.date_picker);
+        Calendar tempCalendar = Calendar.getInstance();
+        long millis1 = tempCalendar.getTimeInMillis();
+
+        tempCalendar.set(datePicker.getYear(),datePicker.getMonth(),datePicker.getDayOfMonth(),0,0);
+
+        long millis2 = tempCalendar.getTimeInMillis();
+
+        if(millis2 < millis1){
+            Toast.makeText(view.getContext(), "Hey,it's already expired, add it to the shopping list", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        editText.setText((String.valueOf((millis2 - millis1)/(1000*3600*24))));
+        datePickerDialog.dismiss();
+    }
+
+    public void dateSelect(View view){
+        EditText editText;
+        editText = findViewById(R.id.rv_scandate);
+        dateSelectHelper(view, editText);
+    }
+
+    public void dateCancel(View v){
+        datePickerDialog.dismiss();
     }
 }

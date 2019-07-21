@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     private ActionMode.Callback actionModeCallBack;
     private Dialog datePickerDialog;
 
+    public static int pickID;
+
     static String channelIDStr = "whateverEatEmUo";
     String channel_name = "Eatemup";
     String channel_description = "notification channel for eatemup";
@@ -378,15 +380,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void pickDate(View view){
+        String tag = String.valueOf(view.getTag());
+        System.out.println("view's tag is " + tag);
+        if(tag.equals("addDatePick")) pickID = R.id.dialog_date_add;
+        else if(tag.equals("inventoryDatePick")) pickID = R.id.dialog_date;
+        else if(tag.equals("addScanPick")) pickID = R.id.rv_scandate;
         datePickerDialog = new Dialog(view.getContext());
         datePickerDialog.setContentView(R.layout.dialog_date_picker);
-        datePickerDialog.show();
-    }
-
-    public void pickInventoryDate(View view){
-        datePickerDialog = new Dialog(view.getContext());
-        datePickerDialog.setContentView(R.layout.dialog_date_picker);
-        //Button select = datePickerDialog.
         datePickerDialog.show();
     }
 
@@ -413,12 +413,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void dateSelect(View view){
-        EditText editText = addDialog.findViewById(R.id.dialog_date_add);
-        dateSelectHelper(view, editText);
-    }
-
-    public void inventoryDateSelect(View view){
-        EditText editText = addDialog.findViewById(R.id.dialog_date);
+        EditText editText;
+        if(pickID == R.id.dialog_date) editText = adapter.inventoryDialog.findViewById(pickID);
+        else if(pickID == R.id.dialog_date) editText = addDialog.findViewById(pickID);
+        else editText = findViewById(pickID);
         dateSelectHelper(view, editText);
     }
 

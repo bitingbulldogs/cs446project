@@ -24,7 +24,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
 
 
     private List<InventoryListItem> inventoryList;
-    private Dialog inventoryDialog;
+    public Dialog inventoryDialog;
     private int pos;// last clicked item
     private boolean showMultiSelect;
     private onClickListener onClickListener;
