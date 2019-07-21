@@ -64,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void createNotificationChannel() {
         //calculae expiry date
-        BackgroundService bgs = new BackgroundService();
-        bgs.oneDayHasPassed(this);
+//        BackgroundService bgs = new BackgroundService();
+        BackgroundService.oneDayHasPassed(this);
 
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library

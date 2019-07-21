@@ -133,8 +133,8 @@ public class ShoppingActivity extends AppCompatActivity {
     }
 
     public void shoppingTest(View v){
-        BackgroundService bgs = new BackgroundService();
-        bgs.oneDayHasPassed(this);
+//        BackgroundService bgs = new BackgroundService();
+        BackgroundService.oneDayHasPassed(this);
     }
 
     public void clearHistory(View v){
