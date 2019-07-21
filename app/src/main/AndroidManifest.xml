@@ -41,7 +41,7 @@
         </service>
 
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -49,17 +49,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.example.scbcchoi.eatemup.OcrCaptureActivity">
+        <activity android:name="com.example.scbcchoi.eatemup.OcrCaptureActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.example.scbcchoi.eatemup.CameraActivity">
+        <activity android:name="com.example.scbcchoi.eatemup.CameraActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.example.scbcchoi.eatemup.ShoppingActivity">
+        <activity android:name="com.example.scbcchoi.eatemup.ShoppingActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.example.scbcchoi.eatemup.Settings">
+        <activity android:name="com.example.scbcchoi.eatemup.Settings" android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.example.scbcchoi.eatemup.RecipeActivity">
+        <activity android:name="com.example.scbcchoi.eatemup.RecipeActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.example.scbcchoi.eatemup.AboutActivity">
+        <activity android:name="com.example.scbcchoi.eatemup.AboutActivity" android:screenOrientation="portrait">
         </activity>
 
 

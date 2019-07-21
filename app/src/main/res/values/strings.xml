@@ -29,9 +29,12 @@
     <string name="defaultMinute">30</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
-
-    <string name="about_inventory">2 Ways to add to inventory list: \n  \u0020 1.Scan a receipt using the camera. \n   \u0020 2.Click on the add button the main screen to add an item</string>
-    <string name="about_setting">\u0020 \u0020 The notification will default to 5:30PM daily (if there are items expired/expiring soon). You can change this in the settings.</string>
+    <string name="about_info">Eat\'em Up! is an app which helps you keep track of all your food and reminds you when it is going to expire. You can add items either by scanning a receipt or manually, and the our algorithm automatically matches the scanned item and suggests an expiry date if matched.
+        \n\nThe app also allows to add item(s) from inventory list to shopping list by long pressing and selecting them.
+        \n\nThe app also suggests recipes for items which are going to expire soon.
+        \n\nAlthough the default time for a notification reminder is set to 5:30pm, the user can change this whenever they want.</string>
+    <!--<string name="about_inventory">2 Ways to add to inventory list: \n  \u0020 1.Scan a receipt using the camera. \n   \u0020 2.Click on the add button the main screen to add an item</string>-->
+    <!--<string name="about_setting">\u0020 \u0020 The notification will default to 5:30PM daily (if there are items expired/expiring soon). You can change this in the settings.</string>-->
 
     <string name="about_developers">Developed by Biting Bulldogs</string>
     <string name="empty_recipe">There are no recipes to display!</string>
