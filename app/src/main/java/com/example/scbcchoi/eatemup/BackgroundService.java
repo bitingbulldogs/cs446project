@@ -53,7 +53,8 @@ public class BackgroundService extends IntentService {
         try{
             Date firstDate = s.parse(d1);
             Date secondDate = s.parse(d2);
-            long diffInMillies = Math.abs(secondDate.getTime() - firstDate.getTime());
+            long diffInMillies = firstDate.getTime() - secondDate.getTime();
+            if(diffInMillies < 0) return 1;
             long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
             return (int)diff;
 
@@ -156,6 +157,9 @@ public class BackgroundService extends IntentService {
             String content = "Food expiring soon:\n";
             ListsModel lm = new ListsModel(this);
             List<InventoryListItem> il = lm.getInventoryList();
+
+            System.out.println("Something expired, print inv list");
+            lm.printList("inventory");
 
 
             List<String> list = new ArrayList<>();
